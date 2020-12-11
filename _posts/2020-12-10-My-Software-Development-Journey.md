@@ -1,31 +1,39 @@
 ---
 layout: post
-title: My Software Development Journey
+title: My Journey into Software Development
 published: true
 ---
 
-I feel like anyone who's ever gotten into software development has their own unique story. Listening to the 'How I built this' podcast you would think that all programmers were born that way.
+I feel like anyone who's ever gotten into software development has their own unique story. If you've listened to the 'How I built this' podcast, you might believe that all programmers were born rather than made.
 
-But this certainly isn't the case.
+But this certainly isn't the case, or perhaps I just don't believe it is.
 
-Through my journey, I've realised that some discover their passion later than others. Perhaps this a topic that goes beyond programming.
+Anyways, in this blog I will talk about how I discovered my passion for software dev...
 
-Anyways, here is how I discovered my passion for software dev...
+### High School
 
-I first learnt about programming and IT in high school. Back then I made a school portal app using Visual Basic which had simple functionality such as logging in and viewing your classes. The app was simple enough but the process was amazing. 
+I first learnt about programming and IT in high school. Back then, I made a school portal app which had simple functionality such as logging in and viewing your timetable. I built this using Visual Basic and remember being totally immersed in this process. 
 
-From this point on, I knew what I wanted to do.
+I didn't know this at the time but I fell in love with problem solving.
 
-After high school, I went on to study Computing and Software Systems at Melbourne Uni. I was so certain I wanted to study this but was discouraged when couldn't keep up. I quikly realised that there is vast difference between high school and tertiary programming.
+From this point on, I knew exactly what I wanted to do. But I didn't realise just how difficult this journey would be.
 
-Due to this, I decided to switch majors altogether. 
+### University 
 
-However, after completing my first year of university, I knew something was missing. I decided to give programming one more shot before moving I'd truly move on. This time I really took it upon myself to give this unit everything I had.
+After high school, I enrolled into Computing and Software Systems at Melbourne Uni. At the time, I was so certain I wanted to study this but was quickly discouraged when I couldn't keep up with the pace. Within the first few weeks, I realised there was a vast difference between high school and tertiary programming.
 
-The hard work paid off and I had finally passed! I was back on track and set to complete this degree with the major I initally wanted. 
+Due to this, I decided to switch majors to mechanical engineering... leaving my dream behind.
+
+After completing my first year of university, I knew mechanical engineering just didn't feel right for me. I decided to give computing one more shot before I'd truly move on. This time I really took it upon myself to give it everything I had. 
+
+The hard work paid off and I had finally passed! I was back on track and set to complete my degree with the major I initally wanted all along.
 
 Since then, I have taught Python and Javascript to other students, joined Dev(){CoP} meetup and more recently graduate with third class honours.
 
-Although this might not be a super inspirational story to most, it has definetly been an experience for me.
+Although this might not be a very inspirational story to most, it has definetly been a rollercoaster for me.
 
-However, this is only the very start of it. I have so much more to learn and am constantly excited by the possibilities.
+### Beyond
+
+I realise that I am only at the start of my journey and am excited by the all possibilites this ever-growing field may bring.
+
+I have a lot more to share so do stay tuned! 
