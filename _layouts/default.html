@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
@@ -22,8 +23,12 @@
           <!-- <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a> -->
 
           <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
+            <!-- <h1 class="site-name" style="font-size: 40px"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1> -->
+            <h1 class="site-name">{{ site.name }}</h1>
+            <p class="site-description" style="font-size: 24px; margin-bottom:15px">{{ site.description }}</p>
+            {% include svg-icons.html %}
+            <!-- <ul class="social"><a href="https://github.com/zainafzal88"><li><i class="fa fa-github" aria-hidden="true"></i></li></a><a href="https://linkedin.com/in/zainafzal88"><li><i class="fa fa-linkedin-square" aria-hidden="true"></i></li></a></ul> -->
+            
           </div>
 
           <nav>
@@ -38,13 +43,13 @@
       {{ content }}
     </div>
 
-    <div class="wrapper-footer">
+    <!-- <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
           {% include svg-icons.html %}
         </footer>
       </div>
-    </div>
+    </div> -->
 
     {% include analytics.html %}
   </body>
