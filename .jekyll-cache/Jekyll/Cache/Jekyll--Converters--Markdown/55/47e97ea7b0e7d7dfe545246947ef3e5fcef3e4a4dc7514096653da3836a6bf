@@ -1,7 +1,0 @@
-I"{<p>LocalStack can be extremely useful if you want to save money and avoid signing in to the AWS Console. Using LocalStack gives you the flexiblity to spin up cloud services directly on your local machine.</p>
-
-<p>I discovered LocalStack while working on the Scrumblr-Enhacement project alongside some members of the Dev(){CoP} community. Zain Afzal, the project lead for this project, recommended I setup LocalStack on my local machine to make development easier and save cost. Once I got used to it, I could definetly see the benefits.</p>
-
-<p>In this blog, I will show you how to setup LocalStack on your machine, step-by-step.</p>
-
-:ET

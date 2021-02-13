@@ -1,0 +1,84 @@
+I"<p>LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</p>
+
+<p>Using LocalStack gives you the ability to spin up cloud services directly on your local machine, making it more convenient to develop for the cloud.</p>
+
+<p>I recently discovered LocalStack whilst working on the <a href="https://github.com/zainafzal88/scrumblr-enhancement">Scrumblr-Enhacement project</a> alongside a group of members from the Dev(){CoP} community. Zain Afzal, our project lead, recommended we use LocalStack in order to simplify development and save cost.</p>
+
+<p>In this blog, I will show you how to setup LocalStack on your machine, step-by-step.</p>
+
+<h1 id="step-1">Step 1</h1>
+
+<h2 id="install-and-run-docker">Install and Run Docker</h2>
+
+<p>Visit <a href="">https://hub.docker.com/search?q=&amp;type=edition&amp;offering=community</a>.</p>
+
+<p>Search for the Docker download matching your OS and install it accordingly.</p>
+
+<p>Once you have Docker installed, make sure to run the application. If you’ve installed and run it correctly, you should see the whale icon appear on your tool bar above.</p>
+
+<p><img src="../images/step-1-localstack.png" alt="step-1-localstack" /></p>
+
+<p>All you have to do is keep it running and proceed to the next step.</p>
+
+<h1 id="step-2">Step 2</h1>
+
+<p>Visit the LocalStack repository on github via
+https://github.com/localstack/localstack.</p>
+
+<p>On here, locate a file called ‘docker-compose.yaml’ and click to open it. You should see a page like below. Highlight all the text shown in this file and copy it to your clipboard.</p>
+
+<p><img src="../images/step-2-localstack.png" alt="step-2-localstack" /></p>
+
+<h1 id="step-3">Step 3</h1>
+
+<p>If you already know what project you’ll be using LocalStack for, open up that repository on your favourite IDE. Otherwise, create a test folder anywhere on your machine and open that instead.</p>
+
+<p>For this tutorial, I will create a folder called ‘localstack’ on my desktop.</p>
+
+<p>Once you have opened up your IDE with your chosen folder, create a new file in there called ‘docker-composer.yaml’</p>
+
+<p><img src="../images/step-3-localstack.png" alt="step-3-localstack" /></p>
+
+<p>After you’ve created this file, paste the text you copied earlier and hit save.</p>
+
+<h1 id="step-4">Step 4</h1>
+
+<p>Now add the AWS services you plan to use by editing the ‘SERVICES’ line in the ‘docker-compose.yaml’ file. As you can see from the image below, I have added s3, lambda and ec2.</p>
+
+<p><img src="../images/step-4-localstack.png" alt="step-4-localstack" /></p>
+
+<h1 id="step-5">Step 5</h1>
+
+<p>Open up the terminal; either through your IDE or directly on your machine. Locate the directory where you have your ‘docker-compose.yaml’ file stored. You can do this by using the CD command as shown below.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>Desktop/localstack
+</code></pre></div></div>
+
+<p>Once you’ve done this, type in the following command.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker-compose up
+</code></pre></div></div>
+<p>You should see a sequence of lines show up in your terminal just like the image shown below. As you can see, the mock services we listed earlier is now running.</p>
+
+<p><img src="../images/step-5-localstack.png" alt="step-5-localstack" /></p>
+
+<h1 id="step-6">Step 6</h1>
+<p>Visit <a href="">https://0.0.0.0:4566</a> in your browser and you should see a “running” status like below.</p>
+
+<p><img src="../images/step-6-localstack.png" alt="step-6-localstack" /></p>
+
+<p>Add /health to the end of the previous url and you will see the statuses of each of the services you listed earlier.</p>
+
+<p><img src="../images/step-6(2)-localstack.png" alt="step-6(2)-localstack" /></p>
+
+<h1 id="thats-it">That’s It!</h1>
+
+<p>You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me.</p>
+
+<h1 id="contact">Contact</h1>
+
+<p>You can find me on any of the following places!</p>
+<ul>
+  <li>Website: <a href="">https://thanesh.io/</a></li>
+  <li>Email: <a href="">thanesh.pannirselvam@gmail.com</a></li>
+  <li>LinkedIn: <a href="https://linkedin.com/in/thanesh-pannirselvam">linkedin.com/in/thanesh-pannirselvam</a></li>
+</ul>
+:ET

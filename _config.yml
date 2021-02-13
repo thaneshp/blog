@@ -6,7 +6,7 @@ title: blog
 name: Thanesh Pannirselvam
 
 # Short bio or description (displayed in the header)
-description: Junior Software Developer from Melbourne
+description: Junior Developer from Melbourne
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://avatars3.githubusercontent.com/u/45277460?s=400&u=f7c922dfc84661741b74aa3f7f1825b532ac48c3&v=4
@@ -21,9 +21,9 @@ footer-links:
   email:
   facebook:
   flickr:
-  github: https://github.com/thaneshp
+  github: thaneshp
   instagram:
-  linkedin: https://www.linkedin.com/in/thanesh-pannirselvam/
+  linkedin: thanesh-pannirselvam
   pinterest:
   rss: # just type anything here for a working RSS icon
   twitter:
@@ -41,13 +41,14 @@ google_analytics:
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
-url:
+url: 'https://blog.thanesh.io'
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
 # and NOT your User repository (http://yourusername.github.io)
 # then add in the baseurl here, like this: "/repository-name"
-baseurl: "/blog"
+baseurl: ''
+# baseurl: "/blog"
 
 #
 # !! You don't need to change any of the configuration flags below !!
