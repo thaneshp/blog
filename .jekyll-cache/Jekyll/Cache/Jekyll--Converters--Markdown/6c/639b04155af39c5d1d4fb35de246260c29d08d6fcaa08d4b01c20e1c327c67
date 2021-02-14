@@ -1,0 +1,23 @@
+I"-<p>When I was looking to deploy my this blog on AWS, I remember searching tirelessly for a tutorial that matched my needs. After reading many articles, I managed to piece together the steps and get it working.</p>
+
+<p>In this tutorial, I will show you how you can deploy your Jekyll site (or any other static site) on AWS using S3, CloudFront and Route53. Before you get started, this tutorial assumes you already have an AWS account, a Jekyll site and a purchased domain.</p>
+
+<h1 id="step-1">Step 1</h1>
+
+<h2 id="creating-an-s3-bucket">Creating an S3 Bucket</h2>
+
+<p>The first thing you need to do is head into the AWS console, sign-in and click into S3. You should see a page like below, minus the buckets.</p>
+
+<p><img src="../images/s3-page.png" alt="step-1-s3" /></p>
+
+<p>Click on ‘Create bucket’ in the top right hand corner and name your bucket the same as your domain, making sure to choose the region closest to you. Under ‘Block Public Access settings for bucket’, untick the first checkbox to make this bucket public. You screen should be similar to below.</p>
+
+<p><img src="../images/s3-create.png" alt="step-1-s3-create" /></p>
+
+<p>Leave the rest of the settings as is and click ‘Create Bucket’.</p>
+
+<h1 id="step-2">Step 2</h1>
+
+<h2 id="changing-the-bucket-policy">Changing the Bucket Policy</h2>
+
+:ET

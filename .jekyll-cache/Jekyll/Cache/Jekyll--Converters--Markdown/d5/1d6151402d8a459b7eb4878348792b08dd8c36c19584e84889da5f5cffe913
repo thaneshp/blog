@@ -1,0 +1,112 @@
+I"� <p>When I was looking to deploy my this blog on AWS, I remember searching tirelessly for a tutorial that matched my needs. After reading many articles, I managed to piece together the steps and get it working.</p>
+
+<p>In this tutorial, I will show you how you can deploy your Jekyll site (or any other static site) on AWS using S3, CloudFront and Route53. Before you get started, this tutorial assumes you already have an AWS account, a Jekyll site and a purchased domain.</p>
+
+<h1 id="step-1">Step 1</h1>
+
+<h2 id="creating-an-s3-bucket">Creating an S3 Bucket</h2>
+
+<p>The first thing you need to do is head into the AWS console, sign-in and click into S3. You should see a page like below, minus the buckets.</p>
+
+<p><img src="../images/s3-page.png" alt="step-1-s3" /></p>
+
+<p>Click on ‘Create bucket’ in the top right hand corner and name your bucket the same as your domain, making sure to choose the region closest to you. Under ‘Block Public Access settings for bucket’, untick the first checkbox to make this bucket public. You screen should be similar to below.</p>
+
+<p><img src="../images/s3-create.png" alt="step-1-s3-create" /></p>
+
+<p>Leave the rest of the settings as is and click ‘Create Bucket’.</p>
+
+<h1 id="step-2">Step 2</h1>
+
+<h2 id="changing-the-bucket-policy">Changing the Bucket Policy</h2>
+
+<p>Once you’ve created the S3 Bucket, you’ll need to change the bucket policy to provide access to the objects stored in your bucket.</p>
+
+<p>Navigate to your bucket and click on the ‘Permissions’ tab. Scroll down to ‘Bucket Policy’ and click edit. Copy &amp; paste the json code shown below; replacing ‘blog.thanesh.io’ with your bucket name.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+ </span><span class="nl">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+ </span><span class="nl">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+   </span><span class="nl">"Sid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AddPerm"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"Principal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s3:GetObject"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:s3:::blog.thanesh.io/*"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+ </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h1 id="step-3">Step 3</h1>
+
+<h2 id="enable-static-hosting">Enable Static Hosting</h2>
+
+<p>Next, head into the ‘Properties’ tab and scroll down until you find ‘Static website hosting’. Click the ‘Edit’ button on the top right hand corner and you should be directed to a settings page.</p>
+
+<p>On here, click on Enable and specify the index document of your website. You don’t have to change any other settings.</p>
+
+<p><img src="../images/s3-static-hosting.png" alt="s3-static-hosting" /></p>
+
+<h1 id="step-4">Step 4</h1>
+
+<h2 id="deploying-your-website">Deploying Your Website</h2>
+
+<p>Now it’s time to upload your site files into the AWS bucket you created earlier. Just before we do that, we have to do a few things to prepare our Jekyll site.</p>
+
+<p>Open up your repository in your favourtie IDE and locate the _config.yml file. In here, change the url to your domain name and the baseurl to an empty string. Refer to the screenshot below.</p>
+
+<p><img src="../images/config-yml.png" alt="config-yml" /></p>
+
+<p>After you’ve changed this, open up your terminal, navigate to the folder of your Jekyll site and create a production build using the command below.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>jekyll build
+</code></pre></div></div>
+
+<p>Once this command has run successfully, you will see a new folder in your repository called ‘_site’. Upload the contents of this folder into your S3 bucket by drag and drop or through the ‘Upload’ button.</p>
+
+<p>At this point, your site is live. Head into the properties tab, scroll to the bottom and click on the link shown in the ‘Static Website Hosting’ box. If everything has gone well, you should see your site.</p>
+
+<p><img src="../images/live-link.png" alt="live-link" /></p>
+
+<h1 id="step-5">Step 5</h1>
+
+<h2 id="enabling-cloudfront">Enabling CloudFront</h2>
+
+<p>Now it’s time to set up CloudFront for your website. Head into the CloudFront service and click on ‘Create Distribution’. You should see a form page like below.</p>
+
+<p>In this page, it is very important you enter the ‘Origin Domain Name’ as the name you get from the endpoint. For example, the link generated for my bucket is http://blog.thanesh.io.s3-website-ap-southeast-2.amazonaws.com/. Therefore the value I will enter in this field will be blog.thanesh.io.s3-website-ap-southeast-2.amazonaws.com. Please do not select from the options given, otherwise, this will not work.</p>
+
+<p><img src="../images/create-distribution.png" alt="create-distribution" /></p>
+
+<p>You can keep most of the settings as default. Under ‘Alternate Domain Names’, enter your registered domain name. Next scroll to the bottom and hit “Create Distribution’. This will take about 10-15 minutes.</p>
+
+<h1 id="step-6">Step 6</h1>
+
+<h2 id="linking-up-your-domain">Linking up your Domain</h2>
+
+<p>At this point, we’ve got your website deployed and set up with CloudFront. In this final step, we want your website to point to your registered domain.</p>
+
+<p>Head into Route53 and click on ‘Create hosted zone’. Once you’ve done this, you should see a NS record in your hosted zone. Copy each of the values in this record and enter it into your domain provider. AWS will handle the configuration of the domain.</p>
+
+<p>Next, while in your hosted zone, click on ‘Create Record’. Here we want to connect our domain with our CloudFront distribution we created earlier. Make sure it is an ‘A record’ and click on the ‘Alias’ switch in the right hand corner. In the dropdown that appears, select ‘Alias to CloudFront distribution’ which prefills the region to ‘US East (N. Virginia). Click into the search box and select the CloudFront distribution.</p>
+
+<p><img src="../images/record.png" alt="record" /></p>
+
+<p>Hit ‘Create Record’ and you’re all set! Be patient as it may take some time to set in but when you visit your domain you should see your live site.</p>
+
+<h1 id="step-7">Step 7</h1>
+
+<h2 id="redirection-for-www">Redirection for WWW</h2>
+
+<p>At this point your site should be up and live. However, if you type in www before your domain, it will produce an error.</p>
+
+<p>It’s pretty much similar to whole process we’ve just done, with a few minor adjustments. When creating a bucket, you’ll want to prepend it with ‘www’ and when clicking on the ‘Static Website Hosting’ tab, you’ll want to choose the ‘Redirect’ option and set the redirection to yourdomainname.com.</p>
+
+<p>Once this is done, setup a separate Cloudfront distribution that links to your ‘www’ bucket. Next, add another ‘A’ Record in Route 53 and set the Alias Target to your new Cloudfront URL and boom, you’re done! If you type www.yourdomainname.com it should redirect to yourdomainname.com.</p>
+
+<h1 id="thats-it">That’s It!</h1>
+
+<p>Well Done! Your site is up and live. I’m sure there’s other ways to publish your site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me.</p>
+
+:ET
