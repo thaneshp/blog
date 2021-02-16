@@ -3,9 +3,11 @@ layout: post
 title: Deploying Your Jekyll Site on AWS
 published: true
 ---
-When I was looking to deploy my this blog on AWS, I remember searching tirelessly for a tutorial that matched my needs. After reading many articles, I managed to piece together the steps and get it working. 
+When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered deployment upto domain configuration. However, I couldn't find exactly what I needed.
 
-In this tutorial, I will show you how you can deploy your Jekyll site (or any other static site) on AWS using S3, CloudFront and Route53. Before you get started, this tutorial assumes you already have an AWS account, a Jekyll site and a purchased domain.
+After browsing several articles combined with trial and error, I've determined a set of steps that worked for me. 
+
+In this tutorial, I will show you how you can deploy your Jekyll site (or any other static site) on AWS using S3, CloudFront and Route53. Before you get started, in this tutorial I assume you already have an AWS account, a Jekyll site and a purchased domain.
 
 # Step 1
 
@@ -15,11 +17,11 @@ The first thing you need to do is head into the AWS console, sign-in and click i
 
 ![step-1-s3](../images/s3-page.png)
 
-Click on 'Create bucket' in the top right hand corner and name your bucket the same as your domain, making sure to choose the region closest to you. Under 'Block Public Access settings for bucket', untick the first checkbox to make this bucket public. You screen should be similar to below.
+Click on 'Create bucket' in the top right hand corner and name your bucket the same as your chosen domain, making sure to choose the region closest to you. Under 'Block Public Access settings for bucket', untick the first checkbox to make this bucket public. You screen should be similar to below.
 
 ![step-1-s3-create](../images/s3-create.png)
 
-Leave the rest of the settings as is and click 'Create Bucket'.
+Leave the rest of the settings as default and click 'Create Bucket'.
 
 # Step 2 
 

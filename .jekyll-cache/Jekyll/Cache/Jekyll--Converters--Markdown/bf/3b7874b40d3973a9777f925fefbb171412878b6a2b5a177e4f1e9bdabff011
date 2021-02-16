@@ -1,2 +1,0 @@
-I"<p>You can setup a blog using a Static Site Generator like Jekyll quite seemlessly. However, deploying it on AWS and hooking up your own domain may be a little tricky. In this blog, I will show you how to deploy your site on AWS using S3, CloudFront and Route53.</p>
-:ET
