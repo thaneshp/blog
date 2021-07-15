@@ -42,6 +42,7 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
+    json (2.5.1)
     kramdown (2.3.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -67,10 +68,12 @@ GEM
     terminal-table (2.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     unicode-display_width (1.7.0)
+    webrick (1.7.0)
 
 PLATFORMS
   universal-darwin-20
   x64-mingw32
+  x86_64-darwin-19
 
 DEPENDENCIES
   jekyll
@@ -78,6 +81,8 @@ DEPENDENCIES
   jekyll-paginate
   jekyll-seo-tag
   jekyll-sitemap
+  json (= 2.5.1)
+  webrick (~> 1.7)
 
 BUNDLED WITH
-   2.2.7
+   2.2.19
