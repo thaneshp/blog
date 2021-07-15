@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-15T11:00:35+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
+
+&lt;p&gt;Creating and maintaining a blog can improve your communication skills, help others and re-affirm what you’ve learnt.&lt;/p&gt;
+
+&lt;p&gt;However, ‘what to write about?’ can often be the hardest part. So I posed this question to the &lt;a href=&quot;https://devcop.io/&quot;&gt;Dev(){CoP}&lt;/a&gt; community and here is what they had to say.&lt;/p&gt;
+
+&lt;h2 id=&quot;pick-a-theme&quot;&gt;Pick a theme&lt;/h2&gt;
+
+&lt;p&gt;Before you begin, pick a theme or get a broad sense of what you want to write about. Understanding this will make coming up with ideas far easier as you’ll be focussed on one specific area.&lt;/p&gt;
+
+&lt;p&gt;For example, if you want to be known as a web developer specialising in frontend, you might base your blogs around HTML, CSS and ReactJS.&lt;/p&gt;
+
+&lt;p&gt;Once you have your theme in mind, you can start to build your blog around this.&lt;/p&gt;
+
+&lt;h2 id=&quot;problems-that-youve-solved&quot;&gt;Problems that you’ve solved&lt;/h2&gt;
+
+&lt;p&gt;Being in any IT role is about facing and solving problems.&lt;/p&gt;
+
+&lt;p&gt;By writing about the problems you have solved, you can re-affirm what you’ve learnt and possibly help someone else out in the process.&lt;/p&gt;
+
+&lt;p&gt;Besides this, it also acts as a reference in the event you encounter the problem again.&lt;/p&gt;
+
+&lt;h2 id=&quot;online-courses&quot;&gt;Online courses&lt;/h2&gt;
+
+&lt;p&gt;Since IT is an ever-growing field, there’s always something more to be learnt.&lt;/p&gt;
+
+&lt;p&gt;As you go through an online course, perhaps you can document your learnings or note down some key takeaways from the program.&lt;/p&gt;
+
+&lt;p&gt;Doing this can act as referesher but it may also help someone else who is deciding whether to enrol in the course.&lt;/p&gt;
+
+&lt;h2 id=&quot;things-that-annoy-you&quot;&gt;Things that annoy you&lt;/h2&gt;
+
+&lt;p&gt;As you go along your IT journey, there are bound to be things that annoy you.&lt;/p&gt;
+
+&lt;p&gt;For example, say you’ve been working on a project and you’ve been deploying code manually. But then you realise how tedious this can be, leading you to automate this process.&lt;/p&gt;
+
+&lt;p&gt;From this, you can write about all your frustrations, including a walkthrough of your solution; in turn someone else may be able to avoid the same hassles.&lt;/p&gt;
+
+&lt;h2 id=&quot;open-source-projects&quot;&gt;Open Source Projects&lt;/h2&gt;
+
+&lt;p&gt;Open Source Projects are a great way to get invovled, give back and gain practical experience.&lt;/p&gt;
+
+&lt;p&gt;You can keep track of your experience by documenting what you’ve been working on and any roadblocks that you’ve encountered.&lt;/p&gt;
+
+&lt;p&gt;This is an excellent way to measure your progress and further cement your knowledge.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Essentially, writing blogs is a means of documenting your learnings and sharing what you know.&lt;/p&gt;
+
+&lt;p&gt;The easiest way to come up with ideas is to keep your blog focussed and simply write about what you’ve been working on.&lt;/p&gt;
+
+&lt;p&gt;I would like to thank the &lt;a href=&quot;https://devcop.io/&quot;&gt;Dev(){CoP}&lt;/a&gt; community for helping me come up with this list. If you have any further ideas or would like to have a discussion about this blog, please feel free to reach out!&lt;/p&gt;
+
+&lt;h2 id=&quot;contact&quot;&gt;Contact&lt;/h2&gt;
+
+&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.</summary></entry><entry><title type="html">Deploying Your Jekyll Site on AWS</title><link href="https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS/" rel="alternate" type="text/html" title="Deploying Your Jekyll Site on AWS" /><published>2021-02-16T00:00:00+11:00</published><updated>2021-02-16T00:00:00+11:00</updated><id>https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS</id><content type="html" xml:base="https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS/">&lt;p&gt;When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.&lt;/p&gt;
+
+&lt;p&gt;After browsing several articles combined with trial and error, I’ve compiled a set of steps that worked for me.&lt;/p&gt;
+
+&lt;p&gt;In this tutorial, I will show you how to deploy your Jekyll site (or any other static site) on AWS using S3, CloudFront and Route53. Before you get started, this tutorial assumes you already have an AWS account, a Jekyll site and a purchased domain.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;creating-an-s3-bucket&quot;&gt;Creating an S3 Bucket&lt;/h2&gt;
+
+&lt;p&gt;The first thing you need to do is head into the AWS console, sign-in and click into S3. You should see a page like below, minus the buckets.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/s3-page.png&quot; alt=&quot;step-1-s3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Click on ‘Create bucket’ in the top right hand corner and name your bucket the same as your chosen domain, making sure to choose the region closest to you. Under ‘Block Public Access settings for bucket’, untick the first checkbox to make this bucket public. Your screen should be similar to below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/s3-create.png&quot; alt=&quot;step-1-s3-create&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Leave the rest of the settings as default and click ‘Create Bucket’.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
+
+&lt;h2 id=&quot;changing-the-bucket-policy&quot;&gt;Changing the Bucket Policy&lt;/h2&gt;
+
+&lt;p&gt;Once you’ve created the S3 Bucket, you’ll need to change the bucket policy to provide access to the objects stored in your bucket.&lt;/p&gt;
+
+&lt;p&gt;Navigate to your bucket and click on the ‘Permissions’ tab. Scroll down to ‘Bucket Policy’ and click edit. Copy &amp;amp; paste the json code shown below; replacing ‘blog.thanesh.io’ with your bucket name.&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+ &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+ &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Statement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Sid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AddPerm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Allow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Principal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;s3:GetObject&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;arn:aws:s3:::blog.thanesh.io/*&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+ &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
+
+&lt;h2 id=&quot;enable-static-hosting&quot;&gt;Enable Static Hosting&lt;/h2&gt;
+
+&lt;p&gt;Next, head into the ‘Properties’ tab and scroll down until you find ‘Static website hosting’. Click the ‘Edit’ button on the top right hand corner and you should be directed to a settings page like below.&lt;/p&gt;
+
+&lt;p&gt;On here, we will enable static website hosting and specify the index document. You don’t have to change any other settings.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/s3-static-hosting.png&quot; alt=&quot;s3-static-hosting&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;h2 id=&quot;deploying-your-website&quot;&gt;Deploying Your Website&lt;/h2&gt;
+
+&lt;p&gt;In this step, we’ll be deploying our site by adding it’s files into the AWS bucket we created earlier. Just before we do that, however, we have to prepare out Jekyll files to ensure it will deploy correctly on S3.&lt;/p&gt;
+
+&lt;p&gt;Open up your website’s repository in your favourite IDE and locate the _config.yml file. In here, change the url to your domain name and the baseurl to an empty string.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/config-yml.png&quot; alt=&quot;config-yml&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After you’ve changed this, open up your terminal and navigate to the folder of your Jekyll site using the CD command shown below.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;Desktop/jekyll-site
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Once you’ve done this, type in the following command to create a production build of your site.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If this has run successfully, you will now see a new folder in your repository called ‘_site’. Upload the contents of this folder into your S3 bucket by drag and drop or through the ‘Upload’ function on AWS.&lt;/p&gt;
+
+&lt;p&gt;At this point, your site is live. Head into the properties tab, scroll to the bottom and click on the link shown in the ‘Static Website Hosting’ box. If everything has gone well, you should now see your site.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/live-link.png&quot; alt=&quot;live-link&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I suggest copying this url now as we will need it for the next step.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
+
+&lt;h2 id=&quot;enabling-cloudfront&quot;&gt;Enabling CloudFront&lt;/h2&gt;
+
+&lt;p&gt;Now it’s time to set up CloudFront for your website. Essentially, CloudFront distributes your site across AWS edge locations, providing better performance to the end-user.&lt;/p&gt;
+
+&lt;p&gt;To get started with setting this up, head into the CloudFront service and click on ‘Create Distribution’.&lt;/p&gt;
+
+&lt;p&gt;Under ‘Origin Domain Name’, enter the url you copied earlier, minus the protocol. For example, the link generated for my bucket is http://blog.thanesh.io.s3-website-ap-southeast-2.amazonaws.com. Therefore, the value I’ll enter into this field is blog.thanesh.io.s3-website-ap-southeast-2.amazonaws.com.&lt;/p&gt;
+
+&lt;p&gt;It is important you do not select from one of the options given in the drop down, otherwise, this will not work. You’ll have to copy and paste the url as I’ve described above.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/create-distribution.png&quot; alt=&quot;create-distribution&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can keep most of the settings as their default. However, under ‘Alternate Domain Names’, you’ll want to enter your registered domain name. Next, scroll to the bottom and hit “Create Distribution’. This could take about 10-15 minutes to be deployed.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;
+
+&lt;h2 id=&quot;linking-up-your-domain&quot;&gt;Linking up your Domain&lt;/h2&gt;
+
+&lt;p&gt;By this stage, you should have your website deployed and set up with CloudFront. In this final part, we’ll work through setting up your domain so that people know how to access your site.&lt;/p&gt;
+
+&lt;p&gt;Firstly, head into Route53, click on ‘Hosted Zones’ from the left hand column and then create a hosted zone by entering your chosen domain.&lt;/p&gt;
+
+&lt;p&gt;Once you’ve created this, you should see a NS record appear. Copy each of the values from this field and enter it into your domain provider. Essentially, this will allow Route53 to handle the configuration of the domain.&lt;/p&gt;
+
+&lt;p&gt;Next, while in your hosted zone, click on ‘Create Record’. Here we want to connect our domain with our CloudFront distribution we created earlier. Make sure it is an ‘A record’ and click on the ‘Alias’ switch in the right hand corner. In the dropdown that appears, select ‘Alias to CloudFront distribution’ which prefills the region to ‘US East (N. Virginia). Click into the search box and select the CloudFront distribution we made from before.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/record.png&quot; alt=&quot;record&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hit ‘Create Record’ and you’re all set! Be patient as it may take a couple of hours to set in.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-7&quot;&gt;Step 7&lt;/h1&gt;
+
+&lt;h2 id=&quot;redirection-for-www-and-ssl&quot;&gt;Redirection for WWW and SSL&lt;/h2&gt;
+
+&lt;p&gt;At this point your site should be up and live. However, if you type in www. before your domain, it will produce an error.&lt;/p&gt;
+
+&lt;p&gt;Fixing this is similar to the process we’ve just done, with a few minor adjustments. You’ll want to go back and follow the steps from before but when creating another bucket, you’ll want to prepend it with ‘www’ and under ‘Static Website Hosting’, choose the ‘Redirect’ option - setting it your domain. In this bucket, you don’t have to add any files as it is purely for redirection.&lt;/p&gt;
+
+&lt;p&gt;After this, setup another CloudFront distribution linking to your ‘www’ bucket. Add another ‘A record’ in your hosted zone and set the Alias Target to your new CloudFront url.&lt;/p&gt;
+
+&lt;p&gt;As a final note, if you want to setup SSL, go back into the CloudFront distributions you created earlier and find the SSL Certificate option. Under here, choose the ‘Custom SSL Certificate’ option and click on ‘Request or Import a Certificate with ACM’. This is fairly straightforward, especially if your domain is already setup in Route53.&lt;/p&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
+
+&lt;p&gt;Well Done! Your site is up and live, I hoped this helped you. I’m sure there’s other ways to publish a Jekyll site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me - I am always happy to help!&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.</summary></entry><entry><title type="html">Setting up AWS LocalStack</title><link href="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/" rel="alternate" type="text/html" title="Setting up AWS LocalStack" /><published>2021-02-02T00:00:00+11:00</published><updated>2021-02-02T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine</id><content type="html" xml:base="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/">&lt;p&gt;LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.&lt;/p&gt;
+
+&lt;p&gt;Using LocalStack gives you the ability to spin up cloud services directly on your local machine, making it more convenient to develop for the cloud.&lt;/p&gt;
+
+&lt;p&gt;I recently discovered LocalStack whilst working on the &lt;a href=&quot;https://github.com/zainafzal88/scrumblr-enhancement&quot;&gt;Scrumblr-Enhacement project&lt;/a&gt; alongside a group of members from the Dev(){CoP} community. Zain Afzal, our project lead, recommended we use LocalStack in order to simplify development and save cost.&lt;/p&gt;
+
+&lt;p&gt;In this blog, I will show you how to setup LocalStack on your machine, step-by-step.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;install-and-run-docker&quot;&gt;Install and Run Docker&lt;/h2&gt;
+
+&lt;p&gt;Visit &lt;a href=&quot;&quot;&gt;https://hub.docker.com/search?q=&amp;amp;type=edition&amp;amp;offering=community&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Search for the Docker download matching your OS and install it accordingly.&lt;/p&gt;
+
+&lt;p&gt;Once you have Docker installed, make sure to run the application. If you’ve installed and run it correctly, you should see the whale icon appear on your tool bar above.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-1-localstack.png&quot; alt=&quot;step-1-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;All you have to do is keep it running and proceed to the next step.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
+
+&lt;p&gt;Visit the LocalStack repository on github via
+https://github.com/localstack/localstack.&lt;/p&gt;
+
+&lt;p&gt;On here, locate a file called ‘docker-compose.yaml’ and click to open it. You should see a page like below. Highlight all the text shown in this file and copy it to your clipboard.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-2-localstack.png&quot; alt=&quot;step-2-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
+
+&lt;p&gt;If you already know what project you’ll be using LocalStack for, open up that repository on your favourite IDE. Otherwise, create a test folder anywhere on your machine and open that instead.&lt;/p&gt;
+
+&lt;p&gt;For this tutorial, I will create a folder called ‘localstack’ on my desktop.&lt;/p&gt;
+
+&lt;p&gt;Once you have opened up your IDE with your chosen folder, create a new file in there called ‘docker-composer.yaml’&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-3-localstack.png&quot; alt=&quot;step-3-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After you’ve created this file, paste the text you copied earlier and hit save.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;p&gt;Now add the AWS services you plan to use by editing the ‘SERVICES’ line in the ‘docker-compose.yaml’ file. As you can see from the image below, I have added s3, lambda and ec2.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-4-localstack.png&quot; alt=&quot;step-4-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
+
+&lt;p&gt;Open up the terminal; either through your IDE or directly on your machine. Locate the directory where you have your ‘docker-compose.yaml’ file stored. You can do this by using the CD command as shown below.&lt;/p&gt;
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;Desktop/localstack
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once you’ve done this, type in the following command.&lt;/p&gt;
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;docker-compose up
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;You should see a sequence of lines show up in your terminal just like the image shown below. As you can see, the mock services we listed earlier is now running.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-5-localstack.png&quot; alt=&quot;step-5-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;
+&lt;p&gt;Visit &lt;a href=&quot;&quot;&gt;https://0.0.0.0:4566&lt;/a&gt; in your browser and you should see a “running” status like below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-6-localstack.png&quot; alt=&quot;step-6-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Add /health to the end of the previous url and you will see the statuses of each of the services you listed earlier.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/step-6(2)-localstack.png&quot; alt=&quot;step-6(2)-localstack&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
+
+&lt;p&gt;You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me.&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</summary></entry><entry><title type="html">My Journey into Software Development</title><link href="https://blog.thanesh.io//My-Software-Development-Journey/" rel="alternate" type="text/html" title="My Journey into Software Development" /><published>2020-12-10T00:00:00+11:00</published><updated>2020-12-10T00:00:00+11:00</updated><id>https://blog.thanesh.io//My-Software-Development-Journey</id><content type="html" xml:base="https://blog.thanesh.io//My-Software-Development-Journey/">&lt;p&gt;I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.&lt;/p&gt;
+
+&lt;p&gt;But this certainly isn’t the case, or perhaps I just don’t believe it is.&lt;/p&gt;
+
+&lt;p&gt;Anyways, in this blog I will talk about how I discovered my passion for software dev…&lt;/p&gt;
+
+&lt;h3 id=&quot;high-school&quot;&gt;High School&lt;/h3&gt;
+
+&lt;p&gt;I first learnt about programming and IT in high school. Back then, I made a school portal app which had simple functionality such as logging in and viewing your timetable. I built this using Visual Basic and remember being totally immersed in this process.&lt;/p&gt;
+
+&lt;p&gt;I didn’t know this at the time but I fell in love with problem solving.&lt;/p&gt;
+
+&lt;p&gt;From this point on, I knew exactly what I wanted to do. But I didn’t realise just how difficult this journey would be.&lt;/p&gt;
+
+&lt;h3 id=&quot;university&quot;&gt;University&lt;/h3&gt;
+
+&lt;p&gt;After high school, I enrolled into Computing and Software Systems at Melbourne Uni. At the time, I was so certain I wanted to study this but was quickly discouraged when I couldn’t keep up with the pace. Within the first few weeks, I realised there was a vast difference between high school and tertiary programming.&lt;/p&gt;
+
+&lt;p&gt;Due to this, I decided to switch majors to mechanical engineering… leaving my dream behind.&lt;/p&gt;
+
+&lt;p&gt;After completing my first year of university, I knew mechanical engineering just didn’t feel right for me. I decided to give computing one more shot before I’d truly move on. This time I really took it upon myself to give it everything I had.&lt;/p&gt;
+
+&lt;p&gt;The hard work paid off and I had finally passed! I was back on track and set to complete my degree with the major I initally wanted all along.&lt;/p&gt;
+
+&lt;p&gt;Since then, I have taught Python and Javascript to other students, joined Dev(){CoP} meetup and more recently graduate with third class honours.&lt;/p&gt;
+
+&lt;p&gt;Although this might not be a very inspirational story to most, it has definetly been a rollercoaster for me.&lt;/p&gt;
+
+&lt;h3 id=&quot;beyond&quot;&gt;Beyond&lt;/h3&gt;
+
+&lt;p&gt;I realise that I am only at the start of my journey and am excited by the all possibilites this ever-growing field may bring.&lt;/p&gt;
+
+&lt;p&gt;I have a lot more to share so do stay tuned!&lt;/p&gt;</content><author><name></name></author><summary type="html">I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.</summary></entry></feed>

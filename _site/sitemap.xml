@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://blog.thanesh.io//My-Software-Development-Journey/</loc>
+<lastmod>2020-12-10T00:00:00+11:00</lastmod>
+</url>
+<url>
+<loc>https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/</loc>
+<lastmod>2021-02-02T00:00:00+11:00</lastmod>
+</url>
+<url>
+<loc>https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS/</loc>
+<lastmod>2021-02-16T00:00:00+11:00</lastmod>
+</url>
+<url>
+<loc>https://blog.thanesh.io//What-to-write-about/</loc>
+<lastmod>2021-07-07T00:00:00+10:00</lastmod>
+</url>
+<url>
+<loc>https://blog.thanesh.io//about/</loc>
+</url>
+<url>
+<loc>https://blog.thanesh.io//</loc>
+</url>
+</urlset>
