@@ -45,7 +45,7 @@ From this, you can write about all your frustrations, including a walkthrough of
 
 Open Source Projects are a great way to get invovled, give back and gain practical experience.
 
-You can keep track of your experience by documenting what you've been working on, including any roadblocks that you encountered.
+You can keep track of your experience by documenting what you've been working on, including any roadblocks that you encounter.
 
 This is an excellent way to measure your progress and further cement your knowledge.
 
