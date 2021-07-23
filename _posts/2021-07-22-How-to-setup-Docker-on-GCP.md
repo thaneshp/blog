@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to setup Docker on a GCP VM?
-published: true
+published: false
 ---
 
 Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware's capacity.
