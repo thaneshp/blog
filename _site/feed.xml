@@ -1,31 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-23T14:40:41+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to setup Docker on a GCP VM?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM?" /><published>2021-07-22T00:00:00+10:00</published><updated>2021-07-22T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.&lt;/p&gt;
-
-&lt;p&gt;In this tutorial, I will walkthrough the steps of getting Docker setup on a GCE instance on Google Cloud. By the end of this tutorial, you should have a VM setup with Docker installed to run your containerized applications.&lt;/p&gt;
-
-&lt;p&gt;Before you get started, this tutorial assumes you have a Google Cloud account and a project already setup.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-0&quot;&gt;Step 0&lt;/h1&gt;
-
-&lt;h2 id=&quot;log-onto-the-gcp-console-and-navigate-to-compute-engine&quot;&gt;Log onto the GCP console and navigate to Compute Engine&lt;/h2&gt;
-
-&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
-
-&lt;h2 id=&quot;create-a-vm-instance&quot;&gt;Create a VM instance&lt;/h2&gt;
-
-&lt;p&gt;Once you’ve navigated to Compute Engine, click on the ‘CREATE INSTANCE’ button on the top.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
-
-&lt;h2 id=&quot;ssh-into-the-instance&quot;&gt;SSH into the instance&lt;/h2&gt;
-
-&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
-
-&lt;h2 id=&quot;make-sure-you-have-no-versions-of-docker-installed&quot;&gt;Make sure you have no versions of Docker installed&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get remove docker docker-engine docker.io containerd runc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;</content><author><name></name></author><summary type="html">Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.</summary></entry><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-23T14:56:22+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
 
 &lt;p&gt;Creating and maintaining a blog can improve your communication skills, help others and re-affirm what you’ve learnt.&lt;/p&gt;
 
