@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      404 - Page not found – Thanesh Pannirselvam – Site Reliability Engineer from Melbourne
+      How to setup Docker on a GCP VM? – Thanesh Pannirselvam – Site Reliability Engineer from Melbourne
     </title>
 
         <meta charset="utf-8" />
@@ -11,14 +11,16 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="Site Reliability Engineer from Melbourne">
-    <meta property="og:description" content="Site Reliability Engineer from Melbourne" />
+    <meta name="description" content="Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.
+" />
+    <meta property="og:description" content="Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.
+" />
     
     <meta name="author" content="Thanesh Pannirselvam" />
 
     
-    <meta property="og:title" content="404 - Page not found" />
-    <meta property="twitter:title" content="404 - Page not found" />
+    <meta property="og:title" content="How to setup Docker on a GCP VM?" />
+    <meta property="twitter:title" content="How to setup Docker on a GCP VM?" />
     
 
     <!--[if lt IE 9]>
@@ -85,16 +87,47 @@
       </div>
     </div>
 
-    <div id="main" role="main" class="container"><article class="page">
-
-  <h1>404 - Page not found</h1>
+    <div id="main" role="main" class="container"><article class="post">
+  <h1>How to setup Docker on a GCP VM?</h1>
 
   <div class="entry">
-    <p>Sorry, we can’t find that page that you’re looking for. You can try again by going <a href="/">back to the homepage</a>.</p>
+    <p>Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.</p>
 
-<p><a href="/"><img src="/images/404.jpg" alt="Constructocat by https://github.com/jasoncostello" style="width: 400px;" /></a></p>
+<p>In this tutorial, I will walkthrough the steps of getting Docker setup on a GCE instance on Google Cloud. By the end of this tutorial, you should have a VM setup with Docker installed to run your containerized applications.</p>
+
+<p>Before you get started, this tutorial assumes you have a Google Cloud account and a project already setup.</p>
+
+<h1 id="step-0">Step 0</h1>
+
+<h2 id="log-onto-the-gcp-console-and-navigate-to-compute-engine">Log onto the GCP console and navigate to Compute Engine</h2>
+
+<h1 id="step-1">Step 1</h1>
+
+<h2 id="create-a-vm-instance">Create a VM instance</h2>
+
+<p>Once you’ve navigated to Compute Engine, click on the ‘CREATE INSTANCE’ button on the top.</p>
+
+<h1 id="step-3">Step 3</h1>
+
+<h2 id="ssh-into-the-instance">SSH into the instance</h2>
+
+<h1 id="step-4">Step 4</h1>
+
+<h2 id="make-sure-you-have-no-versions-of-docker-installed">Make sure you have no versions of Docker installed</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get remove docker docker-engine docker.io containerd runc
+</code></pre></div></div>
+
+<h1 id="step-6">Step 6</h1>
+
 
   </div>
+
+  <div class="date">
+    Written on July 22, 2021
+  </div>
+
+  
 </article>
 </div>
 
