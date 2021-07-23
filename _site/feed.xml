@@ -1,4 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-23T14:56:22+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-23T16:44:55+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-22T00:00:00+10:00</published><updated>2021-07-22T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.&lt;/p&gt;
+
+&lt;p&gt;In this tutorial, I will walkthrough the steps of getting Docker setup on a GCE instance on Google Cloud. By the end of this tutorial, you should have a VM setup with Docker installed to run your containerized applications.&lt;/p&gt;
+
+&lt;p&gt;Before you get started, this tutorial assumes you have a Google Cloud account and a project already setup.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-0&quot;&gt;Step 0&lt;/h1&gt;
+
+&lt;h2 id=&quot;log-onto-the-gcp-console-and-navigate-to-compute-engine&quot;&gt;Log onto the GCP console and navigate to Compute Engine&lt;/h2&gt;
+
+&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;create-a-vm-instance&quot;&gt;Create a VM instance&lt;/h2&gt;
+
+&lt;p&gt;Once you’ve navigated to Compute Engine, click on the ‘CREATE INSTANCE’ button on the top.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/create-instance.png&quot; alt=&quot;create-instance&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We’ll be leaving most configurations as the default but changing the OS and adding an extra disk.&lt;/p&gt;
+
+&lt;p&gt;Scroll down to Boot Disk and click on ‘Change’. Here, select the following:
+Operating System: Ubuntu
+Version: Ubuntu 20.04 LTS
+Boot disk type: Balanced persistent disk
+Size (GB): 10&lt;/p&gt;
+
+&lt;p&gt;Next, scroll all the way to the bottom and select ‘Management, security, disks, networking, sole tenancy’.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/disk-option.png&quot; alt=&quot;disk-option&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Click on the ‘Disks’ option and select ‘+ Add new disk’. You can keep most of the configurations as the default. The only thing I’d consider changing is the ‘Name’ and ‘Size’.&lt;/p&gt;
+
+&lt;p&gt;Once you are satisfied with your instance, click on ‘Create’. Give Google Cloud a few minutes to have your instance up and running.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
+
+&lt;h2 id=&quot;ssh-into-the-instance&quot;&gt;SSH into the instance&lt;/h2&gt;
+
+&lt;p&gt;Now that we have the instance running, it’s time we ssh into the VM and start setting up Docker.&lt;/p&gt;
+
+&lt;p&gt;There is a couple of ways to ssh into the instance. For this tutorial, I will use the browser option by clicking on the SSH button.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/ssh-button.png&quot; alt=&quot;ssh-button&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
+
+&lt;h2 id=&quot;make-sure-you-have-no-versions-of-docker-installed&quot;&gt;Make sure you have no versions of Docker installed&lt;/h2&gt;
+
+&lt;p&gt;Once you’ve ssh’d into the instance, we want to ensure that we have no versions of Docker installed.&lt;/p&gt;
+
+&lt;p&gt;The command shown below will remove any versions of Docker that you already have installed. Copy/paste this command into your instance’s CLI.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get remove docker docker-engine docker.io containerd runc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;h2 id=&quot;installing-docker&quot;&gt;Installing Docker&lt;/h2&gt;
+
+&lt;p&gt;Now it’s time to install Docker. The first thing you’ll have to do is add Docker’s official GPG signing key.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-fsSL&lt;/span&gt; https://download.docker.com/linux/ubuntu/gpg | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;gpg &lt;span class=&quot;nt&quot;&gt;--dearmor&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /usr/share/keyrings/docker-archive-keyring.gpg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Next add the Docker official repository using the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;lsb_release &lt;span class=&quot;nt&quot;&gt;-cs&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; stable&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;sudo tee&lt;/span&gt; /etc/apt/sources.list.d/docker.list &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we have to install Docker Engine. To do this, run the following 2 commands. The first command will refresh the apt cache, while the second will install Docker community edition.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;docker-ce docker-ce-cli containerd.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
+
+&lt;h2 id=&quot;check-if-docker-has-been-installed-correctly&quot;&gt;Check if Docker has been installed correctly&lt;/h2&gt;
+
+&lt;p&gt;There is a few ways we can see if Docker has been installed correctly.&lt;/p&gt;
+
+&lt;p&gt;The first thing we can do is run the following commands to check that the status is running and the version installed.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl status docker
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, log in as the root user and give permission to the current user to be able to run docker commands. Replace ${USER} with your username.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Finally, log back in as the previous user and run your first container using the following commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;su - &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run hello-world
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At this point, you should see the “Hello from Docker!” message like below. If you don’t see this message, check that you have given permissions to the current user; otherwise, re-visit the previous steps and see if you missed anything.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/hello-world-message.png&quot; alt=&quot;hello-world-message&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
+
+&lt;p&gt;Well done! You should now have Docker setup on your VM instance and can start running containerized applications in the cloud.&lt;/p&gt;
+
+&lt;p&gt;Keep in mind that if you decide to run a web-server such as Apache/Nginx in a container, ensure you check firewall rules. Otherwise, you will not see anything when attempting to connect via HTTP/HTTPS.&lt;/p&gt;
+
+&lt;p&gt;If you have any questions about this tutorial, feel free to reach out!&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">Recently, I decided to learn about Docker and how it can be used to run applications. Discovering this has since opened up my mind how we can make best use of our hardware’s capacity.</summary></entry><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
 
 &lt;p&gt;Creating and maintaining a blog can improve your communication skills, help others and re-affirm what you’ve learnt.&lt;/p&gt;
 
