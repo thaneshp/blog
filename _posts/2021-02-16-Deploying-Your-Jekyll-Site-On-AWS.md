@@ -15,11 +15,11 @@ In this tutorial, I will show you how to deploy your Jekyll site (or any other s
 
 The first thing you need to do is head into the AWS console, sign-in and click into S3. You should see a page like below, minus the buckets.
 
-![step-1-s3](../images/s3-page.png)
+![step-1-s3](../images/jekyll_on_AWS/s3-page.png)
 
 Click on 'Create bucket' in the top right hand corner and name your bucket the same as your chosen domain, making sure to choose the region closest to you. Under 'Block Public Access settings for bucket', untick the first checkbox to make this bucket public. Your screen should be similar to below.
 
-![step-1-s3-create](../images/s3-create.png)
+![step-1-s3-create](../images/jekyll_on_AWS/s3-create.png)
 
 Leave the rest of the settings as default and click 'Create Bucket'.
 
@@ -54,7 +54,7 @@ Next, head into the 'Properties' tab and scroll down until you find 'Static webs
 
 On here, we will enable static website hosting and specify the index document. You don't have to change any other settings.
 
-![s3-static-hosting](../images/s3-static-hosting.png)
+![s3-static-hosting](../images/jekyll_on_AWS/s3-static-hosting.png)
 
 # Step 4
 
@@ -64,7 +64,7 @@ In this step, we'll be deploying our site by adding it's files into the AWS buck
 
 Open up your website's repository in your favourite IDE and locate the _config.yml file. In here, change the url to your domain name and the baseurl to an empty string.
 
-![config-yml](../images/config-yml.png)
+![config-yml](../images/jekyll_on_AWS/config-yml.png)
 
 After you've changed this, open up your terminal and navigate to the folder of your Jekyll site using the CD command shown below.
 
@@ -81,7 +81,7 @@ If this has run successfully, you will now see a new folder in your repository c
 
 At this point, your site is live. Head into the properties tab, scroll to the bottom and click on the link shown in the 'Static Website Hosting' box. If everything has gone well, you should now see your site.
 
-![live-link](../images/live-link.png)
+![live-link](../images/jekyll_on_AWS/live-link.png)
 
 I suggest copying this url now as we will need it for the next step.
 
@@ -97,7 +97,7 @@ Under 'Origin Domain Name', enter the url you copied earlier, minus the protocol
 
 It is important you do not select from one of the options given in the drop down, otherwise, this will not work. You'll have to copy and paste the url as I've described above.
 
-![create-distribution](../images/create-distribution.png)
+![create-distribution](../images/jekyll_on_AWS/create-distribution.png)
 
 You can keep most of the settings as their default. However, under 'Alternate Domain Names', you'll want to enter your registered domain name. Next, scroll to the bottom and hit "Create Distribution'. This could take about 10-15 minutes to be deployed.
 
@@ -113,7 +113,7 @@ Once you've created this, you should see a NS record appear. Copy each of the va
 
 Next, while in your hosted zone, click on 'Create Record'. Here we want to connect our domain with our CloudFront distribution we created earlier. Make sure it is an 'A record' and click on the 'Alias' switch in the right hand corner. In the dropdown that appears, select 'Alias to CloudFront distribution' which prefills the region to 'US East (N. Virginia). Click into the search box and select the CloudFront distribution we made from before. 
 
-![record](../images/record.png)
+![record](../images/jekyll_on_AWS/record.png)
 
 Hit 'Create Record' and you're all set! Be patient as it may take a couple of hours to set in. 
 

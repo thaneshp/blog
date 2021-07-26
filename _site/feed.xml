@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-26T14:16:46+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-22T00:00:00+10:00</published><updated>2021-07-22T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-26T14:29:05+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-22T00:00:00+10:00</published><updated>2021-07-22T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.&lt;/p&gt;
 
 &lt;p&gt;In this tutorial, I will walkthrough step-by-step on how you can get Docker setup on a GCP VM instance so that you can run your own containerized applications.&lt;/p&gt;
 
@@ -204,11 +204,11 @@
 
 &lt;p&gt;The first thing you need to do is head into the AWS console, sign-in and click into S3. You should see a page like below, minus the buckets.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/s3-page.png&quot; alt=&quot;step-1-s3&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/s3-page.png&quot; alt=&quot;step-1-s3&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Click on ‘Create bucket’ in the top right hand corner and name your bucket the same as your chosen domain, making sure to choose the region closest to you. Under ‘Block Public Access settings for bucket’, untick the first checkbox to make this bucket public. Your screen should be similar to below.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/s3-create.png&quot; alt=&quot;step-1-s3-create&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/s3-create.png&quot; alt=&quot;step-1-s3-create&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Leave the rest of the settings as default and click ‘Create Bucket’.&lt;/p&gt;
 
@@ -242,7 +242,7 @@
 
 &lt;p&gt;On here, we will enable static website hosting and specify the index document. You don’t have to change any other settings.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/s3-static-hosting.png&quot; alt=&quot;s3-static-hosting&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/s3-static-hosting.png&quot; alt=&quot;s3-static-hosting&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
 
@@ -252,7 +252,7 @@
 
 &lt;p&gt;Open up your website’s repository in your favourite IDE and locate the _config.yml file. In here, change the url to your domain name and the baseurl to an empty string.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/config-yml.png&quot; alt=&quot;config-yml&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/config-yml.png&quot; alt=&quot;config-yml&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;After you’ve changed this, open up your terminal and navigate to the folder of your Jekyll site using the CD command shown below.&lt;/p&gt;
 
@@ -267,7 +267,7 @@
 
 &lt;p&gt;At this point, your site is live. Head into the properties tab, scroll to the bottom and click on the link shown in the ‘Static Website Hosting’ box. If everything has gone well, you should now see your site.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/live-link.png&quot; alt=&quot;live-link&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/live-link.png&quot; alt=&quot;live-link&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I suggest copying this url now as we will need it for the next step.&lt;/p&gt;
 
@@ -283,7 +283,7 @@
 
 &lt;p&gt;It is important you do not select from one of the options given in the drop down, otherwise, this will not work. You’ll have to copy and paste the url as I’ve described above.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/create-distribution.png&quot; alt=&quot;create-distribution&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/create-distribution.png&quot; alt=&quot;create-distribution&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You can keep most of the settings as their default. However, under ‘Alternate Domain Names’, you’ll want to enter your registered domain name. Next, scroll to the bottom and hit “Create Distribution’. This could take about 10-15 minutes to be deployed.&lt;/p&gt;
 
@@ -299,7 +299,7 @@
 
 &lt;p&gt;Next, while in your hosted zone, click on ‘Create Record’. Here we want to connect our domain with our CloudFront distribution we created earlier. Make sure it is an ‘A record’ and click on the ‘Alias’ switch in the right hand corner. In the dropdown that appears, select ‘Alias to CloudFront distribution’ which prefills the region to ‘US East (N. Virginia). Click into the search box and select the CloudFront distribution we made from before.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/record.png&quot; alt=&quot;record&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/jekyll_on_AWS/record.png&quot; alt=&quot;record&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Hit ‘Create Record’ and you’re all set! Be patient as it may take a couple of hours to set in.&lt;/p&gt;
 
