@@ -100,7 +100,7 @@ $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 There are a few ways we can see if Docker has been installed correctly. 
 
-The first thing we can do is run the following commands to check the status and the version installed.
+The first thing we can do is run the following commands to check both the status and the version installed.
 
 ```bash
 $ sudo systemctl status docker
@@ -133,9 +133,9 @@ At this point, you should see the "Hello from Docker!" message as shown below. I
 
 Well done! You should now have Docker setup on your VM instance and can start running containerized applications in the cloud. 
 
-Keep in mind that if you decide to run a web-server such as Apache/Nginx in a container, ensure to check firewall rules. Otherwise, you will not see anything when attempting to connect via HTTP/HTTPS.
+If you decide to run a web-server such as Apache/Nginx in a container, ensure you are checking all firewall rules. Otherwise, you will not see anything when attempting to connect via HTTP/HTTPS.
 
-If you have any questions about this tutorial, feel free to let me know!
+I hope this walkthrough helped you. If you have any questions, feel free to let me know!
 
 # Contact
 
