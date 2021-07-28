@@ -139,7 +139,7 @@ I hope this walkthrough helped you. If you have any questions, feel free to let 
 
 # Contact
 
-You can find me on any of the following places!
+You can find me at any of the following places!
 - Website: [https://thanesh.io/]()
 - Email: [thanesh.pannirselvam@gmail.com]()
 - LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

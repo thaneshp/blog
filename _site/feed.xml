@@ -1,4 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-27T13:06:10+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-26T00:00:00+10:00</published><updated>2021-07-26T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-28T12:11:09+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Quick Guide: How to add aliases in Z shell?</title><link href="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/" rel="alternate" type="text/html" title="Quick Guide: How to add aliases in Z shell?" /><published>2021-07-27T00:00:00+10:00</published><updated>2021-07-27T00:00:00+10:00</updated><id>https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh</id><content type="html" xml:base="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/">&lt;p&gt;In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.&lt;/p&gt;
+
+&lt;p&gt;For example, I set this up on my local machine so that I could easily SSH into my remote VMs. This means that I can type a single word in the terminal, instead of typing out the entire SSH command each time I want to log in remotely.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-0&quot;&gt;Step 0&lt;/h1&gt;
+
+&lt;h2 id=&quot;open-up-your-terminal&quot;&gt;Open up your terminal&lt;/h2&gt;
+
+&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;check-your-directory&quot;&gt;Check your directory&lt;/h2&gt;
+
+&lt;p&gt;When you open up your terminal, you should automatically be in your home directory. Check this by using the command shown below. You should get an output similar to: &lt;strong&gt;/Users/{your username}&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you are not in your home directory, you can use the following command to navigate there.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
+
+&lt;h2 id=&quot;open-the-bash_profile-file-using-vim&quot;&gt;Open the .bash_profile file using vim&lt;/h2&gt;
+
+&lt;p&gt;Once you’re in your home directory, open the .bash_profile file using the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vim .bash_profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
+
+&lt;h2 id=&quot;add-your-alias-to-the-file&quot;&gt;Add your alias to the file&lt;/h2&gt;
+
+&lt;p&gt;Press the ‘I’ key to insert into the file. Use the arrow keys to navigate to a new line where you will be adding your alias.&lt;/p&gt;
+
+&lt;p&gt;Follow the syntax shown below to add your alias; replacing ${ALIAS_NAME} and ${COMMAND} with your choice.&lt;/p&gt;
+
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias $&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;ALIAS_NAME&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;${COMMAND}&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;For example, in my case, I have added the command below to be able to easily access my Linux instance on GCP. Remember to insert your command inside the single quotation marks, as shown below.&lt;/p&gt;
+
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias linux_ssh&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;gcloud beta compute ssh --zone &quot;australia-southeast2-a&quot; &quot;linux-playground&quot; --project &quot;rugged-future-316207&quot;&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once you have added your alias, ensure to save and exit by pressing the ESC key followed by ‘:wq’ and ENTER.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;h2 id=&quot;check-that-the-alias-works&quot;&gt;Check that the alias works&lt;/h2&gt;
+
+&lt;p&gt;For now, we’ll have to manually notify our machine to look in the .bash_profile file for our aliased command.&lt;/p&gt;
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .bash_profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Next, we can check our alias works by calling it with the same name we entered earlier. You can check your alias’ name by using the ‘alias’ command. Replace ${ALIAS_NAME} with your alias’ name.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ALIAS_NAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
+
+&lt;h2 id=&quot;add-bash_profile-to-the-zshrc-file&quot;&gt;Add .bash_profile to the .zshrc file&lt;/h2&gt;
+
+&lt;p&gt;The shell commands contained in the .zhrc file is run every time Z shell is invoked. By adding the previous command to this file, we can tell Z shell to look in .bash_profile for our newly added alias. This means we don’t have to manually reference the .bash_profile file each time we want to use our alias.&lt;/p&gt;
+
+&lt;p&gt;Open up the .zshrc file using the vim editor.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vim .zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Whilst in this editor, press ‘I’ and use the arrow keys to navigate to a new line. Enter the following command and press ESC followed by ‘:wq’ and ENTER.&lt;/p&gt;
+
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt;/&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;bash_profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;
+
+&lt;h2 id=&quot;close-and-re-open-the-terminal&quot;&gt;Close and re-open the terminal&lt;/h2&gt;
+
+&lt;p&gt;Exit out of the terminal and re-open it. Test your alias works without referencing the .bash_profile file manually.&lt;/p&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
+
+&lt;p&gt;I hope this quick guide helped you to get a new alias set up. Keep in mind that you don’t have to use .bash_profile and can instead create a new file to house your aliases.&lt;/p&gt;
+
+&lt;p&gt;If you have any questions, feel free to let me know!&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.</summary></entry><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-26T00:00:00+10:00</published><updated>2021-07-26T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.&lt;/p&gt;
 
 &lt;p&gt;In this tutorial, I will walkthrough step-by-step on how you can get Docker setup on a GCP VM instance so that you can run your own containerized applications.&lt;/p&gt;
 
@@ -126,7 +222,7 @@
 
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
-&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
@@ -187,7 +283,7 @@
 
 &lt;h2 id=&quot;contact&quot;&gt;Contact&lt;/h2&gt;
 
-&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
@@ -321,7 +417,7 @@
 
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
-&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
@@ -403,7 +499,7 @@ https://github.com/localstack/localstack.&lt;/p&gt;
 
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
-&lt;p&gt;You can find me on any of the following places!&lt;/p&gt;
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
