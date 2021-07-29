@@ -1,0 +1,26 @@
+I"6<p>I’ve been learning about cloud recently and keep coming across terms such as containerization and Virtual machines (VMs). Although both these concepts are not limited to the cloud, they are become more prevalent as we move into this space.</p>
+
+<p>In this blog post, I aim to explain what containers and VMs are. If you are looking to get into the infrastructure side of things, these concepts are a must know.</p>
+
+<h1 id="virtual-machines">Virtual Machines</h1>
+
+<p>Virtual Machines or VMs are said to be the foundation of cloud computing. Fundamentally, a VM is a emulation of a physical computer. VMs enable us to divide a server’s resources into several emulated computers. For example, imagine we have a server that has 8 CPU cores and 4GM RAM.</p>
+
+<p>Then we might be able to divide this server into 2 VM’s: <br />
+<strong>VM 1</strong> <br />
+vCPU: 4 Cores <br />
+vRAM: 2GB <br />
+OS: Windows Server <br /></p>
+
+<p><strong>VM 2</strong> <br />
+vCPU: 4 Cores <br />
+vRAM: 2GB <br />
+OS: Linux Ubuntu <br /></p>
+
+<p>Essentially, this means we can make better use of our physical servers and run different OS’ as needed.</p>
+
+<p>From a cloud perspective, when you spin up an instance, you are getting VM with resources from a physical server shared amongst many other users.</p>
+
+<h1 id="containers">Containers</h1>
+
+:ET
