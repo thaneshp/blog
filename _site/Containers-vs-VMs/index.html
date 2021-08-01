@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      Simple Explained: Containers vs. VMs – Thanesh Pannirselvam – Site Reliability Engineer from Melbourne
+      Simple Explained: Containers and VMs – Thanesh Pannirselvam – Site Reliability Engineer from Melbourne
     </title>
 
         <meta charset="utf-8" />
@@ -11,16 +11,16 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="I’ve been learning about cloud recently and keep coming across terms such as containerization and Virtual machines (VMs). Although both these concepts are not limited to the cloud, they are become more prevalent as we move into this space.
+    <meta name="description" content="I’ve been learning about the cloud recently and keep coming across the term virtualization. The idea of virtualization comes in two flavours: containerization and virtual machines (VMs).
 " />
-    <meta property="og:description" content="I’ve been learning about cloud recently and keep coming across terms such as containerization and Virtual machines (VMs). Although both these concepts are not limited to the cloud, they are become more prevalent as we move into this space.
+    <meta property="og:description" content="I’ve been learning about the cloud recently and keep coming across the term virtualization. The idea of virtualization comes in two flavours: containerization and virtual machines (VMs).
 " />
     
     <meta name="author" content="Thanesh Pannirselvam" />
 
     
-    <meta property="og:title" content="Simple Explained: Containers vs. VMs" />
-    <meta property="twitter:title" content="Simple Explained: Containers vs. VMs" />
+    <meta property="og:title" content="Simple Explained: Containers and VMs" />
+    <meta property="twitter:title" content="Simple Explained: Containers and VMs" />
     
 
     <!--[if lt IE 9]>
@@ -88,31 +88,40 @@
     </div>
 
     <div id="main" role="main" class="container"><article class="post">
-  <h1>Simple Explained: Containers vs. VMs</h1>
+  <h1>Simple Explained: Containers and VMs</h1>
 
   <div class="entry">
-    <p>I’ve been learning about cloud recently and keep coming across terms such as containerization and Virtual machines (VMs). Although both these concepts are not limited to the cloud, they are become more prevalent as we move into this space.</p>
+    <p>I’ve been learning about the cloud recently and keep coming across the term virtualization. The idea of virtualization comes in two flavours: containerization and virtual machines (VMs).</p>
 
-<p>In this blog post, I aim to explain what containers and VMs are. If you are looking to get into the infrastructure side of things, these concepts are a must know.</p>
+<p>Essentially, virtualization came about to solve one key problem; efficency. Before we can understand this concept, we have to take a look at the history of serving applications.</p>
+
+<h1 id="a-time-before-virtualization">A time before Virtualization</h1>
+
+<p>In the past, when a business wanted to host an application they had to procure a physical server. The business had to speculate the demand for the application upfront, before making the purchase. As such, they were likely to buy a high end server which costs a lot of money.</p>
+
+<p>Besides this, they would also incur monthly expenses like energy, workforce and licenses. After spending all this money, they might realise that only a fraction of capacity is used. However, there was no way to allocate or make use of the resources that weren’t needed. This is where Virtual Machines come in.</p>
+
+<p align="center">
+<br />
+<img src="../images/containers_and_vms/server.png" />
+</p>
 
 <h1 id="virtual-machines">Virtual Machines</h1>
 
-<p>Virtual Machines or VMs are said to be the foundation of cloud computing. Fundamentally, a VM is a emulation of a physical computer. VMs enable us to divide a server’s resources into several emulated computers. For example, imagine we have a server that has 8 CPU cores and 4GM RAM.</p>
+<p>The industry realised that having one server per application was rigid, clunky and expensive. As such, in the late 1990s, VMware came out with a product which would solve this issue.</p>
 
-<p>Then we might be able to divide this server into 2 VM’s: <br />
-<strong>VM 1</strong> <br />
-vCPU: 4 Cores <br />
-vRAM: 2GB <br />
-OS: Windows Server <br /></p>
+<p>Virtualization, enabled by VMware would allow organisations to squeeze more from their physical servers. Essentially, this technology virtualises the hardware of the physical server allowing the emulation of multiple computers on a single device.</p>
 
-<p><strong>VM 2</strong> <br />
-vCPU: 4 Cores <br />
-vRAM: 2GB <br />
-OS: Linux Ubuntu <br /></p>
+<p>For example, we can divide a server’s resources into 3 VMs and have a seperate application running on each VM. Each VM is isolated from the other and has the required resources to perform its given task. This enabled better hardware utilization but created a lot of overhead due to the necessary OS installation.</p>
 
-<p>This means that we are virtualizing the underlying hardware allowing us to divide up our resources.</p>
+<!-- This means that we are virtualizing the underlying hardware allowing us to divide up our resources.
 
-<p>From a cloud perspective, when you spin up an instance, you are getting a VM with resources from a physical server shared amongst many other users.</p>
+From a cloud perspective, when you spin up an instance, you are getting a VM with resources from a physical server shared amongst many other users. -->
+
+<p align="center">
+<br />
+<img src="../images/containers_and_vms/vms.png" />
+</p>
 
 <h1 id="containers">Containers</h1>
 
@@ -124,14 +133,16 @@ OS: Linux Ubuntu <br /></p>
 
 <p>From a cloud perspective, this gives us the flexibility to ship our code between different cloud providers with relative ease.</p>
 
+<p align="center">
+<br />
+<img src="../images/containers_and_vms/container.png" width="500" height="500" />
+</p>
+
 <h1 id="final-thoughts">Final Thoughts</h1>
 
 <p>Both VMs and Containers have their place. In the cloud, containers are usually used on top of VMs, which if you think about it can allow you to make more effective use of an instance.</p>
 
 <p>I don’t believe you can say that one is better than the other but they both can be used for different cases. Containers have allowed us to make some processes more efficient.</p>
-
-<p><img src="../images/gcp-meme.png" alt="gcp-meme" />
-https://www.reddit.com/r/googlecloud/comments/ot09xq/its_turtles_all_the_way_down/</p>
 
   </div>
 
