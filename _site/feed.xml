@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-07-30T15:57:45+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Simple Explained: Containers and VMs</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Containers and VMs" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. The idea of virtualization comes in two flavours: containerization and virtual machines (VMs).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-02T16:10:39+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Simple Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
 
-&lt;p&gt;Essentially, virtualization came about to solve one key problem; efficency. Before we can understand this concept, we have to take a look at the history of serving applications.&lt;/p&gt;
+&lt;p&gt;In this blog, I’ll give you an overview of Virtual Machines (VMs) and Containers by outlining the problems they aim to solve.&lt;/p&gt;
 
-&lt;h1 id=&quot;a-time-before-virtualization&quot;&gt;A time before Virtualization&lt;/h1&gt;
+&lt;h1 id=&quot;a-time-before-virtualization&quot;&gt;A time before virtualization&lt;/h1&gt;
 
-&lt;p&gt;In the past, when a business wanted to host an application they had to procure a physical server. The business had to speculate the demand for the application upfront, before making the purchase. As such, they were likely to buy a high end server which costs a lot of money.&lt;/p&gt;
+&lt;p&gt;In the past, when a business wanted to host an application, it had to procure a physical server. The company would have to speculate the demand for the application upfront before making the purchase. As such, they were likely to buy a high-end server which costs a lot of money.&lt;/p&gt;
 
-&lt;p&gt;Besides this, they would also incur monthly expenses like energy, workforce and licenses. After spending all this money, they might realise that only a fraction of capacity is used. However, there was no way to allocate or make use of the resources that weren’t needed. This is where Virtual Machines come in.&lt;/p&gt;
+&lt;p&gt;Besides this, they would also incur monthly expenses like energy, workforce and licences. After spending all this money, they might realize that only a fraction of the capacity is being used. However, there was no way to allocate or make use of the resources that weren’t needed. This is where Virtual Machines come in.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
 &lt;br /&gt;
@@ -15,15 +15,11 @@
 
 &lt;h1 id=&quot;virtual-machines&quot;&gt;Virtual Machines&lt;/h1&gt;
 
-&lt;p&gt;The industry realised that having one server per application was rigid, clunky and expensive. As such, in the late 1990s, VMware came out with a product which would solve this issue.&lt;/p&gt;
+&lt;p&gt;The industry realized that having one server per application was rigid, clunky and expensive. In the late 1990s, VMware came out with a product that would solve this issue.&lt;/p&gt;
 
-&lt;p&gt;Virtualization, enabled by VMware would allow organisations to squeeze more from their physical servers. Essentially, this technology virtualises the hardware of the physical server allowing the emulation of multiple computers on a single device.&lt;/p&gt;
+&lt;p&gt;Virtualization, enabled by VMware, would allow organizations to squeeze more from their physical servers. Essentially, this technology virtualizes the physical server’s hardware enabling the emulation of multiple computers on a single device.&lt;/p&gt;
 
-&lt;p&gt;For example, we can divide a server’s resources into 3 VMs and have a seperate application running on each VM. Each VM is isolated from the other and has the required resources to perform its given task. This enabled better hardware utilization but created a lot of overhead due to the necessary OS installation.&lt;/p&gt;
-
-&lt;!-- This means that we are virtualizing the underlying hardware allowing us to divide up our resources.
-
-From a cloud perspective, when you spin up an instance, you are getting a VM with resources from a physical server shared amongst many other users. --&gt;
+&lt;p&gt;For example, we can divide a server’s resources into 3 VMs and have a separate application running on each VM. Each VM is isolated from the other and has the resources necessary to perform its given task. This enabled better hardware utilization but created a lot of overhead due to the required OS installation.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
 &lt;br /&gt;
@@ -32,24 +28,42 @@ From a cloud perspective, when you spin up an instance, you are getting a VM wit
 
 &lt;h1 id=&quot;containers&quot;&gt;Containers&lt;/h1&gt;
 
-&lt;p&gt;In contrast, containers aim to virtualize the operating system, only containing the application and its libraries and dependencies.&lt;/p&gt;
+&lt;p&gt;Unlike a VM, a container does not require its own operating system. Containers virtualize the operating system, sharing the host kernel.&lt;/p&gt;
 
-&lt;p&gt;Containers are small, fast, and portable because they do not include a guest OS in every instance.&lt;/p&gt;
+&lt;p&gt;Each container packages your application code and its dependencies together. The application thinks it is running on a dedicated OS and hardware, but in reality, it is sharing the from the host OS.&lt;/p&gt;
 
-&lt;p&gt;Containers allow us to make even better use of our resources as we don’t have to predefine the amount of resources we will need.&lt;/p&gt;
+&lt;p&gt;However, compared to VMs, we are only managing one OS. No matter how many containers you have, there is only one host OS that needs to be addressed, i.e. reducing associated costs such as licences.&lt;/p&gt;
 
-&lt;p&gt;From a cloud perspective, this gives us the flexibility to ship our code between different cloud providers with relative ease.&lt;/p&gt;
+&lt;p&gt;A container is tiny compared to a VM and can boot up in far lesser time. It also provides portability as it is not dependent on the underlying OS.&lt;/p&gt;
+
+&lt;p&gt;This means we can run code virtually anywhere with relative ease: multiple cloud providers, on-premise, local machines or even on VMs.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
 &lt;br /&gt;
-&lt;img src=&quot;../images/containers_and_vms/container.png&quot; width=&quot;500&quot; height=&quot;500&quot; /&gt;
+&lt;img src=&quot;../images/containers_and_vms/container.png&quot; width=&quot;400&quot; height=&quot;400&quot; /&gt;
 &lt;/p&gt;
 
 &lt;h1 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h1&gt;
 
-&lt;p&gt;Both VMs and Containers have their place. In the cloud, containers are usually used on top of VMs, which if you think about it can allow you to make more effective use of an instance.&lt;/p&gt;
+&lt;p&gt;Both VMs and Containers continue to serve a purpose in today’s world. For example, when you request an instance on the cloud, you are accessing a virtual machine. The provider allocates some of their hardware for you to use, isolated from the rest of their users. You are then able to further leverage this instance by running containers on top of this.&lt;/p&gt;
 
-&lt;p&gt;I don’t believe you can say that one is better than the other but they both can be used for different cases. Containers have allowed us to make some processes more efficient.&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ve been learning about the cloud recently and keep coming across the term virtualization. The idea of virtualization comes in two flavours: containerization and virtual machines (VMs).</summary></entry><entry><title type="html">Quick Guide: How to add aliases in Z shell?</title><link href="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/" rel="alternate" type="text/html" title="Quick Guide: How to add aliases in Z shell?" /><published>2021-07-27T00:00:00+10:00</published><updated>2021-07-27T00:00:00+10:00</updated><id>https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh</id><content type="html" xml:base="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/">&lt;p&gt;In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.&lt;/p&gt;
+&lt;p&gt;At the end of the day, choosing what’s best all depends on your circumstance. In some cases, you might even have to use a combination of both.&lt;/p&gt;
+
+&lt;p&gt;I hope this blog has given you an insight into VMs and Containers. Here are some resources that have helped me to better understand these concepts:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;https://www.redhat.com/en/topics/virtualization/what-is-virtualization&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;&quot;&gt;https://www.capitalone.com/tech/cloud/containers-vs-vms/&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;&quot;&gt;https://devopscube.com/what-is-docker/&lt;/a&gt; &lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.</summary></entry><entry><title type="html">Quick Guide: How to add aliases in Z shell?</title><link href="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/" rel="alternate" type="text/html" title="Quick Guide: How to add aliases in Z shell?" /><published>2021-07-27T00:00:00+10:00</published><updated>2021-07-27T00:00:00+10:00</updated><id>https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh</id><content type="html" xml:base="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/">&lt;p&gt;In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.&lt;/p&gt;
 
 &lt;p&gt;For example, I set this up on my local machine so that I could easily SSH into my remote VMs. This means that I can type a single word in the terminal, instead of typing out the entire SSH command each time I want to log in remotely.&lt;/p&gt;
 

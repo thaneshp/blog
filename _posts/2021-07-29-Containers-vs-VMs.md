@@ -1,18 +1,18 @@
 ---
 layout: post
-title: "Simple Explained: Containers and VMs"
-published: false
+title: "Simple Explained: Virtual Machines and Containers"
+published: true
 ---
 
-I've been learning about the cloud recently and keep coming across the term virtualization. The idea of virtualization comes in two flavours: containerization and virtual machines (VMs).
+I've been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine's total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.
 
-Essentially, virtualization came about to solve one key problem; efficency. Before we can understand this concept, we have to take a look at the history of serving applications.
+In this blog, I'll give you an overview of Virtual Machines (VMs) and Containers by outlining the problems they aim to solve.
 
-# A time before Virtualization
+# A time before virtualization
 
-In the past, when a business wanted to host an application they had to procure a physical server. The business had to speculate the demand for the application upfront, before making the purchase. As such, they were likely to buy a high end server which costs a lot of money. 
+In the past, when a business wanted to host an application, it had to procure a physical server. The company would have to speculate the demand for the application upfront before making the purchase. As such, they were likely to buy a high-end server which costs a lot of money.
 
-Besides this, they would also incur monthly expenses like energy, workforce and licenses. After spending all this money, they might realise that only a fraction of capacity is used. However, there was no way to allocate or make use of the resources that weren't needed. This is where Virtual Machines come in.
+Besides this, they would also incur monthly expenses like energy, workforce and licences. After spending all this money, they might realize that only a fraction of the capacity is being used. However, there was no way to allocate or make use of the resources that weren't needed. This is where Virtual Machines come in.
 
 <p align="center">
 <br>
@@ -21,15 +21,11 @@ Besides this, they would also incur monthly expenses like energy, workforce and 
 
 # Virtual Machines
 
-The industry realised that having one server per application was rigid, clunky and expensive. As such, in the late 1990s, VMware came out with a product which would solve this issue.
+The industry realized that having one server per application was rigid, clunky and expensive. In the late 1990s, VMware came out with a product that would solve this issue.
 
-Virtualization, enabled by VMware would allow organisations to squeeze more from their physical servers. Essentially, this technology virtualises the hardware of the physical server allowing the emulation of multiple computers on a single device.
+Virtualization, enabled by VMware, would allow organizations to squeeze more from their physical servers. Essentially, this technology virtualizes the physical server's hardware enabling the emulation of multiple computers on a single device.
 
-For example, we can divide a server's resources into 3 VMs and have a seperate application running on each VM. Each VM is isolated from the other and has the required resources to perform its given task. This enabled better hardware utilization but created a lot of overhead due to the necessary OS installation.
-
-<!-- This means that we are virtualizing the underlying hardware allowing us to divide up our resources.
-
-From a cloud perspective, when you spin up an instance, you are getting a VM with resources from a physical server shared amongst many other users. -->
+For example, we can divide a server's resources into 3 VMs and have a separate application running on each VM. Each VM is isolated from the other and has the resources necessary to perform its given task. This enabled better hardware utilization but created a lot of overhead due to the required OS installation.
 
 <p align="center">
 <br>
@@ -38,24 +34,37 @@ From a cloud perspective, when you spin up an instance, you are getting a VM wit
 
 # Containers
 
+Unlike a VM, a container does not require its own operating system. Containers virtualize the operating system, sharing the host kernel.
 
+Each container packages your application code and its dependencies together. The application thinks it is running on a dedicated OS and hardware, but in reality, it is sharing the from the host OS.
 
+However, compared to VMs, we are only managing one OS. No matter how many containers you have, there is only one host OS that needs to be addressed, i.e. reducing associated costs such as licences.
 
-In contrast, containers aim to virtualize the operating system, only containing the application and its libraries and dependencies.
+A container is tiny compared to a VM and can boot up in far lesser time. It also provides portability as it is not dependent on the underlying OS.
 
-Containers are small, fast, and portable because they do not include a guest OS in every instance. 
-
-Containers allow us to make even better use of our resources as we don't have to predefine the amount of resources we will need.
-
-From a cloud perspective, this gives us the flexibility to ship our code between different cloud providers with relative ease.
+This means we can run code virtually anywhere with relative ease: multiple cloud providers, on-premise, local machines or even on VMs.
 
 <p align="center">
 <br>
-<img src="../images/containers_and_vms/container.png" width="500" height="500"/>
+<img src="../images/containers_and_vms/container.png" width="400" height="400"/>
 </p>
 
 # Final Thoughts
 
-Both VMs and Containers have their place. In the cloud, containers are usually used on top of VMs, which if you think about it can allow you to make more effective use of an instance.
+Both VMs and Containers continue to serve a purpose in today's world. For example, when you request an instance on the cloud, you are accessing a virtual machine. The provider allocates some of their hardware for you to use, isolated from the rest of their users. You are then able to further leverage this instance by running containers on top of this.
 
-I don't believe you can say that one is better than the other but they both can be used for different cases. Containers have allowed us to make some processes more efficient.
+At the end of the day, choosing what's best all depends on your circumstance. In some cases, you might even have to use a combination of both.
+
+I hope this blog has given you an insight into VMs and Containers. Here are some resources that have helped me to better understand these concepts:
+
+[https://www.redhat.com/en/topics/virtualization/what-is-virtualization]() <br>
+[https://www.capitalone.com/tech/cloud/containers-vs-vms/]() <br>
+[https://devopscube.com/what-is-docker/]() <br>
+
+# Contact
+
+You can find me at any of the following places!
+
+- Website: [https://thanesh.io/]()
+- Email: [thanesh.pannirselvam@gmail.com]()
+- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)
