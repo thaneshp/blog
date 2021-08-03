@@ -37,3 +37,11 @@ Although this might not be a very inspirational story to most, it has definetly 
 I realise that I am only at the start of my journey and am excited by the all possibilites this ever-growing field may bring.
 
 I have a lot more to share so do stay tuned! 
+
+# Contact
+
+You can find me at any of the following places!
+
+- Website: [https://thanesh.io/](https://thanesh.io/)
+- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
+- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-02T16:13:34+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Simple Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-03T10:48:53+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Simple Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
 
 &lt;p&gt;In this blog, I’ll give you an overview of Virtual Machines (VMs) and Containers by outlining the problems they aim to solve.&lt;/p&gt;
 
@@ -60,8 +60,8 @@
 &lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><summary type="html">I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.</summary></entry><entry><title type="html">Quick Guide: How to add aliases in Z shell?</title><link href="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/" rel="alternate" type="text/html" title="Quick Guide: How to add aliases in Z shell?" /><published>2021-07-27T00:00:00+10:00</published><updated>2021-07-27T00:00:00+10:00</updated><id>https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh</id><content type="html" xml:base="https://blog.thanesh.io//Quick-Guide-Setting-Up-Alias-in-zsh/">&lt;p&gt;In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.&lt;/p&gt;
 
@@ -155,9 +155,10 @@
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
 &lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><summary type="html">In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.</summary></entry><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-26T00:00:00+10:00</published><updated>2021-07-26T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.&lt;/p&gt;
 
@@ -288,9 +289,10 @@
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
 &lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><summary type="html">Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.</summary></entry><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
 
@@ -349,9 +351,10 @@
 &lt;h2 id=&quot;contact&quot;&gt;Contact&lt;/h2&gt;
 
 &lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><summary type="html">Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.</summary></entry><entry><title type="html">Deploying Your Jekyll Site on AWS</title><link href="https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS/" rel="alternate" type="text/html" title="Deploying Your Jekyll Site on AWS" /><published>2021-02-16T00:00:00+11:00</published><updated>2021-02-16T00:00:00+11:00</updated><id>https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS</id><content type="html" xml:base="https://blog.thanesh.io//Deploying-Your-Jekyll-Site-On-AWS/">&lt;p&gt;When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.&lt;/p&gt;
 
@@ -483,9 +486,10 @@
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
 &lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><summary type="html">When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.</summary></entry><entry><title type="html">Setting up AWS LocalStack</title><link href="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/" rel="alternate" type="text/html" title="Setting up AWS LocalStack" /><published>2021-02-02T00:00:00+11:00</published><updated>2021-02-02T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine</id><content type="html" xml:base="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/">&lt;p&gt;LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.&lt;/p&gt;
 
@@ -565,9 +569,10 @@ https://github.com/localstack/localstack.&lt;/p&gt;
 &lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
 
 &lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Website: &lt;a href=&quot;&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Email: &lt;a href=&quot;&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><summary type="html">LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</summary></entry><entry><title type="html">My Journey into Software Development</title><link href="https://blog.thanesh.io//My-Software-Development-Journey/" rel="alternate" type="text/html" title="My Journey into Software Development" /><published>2020-12-10T00:00:00+11:00</published><updated>2020-12-10T00:00:00+11:00</updated><id>https://blog.thanesh.io//My-Software-Development-Journey</id><content type="html" xml:base="https://blog.thanesh.io//My-Software-Development-Journey/">&lt;p&gt;I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.&lt;/p&gt;
 
@@ -601,4 +606,14 @@ https://github.com/localstack/localstack.&lt;/p&gt;
 
 &lt;p&gt;I realise that I am only at the start of my journey and am excited by the all possibilites this ever-growing field may bring.&lt;/p&gt;
 
-&lt;p&gt;I have a lot more to share so do stay tuned!&lt;/p&gt;</content><author><name></name></author><summary type="html">I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.</summary></entry></feed>
+&lt;p&gt;I have a lot more to share so do stay tuned!&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.</summary></entry></feed>

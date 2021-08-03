@@ -1,4 +1,4 @@
-I"<p>LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</p>
+I"<<p>LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</p>
 
 <p>Using LocalStack gives you the ability to spin up cloud services directly on your local machine, making it more convenient to develop for the cloud.</p>
 
@@ -76,9 +76,10 @@ https://github.com/localstack/localstack.</p>
 <h1 id="contact">Contact</h1>
 
 <p>You can find me at any of the following places!</p>
+
 <ul>
-  <li>Website: <a href="">https://thanesh.io/</a></li>
-  <li>Email: <a href="">thanesh.pannirselvam@gmail.com</a></li>
+  <li>Website: <a href="https://thanesh.io/">https://thanesh.io/</a></li>
+  <li>Email: <a href="mailto:thanesh.pannirselvam@gmail.com">thanesh.pannirselvam@gmail.com</a></li>
   <li>LinkedIn: <a href="https://linkedin.com/in/thanesh-pannirselvam">linkedin.com/in/thanesh-pannirselvam</a></li>
 </ul>
 :ET

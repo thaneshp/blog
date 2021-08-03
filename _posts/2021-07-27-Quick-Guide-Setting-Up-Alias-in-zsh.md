@@ -105,6 +105,7 @@ If you have any questions, feel free to let me know!
 # Contact
 
 You can find me at any of the following places!
-- Website: [https://thanesh.io/]()
-- Email: [thanesh.pannirselvam@gmail.com]()
+
+- Website: [https://thanesh.io/](https://thanesh.io/)
+- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
 - LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

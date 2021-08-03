@@ -83,6 +83,7 @@ You should be all set up and ready to start developing for AWS on your local mac
 # Contact
 
 You can find me at any of the following places!
-- Website: [https://thanesh.io/]()
-- Email: [thanesh.pannirselvam@gmail.com]()
+
+- Website: [https://thanesh.io/](https://thanesh.io/)
+- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
 - LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)
