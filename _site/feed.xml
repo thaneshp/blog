@@ -1,4 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-03T10:48:53+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Simple Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-05T14:15:41+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to pass the Google Professional Cloud DevOps Engineer Exam</title><link href="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/" rel="alternate" type="text/html" title="How to pass the Google Professional Cloud DevOps Engineer Exam" /><published>2021-08-05T00:00:00+10:00</published><updated>2021-08-05T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert</id><content type="html" xml:base="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/">&lt;p&gt;A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.&lt;/p&gt;
+
+&lt;p&gt;In this blog, I will share the resources and techniques I used to prepare for this exam. This is by no means an exhaustive list, but I hope you will go away with a better understanding of what to focus on. Let’s get into it!&lt;/p&gt;
+
+&lt;h1 id=&quot;1-class-sre-implements-devops-playlist&quot;&gt;1. class SRE implements DevOps playlist&lt;/h1&gt;
+
+&lt;p&gt;Before you start studying, watch &lt;a href=&quot;https://www.youtube.com/playlist?list=PLIivdWyY5sqJrKl7D2u-gmis8h9K66qoj&quot;&gt;this playlist&lt;/a&gt; by Seth Vargo and Liz Fong-Jones. It is entertaining and will give you a broad understanding of how Google implements DevOps.&lt;/p&gt;
+
+&lt;p&gt;In my opinion, understanding that SRE is an implementation of DevOps is essential to keep in mind whilst preparing for the exam. Once you comprehend this, it becomes far easier to learn the content.&lt;/p&gt;
+
+&lt;h1 id=&quot;2-a-cloud-guru-training&quot;&gt;2. A Cloud Guru Training&lt;/h1&gt;
+
+&lt;p&gt;Next, I recommend going through the A Cloud Guru GCP DevOps learning path. This course will build on the playlist from earlier and give you a much deeper understanding of DevOps concepts.&lt;/p&gt;
+
+&lt;p&gt;I recommend doing all the hands-on labs they offer, as this will solidify your understanding of the services.&lt;/p&gt;
+
+&lt;p&gt;There are five parts to this course, but I recommend focussing your energy on the first 4. Here are links to the four parts.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://acloudguru.com/course/google-professional-cloud-devops-engineer-certification-path-introduction-gcp-devops-engineer-track-part-1&quot;&gt;https://acloudguru.com/course/google-professional-cloud-devops-engineer-certification-path-introduction-gcp-devops-engineer-track-part-1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://acloudguru.com/course/google-cloud-devops-and-sres-gcp-devops-engineer-track-part-2&quot;&gt;https://acloudguru.com/course/google-cloud-devops-and-sres-gcp-devops-engineer-track-part-2&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://acloudguru.com/course/google-cloud-ci-cd-pipelines-gcp-devops-engineer-track-part-3&quot;&gt;https://acloudguru.com/course/google-cloud-ci-cd-pipelines-gcp-devops-engineer-track-part-3&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://acloudguru.com/course/monitoring-managing-and-maximizing-google-cloud-operations-gcp-devops-engineer-track-part-4&quot;&gt;https://acloudguru.com/course/monitoring-managing-and-maximizing-google-cloud-operations-gcp-devops-engineer-track-part-4&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you have completed all four parts, complete the practice exam several times until you’re consistently scoring 95%+. I will discuss practice exams in more detail further below.&lt;/p&gt;
+
+&lt;h1 id=&quot;3-sre-book-by-google&quot;&gt;3. SRE Book by Google&lt;/h1&gt;
+
+&lt;p&gt;The next thing I’d recommend is reading the Site Reliability Engineering book by Google. You don’t have to read the whole thing but use it as a reference whenever you are unsure of something during your study.&lt;/p&gt;
+
+&lt;p&gt;For example, say something isn’t clear when you’re working through the training videos, open up this book and read that section. This book provides clear explanations of crucial SRE concepts that are bound to be on the exam.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://sre.google/sre-book/table-of-contents/&quot;&gt;https://sre.google/sre-book/table-of-contents/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I know many others have said this, but &lt;strong&gt;it really is very important you use this book in preparation for your exam.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;4-sli-slo-and-sla&quot;&gt;4. SLI, SLO and SLA&lt;/h1&gt;
+
+&lt;p&gt;Spend some time familiarising yourself with these terms. This is a crucial SRE concept that will almost certainly be on the exam.&lt;/p&gt;
+
+&lt;p&gt;Personally, I found these terms tricky to understand, but this video explains it quite well. &lt;a href=&quot;https://www.youtube.com/watch?v=LKpIirL8f-I&quot;&gt;https://www.youtube.com/watch?v=LKpIirL8f-I&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Besides this video, read articles online and watch other youtube videos to cement your understanding further. I believe having a firm grasp on this is worth your time.&lt;/p&gt;
+
+&lt;h1 id=&quot;5-logging-monitoring-and-observability&quot;&gt;5. Logging, Monitoring and Observability&lt;/h1&gt;
+
+&lt;p&gt;This is a big part of SRE work, and I’ve heard it’s about 30% of the exam. I recommend going through this thoroughly as there’s quite a number of services that appear similar, but do different things.&lt;/p&gt;
+
+&lt;p&gt;To prepare for this, check out this Coursera course. You can sign up for the free 7-day trial if you don’t have a subscription.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It is worth going through all the labs they offer, as it will help you recall the goal of each service while doing the exam.&lt;/p&gt;
+
+&lt;h1 id=&quot;6-read-the-exam-guide&quot;&gt;6. Read the Exam Guide&lt;/h1&gt;
+
+&lt;p&gt;I’ve left this until the end as I’ve found nothing makes sense when you’re reading the study guide before learning the content.&lt;/p&gt;
+
+&lt;p&gt;By this stage, you should be able to confidently read the guide and understand what the exam is looking for. If anything appears unclear, go back and familiarise yourself with that concept. You might even have to look beyond the resources listed above.&lt;/p&gt;
+
+&lt;h1 id=&quot;7-practice-exams&quot;&gt;7. Practice Exams&lt;/h1&gt;
+
+&lt;p&gt;Finally, do as many practice exams as you can get your hands on. Ultimately, this is the best way to gauge whether you are ready for the exam.&lt;/p&gt;
+
+&lt;p&gt;If you identify an overarching weak point, take the time to familiarise yourself with this before doing more exams. For example, I noticed I was unfamiliar with Logging and Monitoring, so I went back, re-watched lectures and read the SRE book.&lt;/p&gt;
+
+&lt;p&gt;Besides this, I would copy every question I got wrong in a Google Doc, write out the correct answer in my own words and include an explanation. I would then spend some time thinking about why the other answers were wrong.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;I know there are many parts to focus on, but in my opinion, you will come out with a much better understanding of SRE/DevOps.&lt;/p&gt;
+
+&lt;p&gt;If I had to sum up this blog, it would be:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Go through the theory&lt;/li&gt;
+  &lt;li&gt;Get hands-on practice&lt;/li&gt;
+  &lt;li&gt;Undertake practice exams&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Ideally, try not to rush anything and give yourself plenty of time to understand the content. Personally, I spent about 3-weeks preparing but depending on your circumstance you may want more time.&lt;/p&gt;
+
+&lt;p&gt;If you ever get stuck, ask the question - “why would an SRE do this?”&lt;/p&gt;
+
+&lt;p&gt;At the end of the day, I felt the exam tests your ability to think like an SRE rather than the tools and technologies themselves.&lt;/p&gt;
+
+&lt;p&gt;I hope this helped you, and if you have any questions, feel free to reach out!&lt;/p&gt;
+
+&lt;h1 id=&quot;contact&quot;&gt;Contact&lt;/h1&gt;
+
+&lt;p&gt;You can find me at any of the following places!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Website: &lt;a href=&quot;https://thanesh.io/&quot;&gt;https://thanesh.io/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Email: &lt;a href=&quot;mailto:thanesh.pannirselvam@gmail.com&quot;&gt;thanesh.pannirselvam@gmail.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LinkedIn: &lt;a href=&quot;https://linkedin.com/in/thanesh-pannirselvam&quot;&gt;linkedin.com/in/thanesh-pannirselvam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.</summary></entry><entry><title type="html">Simple Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
 
 &lt;p&gt;In this blog, I’ll give you an overview of Virtual Machines (VMs) and Containers by outlining the problems they aim to solve.&lt;/p&gt;
 
