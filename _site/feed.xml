@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-05T14:15:41+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to pass the Google Professional Cloud DevOps Engineer Exam</title><link href="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/" rel="alternate" type="text/html" title="How to pass the Google Professional Cloud DevOps Engineer Exam" /><published>2021-08-05T00:00:00+10:00</published><updated>2021-08-05T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert</id><content type="html" xml:base="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/">&lt;p&gt;A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-05T18:57:26+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to pass the Google Professional Cloud DevOps Engineer Exam</title><link href="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/" rel="alternate" type="text/html" title="How to pass the Google Professional Cloud DevOps Engineer Exam" /><published>2021-08-05T00:00:00+10:00</published><updated>2021-08-05T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert</id><content type="html" xml:base="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/">&lt;p&gt;A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.&lt;/p&gt;
 
 &lt;p&gt;In this blog, I will share the resources and techniques I used to prepare for this exam. This is by no means an exhaustive list, but I hope you will go away with a better understanding of what to focus on. Let’s get into it!&lt;/p&gt;
 
@@ -40,13 +40,13 @@
 
 &lt;p&gt;Spend some time familiarising yourself with these terms. This is a crucial SRE concept that will almost certainly be on the exam.&lt;/p&gt;
 
-&lt;p&gt;Personally, I found these terms tricky to understand, but this video explains it quite well. &lt;a href=&quot;https://www.youtube.com/watch?v=LKpIirL8f-I&quot;&gt;https://www.youtube.com/watch?v=LKpIirL8f-I&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Personally, I found these terms tricky to understand, but this video explains them quite well. &lt;a href=&quot;https://www.youtube.com/watch?v=LKpIirL8f-I&quot;&gt;https://www.youtube.com/watch?v=LKpIirL8f-I&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Besides this video, read articles online and watch other youtube videos to cement your understanding further. I believe having a firm grasp on this is worth your time.&lt;/p&gt;
 
 &lt;h1 id=&quot;5-logging-monitoring-and-observability&quot;&gt;5. Logging, Monitoring and Observability&lt;/h1&gt;
 
-&lt;p&gt;This is a big part of SRE work, and I’ve heard it’s about 30% of the exam. I recommend going through this thoroughly as there’s quite a number of services that appear similar, but do different things.&lt;/p&gt;
+&lt;p&gt;This is a big part of SRE work, and I’ve heard it’s about 30% of the exam. I recommend going through this thoroughly as there’s quite a number of services that appear similar but do different things.&lt;/p&gt;
 
 &lt;p&gt;To prepare for this, check out this Coursera course. You can sign up for the free 7-day trial if you don’t have a subscription.&lt;/p&gt;
 

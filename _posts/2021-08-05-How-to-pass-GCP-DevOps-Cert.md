@@ -46,13 +46,13 @@ I know many others have said this, but **it really is very important you use thi
 
 Spend some time familiarising yourself with these terms. This is a crucial SRE concept that will almost certainly be on the exam.
 
-Personally, I found these terms tricky to understand, but this video explains it quite well. [https://www.youtube.com/watch?v=LKpIirL8f-I](https://www.youtube.com/watch?v=LKpIirL8f-I).
+Personally, I found these terms tricky to understand, but this video explains them quite well. [https://www.youtube.com/watch?v=LKpIirL8f-I](https://www.youtube.com/watch?v=LKpIirL8f-I).
 
 Besides this video, read articles online and watch other youtube videos to cement your understanding further. I believe having a firm grasp on this is worth your time.
 
 # 5. Logging, Monitoring and Observability
 
-This is a big part of SRE work, and I've heard it's about 30% of the exam. I recommend going through this thoroughly as there's quite a number of services that appear similar, but do different things.
+This is a big part of SRE work, and I've heard it's about 30% of the exam. I recommend going through this thoroughly as there's quite a number of services that appear similar but do different things.
 
 To prepare for this, check out this Coursera course. You can sign up for the free 7-day trial if you don't have a subscription.
 
