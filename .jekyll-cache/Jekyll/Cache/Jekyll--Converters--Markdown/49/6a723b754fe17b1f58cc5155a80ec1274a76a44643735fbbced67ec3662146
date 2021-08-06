@@ -1,4 +1,4 @@
-I"><p>In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.</p>
+I"·<p>In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.</p>
 
 <p>For example, I set this up on my local machine so that I could easily SSH into my remote VMs. This means that I can type a single word in the terminal, instead of typing out the entire SSH command each time I want to log in remotely.</p>
 
@@ -86,14 +86,4 @@
 <p>I hope this quick guide helped you to get a new alias set up. Keep in mind that you donâ€™t have to use .bash_profile and can instead create a new file to house your aliases.</p>
 
 <p>If you have any questions, feel free to let me know!</p>
-
-<h1 id="contact">Contact</h1>
-
-<p>You can find me at any of the following places!</p>
-
-<ul>
-  <li>Website: <a href="https://thanesh.io/">https://thanesh.io/</a></li>
-  <li>Email: <a href="mailto:thanesh.pannirselvam@gmail.com">thanesh.pannirselvam@gmail.com</a></li>
-  <li>LinkedIn: <a href="https://linkedin.com/in/thanesh-pannirselvam">linkedin.com/in/thanesh-pannirselvam</a></li>
-</ul>
 :ET

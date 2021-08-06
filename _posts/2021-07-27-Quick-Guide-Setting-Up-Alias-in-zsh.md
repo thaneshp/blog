@@ -101,11 +101,3 @@ Exit out of the terminal and re-open it. Test your alias works without referenci
 I hope this quick guide helped you to get a new alias set up. Keep in mind that you don't have to use .bash_profile and can instead create a new file to house your aliases.
 
 If you have any questions, feel free to let me know!
-
-# Contact
-
-You can find me at any of the following places!
-
-- Website: [https://thanesh.io/](https://thanesh.io/)
-- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
-- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

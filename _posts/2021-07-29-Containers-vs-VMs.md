@@ -59,12 +59,4 @@ I hope this blog has given you an insight into VMs and Containers. Here are some
 
 [https://www.redhat.com/en/topics/virtualization/what-is-virtualization]() <br>
 [https://www.capitalone.com/tech/cloud/containers-vs-vms/]() <br>
-[https://devopscube.com/what-is-docker/]() <br>
-
-# Contact
-
-You can find me at any of the following places!
-
-- Website: [https://thanesh.io/](https://thanesh.io/)
-- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
-- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)
+[https://devopscube.com/what-is-docker/]()

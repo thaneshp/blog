@@ -132,11 +132,3 @@ As a final note, if you want to setup SSL, go back into the CloudFront distribut
 # That's It!
 
 Well Done! Your site is up and live, I hoped this helped you. I'm sure there's other ways to publish a Jekyll site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me - I am always happy to help!
-
-# Contact
-
-You can find me at any of the following places!
-
-- Website: [https://thanesh.io/](https://thanesh.io/)
-- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
-- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

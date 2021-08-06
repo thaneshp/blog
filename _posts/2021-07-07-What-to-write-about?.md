@@ -56,11 +56,3 @@ Essentially, writing blogs is a means of documenting your learnings and sharing 
 The easiest way to come up with ideas is to keep your blog focussed and simply write about what you've been working on.
 
 I would like to thank the [Dev(){CoP}](https://devcop.io/) community for helping me come up with this list. If you have any further ideas or would like to have a discussion about this blog, please feel free to reach out!
-
-## Contact
-
-You can find me at any of the following places!
-
-- Website: [https://thanesh.io/](https://thanesh.io/)
-- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
-- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

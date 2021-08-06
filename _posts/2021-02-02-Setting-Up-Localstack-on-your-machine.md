@@ -79,11 +79,3 @@ Add /health to the end of the previous url and you will see the statuses of each
 # That's It!
 
 You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me. 
-
-# Contact
-
-You can find me at any of the following places!
-
-- Website: [https://thanesh.io/](https://thanesh.io/)
-- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
-- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

@@ -90,11 +90,3 @@ If you ever get stuck, ask the question - "why would an SRE do this?"
 At the end of the day, I felt the exam tests your ability to think like an SRE rather than the tools and technologies themselves.
 
 I hope this helped you, and if you have any questions, feel free to reach out!
-
-# Contact
-
-You can find me at any of the following places!
-
-- Website: [https://thanesh.io/](https://thanesh.io/)
-- Email: [thanesh.pannirselvam@gmail.com](mailto:thanesh.pannirselvam@gmail.com)
-- LinkedIn: [linkedin.com/in/thanesh-pannirselvam](https://linkedin.com/in/thanesh-pannirselvam)

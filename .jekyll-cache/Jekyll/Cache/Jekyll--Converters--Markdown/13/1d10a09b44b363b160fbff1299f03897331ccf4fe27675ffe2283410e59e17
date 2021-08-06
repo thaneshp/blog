@@ -1,4 +1,4 @@
-I"v<p>I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.</p>
+I"�<p>I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.</p>
 
 <p>In this blog, I’ll give you an overview of Virtual Machines (VMs) and Containers by outlining the problems they aim to solve.</p>
 
@@ -53,15 +53,5 @@
 
 <p><a href="">https://www.redhat.com/en/topics/virtualization/what-is-virtualization</a> <br />
 <a href="">https://www.capitalone.com/tech/cloud/containers-vs-vms/</a> <br />
-<a href="">https://devopscube.com/what-is-docker/</a> <br /></p>
-
-<h1 id="contact">Contact</h1>
-
-<p>You can find me at any of the following places!</p>
-
-<ul>
-  <li>Website: <a href="https://thanesh.io/">https://thanesh.io/</a></li>
-  <li>Email: <a href="mailto:thanesh.pannirselvam@gmail.com">thanesh.pannirselvam@gmail.com</a></li>
-  <li>LinkedIn: <a href="https://linkedin.com/in/thanesh-pannirselvam">linkedin.com/in/thanesh-pannirselvam</a></li>
-</ul>
+<a href="">https://devopscube.com/what-is-docker/</a></p>
 :ET

@@ -1,4 +1,4 @@
-I"�!<p>Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.</p>
+I"6 <p>Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.</p>
 
 <p>In this tutorial, I will walkthrough step-by-step on how you can get Docker setup on a GCP VM instance so that you can run your own containerized applications.</p>
 
@@ -123,15 +123,5 @@
 <p>If you decide to run a web-server such as Apache/Nginx in a container, ensure you are checking all firewall rules. Otherwise, you will not see anything when attempting to connect via HTTP/HTTPS.</p>
 
 <p>I hope this walkthrough helped you. If you have any questions, feel free to let me know!</p>
-
-<h1 id="contact">Contact</h1>
-
-<p>You can find me at any of the following places!</p>
-
-<ul>
-  <li>Website: <a href="https://thanesh.io/">https://thanesh.io/</a></li>
-  <li>Email: <a href="mailto:thanesh.pannirselvam@gmail.com">thanesh.pannirselvam@gmail.com</a></li>
-  <li>LinkedIn: <a href="https://linkedin.com/in/thanesh-pannirselvam">linkedin.com/in/thanesh-pannirselvam</a></li>
-</ul>
 
 :ET
