@@ -56,7 +56,7 @@ This is a big part of SRE work, and I've heard it's about 30% of the exam. I rec
 
 To prepare for this, check out this Coursera course. You can sign up for the free 7-day trial if you don't have a subscription.
 
-[https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud]()
+[https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud](https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud)
 
 It is worth going through all the labs they offer, as it will help you recall the goal of each service while doing the exam.
 

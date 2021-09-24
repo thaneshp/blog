@@ -1,4 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-08-06T10:53:57+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to pass the Google Professional Cloud DevOps Engineer Exam</title><link href="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/" rel="alternate" type="text/html" title="How to pass the Google Professional Cloud DevOps Engineer Exam" /><published>2021-08-05T00:00:00+10:00</published><updated>2021-08-05T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert</id><content type="html" xml:base="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/">&lt;p&gt;A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-09-24T10:30:28+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to set up ESXi on a machine with an incompatible NIC?</title><link href="https://blog.thanesh.io//How-to-setup-VMware-on-laptop/" rel="alternate" type="text/html" title="How to set up ESXi on a machine with an incompatible NIC?" /><published>2021-09-01T00:00:00+10:00</published><updated>2021-09-01T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-VMware-on-laptop</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-VMware-on-laptop/">&lt;p&gt;If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.&lt;/p&gt;
+
+&lt;p&gt;I recently set up ESXi on an old Asus Laptop and ran into the same error. After tirelessly searching the internet, I managed to piece together a solution that worked for me.&lt;/p&gt;
+
+&lt;p&gt;This blog will show you how to install ESXi on a laptop with an incompatible NIC. It should be noted that this is purely for learning purposes, and you should not be installing ESXi where your hardware may be incompatible.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-0&quot;&gt;Step 0&lt;/h1&gt;
+
+&lt;h2 id=&quot;backup-your-device&quot;&gt;Backup your Device&lt;/h2&gt;
+
+&lt;p&gt;If you have anything important on your computer, make sure you backup this up first.&lt;/p&gt;
+
+&lt;p&gt;When you install ESXi, it will wipe out everything on the hard drive, so you will lose anything that you haven’t saved.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;determine-your-laptops-nic&quot;&gt;Determine your laptop’s NIC&lt;/h2&gt;
+
+&lt;p&gt;You can find this information by using Device Manager on a Windows machine.&lt;/p&gt;
+
+&lt;p&gt;Make a note of the NIC, as you will need this to find the appropriate ESXi driver.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
+
+&lt;h2 id=&quot;download-compatible-driver&quot;&gt;Download compatible driver&lt;/h2&gt;
+
+&lt;p&gt;Once you’ve determined the NIC, you’ll have to find a compatible driver for it.&lt;/p&gt;
+
+&lt;p&gt;The first place to check for a compatible driver is &lt;a href=&quot;https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages&quot;&gt;here&lt;/a&gt;. This website has a list of currently available drivers for a variety of NICs.&lt;/p&gt;
+
+&lt;p&gt;If you don’t find it there, have a search online, and you could get lucky. I had to do this in my case as I couldn’t find a compatible driver from the link above.&lt;/p&gt;
+
+&lt;p&gt;However, I did manage to find the driver I needed for an Atheros NIC at &lt;a href=&quot;https://www.gomeisa.net/2019/07/atheros-ar8151ar8161-realtek-r8168r8169.html?m=1&quot;&gt;https://www.gomeisa.net/2019/07/atheros-ar8151ar8161-realtek-r8168r8169.html?m=1&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, if you still can’t find a driver after this, you don’t have many options remaining. You either have to build your own driver or consider changing the physical NIC of your machine.&lt;/p&gt;
+
+&lt;p&gt;If you have found a driver, however, proceed with the remaining steps. Otherwise, the following won’t work for you.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
+
+&lt;h2 id=&quot;download-esxi-5x6x&quot;&gt;Download ESXi 5.x/6.x&lt;/h2&gt;
+
+&lt;p&gt;At the time of writing, there are currently limited/no NIC drivers for ESXi 7. Due to this, you will likely have to download an older version of ESXi.&lt;/p&gt;
+
+&lt;p&gt;You can find ESXi downloads by searching on Google. I used ESXi 6.0; this link can be found here - &lt;a href=&quot;https://customerconnect.vmware.com/downloads/details?productId=491&amp;amp;rPId=9954&amp;amp;downloadGroup=ESXI600&quot;&gt;https://customerconnect.vmware.com/downloads/details?productId=491&amp;amp;rPId=9954&amp;amp;downloadGroup=ESXI600&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The ESXi version you choose to install is up to you; however, remember to download a version compatible with the NIC driver you found. The location where you found the driver should give you an indicator of the ESXi version you need.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;h2 id=&quot;download-and-edit-esxi-customizer-tool&quot;&gt;Download and Edit ESXi-Customizer Tool&lt;/h2&gt;
+
+&lt;p&gt;You can find the ESXi-Customizer GUI Tool on - &lt;a href=&quot;https://www.v-front.de/p/esxi-customizer.html&quot;&gt;https://www.v-front.de/p/esxi-customizer.html&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you’re using this tool on Windows 10, you have to comment out line 260. You can do this by adding a “REM” in front of that line.&lt;/p&gt;
+
+&lt;p&gt;To quickly find this line, use CTRL + F, and search for “Unsupported Windows Version”.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;br /&gt;
+&lt;img src=&quot;../images/esxi_homelab/step_4_comment_line_260.png&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 1: Comment out the highlighted line to enable Windows 10 compatability.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
+
+&lt;h2 id=&quot;create-custom-esxi-image&quot;&gt;Create custom ESXi Image&lt;/h2&gt;
+
+&lt;p&gt;Using the tool, add the ESXi image, the driver you previously downloaded and select a location for the newly created image to be added to.&lt;/p&gt;
+
+&lt;p&gt;The resulting file will contain an ESXi ISO image with the custom driver added.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+&lt;br /&gt;
+&lt;img src=&quot;../images/esxi_homelab/step_5_custom_esxi_image.png&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 2: Add the ESXi image and custom NIC driver to create a custom image.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;
+
+&lt;h2 id=&quot;create-bootable-esxi-usb&quot;&gt;Create bootable ESXi USB&lt;/h2&gt;
+
+&lt;p&gt;You can do this using tools like Rufus. You’ll need to use a USB with enough capacity and doesn’t contain any data you might need.&lt;/p&gt;
+
+&lt;p&gt;Here is the tutorial I used, but you can find many similar ones through a simple search: &lt;br /&gt;
+&lt;a href=&quot;https://www.virten.net/2014/12/howto-create-a-bootable-esxi-installer-usb-flash-drive/&quot;&gt;https://www.virten.net/2014/12/howto-create-a-bootable-esxi-installer-usb-flash-drive/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;step-7&quot;&gt;Step 7&lt;/h1&gt;
+
+&lt;h2 id=&quot;install-esxi-on-your-machine&quot;&gt;Install ESXi on your machine&lt;/h2&gt;
+
+&lt;p&gt;Insert the USB into your laptop and proceed with the installation following the on-screen prompts.&lt;/p&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
+
+&lt;p&gt;Once your installation is complete, check that it is working by visiting the IP address shown on a web browser.&lt;/p&gt;
+
+&lt;p&gt;If a login screen greets you, then your ESXi installation has been successful. The username and password will be the same ones you set during installation.&lt;/p&gt;</content><author><name></name></author><summary type="html">If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.</summary></entry><entry><title type="html">How to pass the Google Professional Cloud DevOps Engineer Exam</title><link href="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/" rel="alternate" type="text/html" title="How to pass the Google Professional Cloud DevOps Engineer Exam" /><published>2021-08-05T00:00:00+10:00</published><updated>2021-08-05T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert</id><content type="html" xml:base="https://blog.thanesh.io//How-to-pass-GCP-DevOps-Cert/">&lt;p&gt;A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.&lt;/p&gt;
 
 &lt;p&gt;In this blog, I will share the resources and techniques I used to prepare for this exam. This is by no means an exhaustive list, but I hope you will go away with a better understanding of what to focus on. Let’s get into it!&lt;/p&gt;
 
@@ -50,7 +147,7 @@
 
 &lt;p&gt;To prepare for this, check out this Coursera course. You can sign up for the free 7-day trial if you don’t have a subscription.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;&quot;&gt;https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud&quot;&gt;https://www.coursera.org/learn/logging-monitoring-observability-google-cloud?specialization=sre-devops-engineer-google-cloud&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;It is worth going through all the labs they offer, as it will help you recall the goal of each service while doing the exam.&lt;/p&gt;
 

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      How to set up ESXi on a machine with an incompatible NIC? – Thanesh Pannirselvam – Site Reliability Engineer from Melbourne
+    </title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.
+" />
+    <meta property="og:description" content="If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.
+" />
+    
+    <meta name="author" content="Thanesh Pannirselvam" />
+
+    
+    <meta property="og:title" content="How to set up ESXi on a machine with an incompatible NIC?" />
+    <meta property="twitter:title" content="How to set up ESXi on a machine with an incompatible NIC?" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/style.css"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Thanesh Pannirselvam - Site Reliability Engineer from Melbourne"
+      href="/feed.xml"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <!-- <a href="/" class="site-avatar"><img src="https://avatars3.githubusercontent.com/u/45277460?s=400&u=f7c922dfc84661741b74aa3f7f1825b532ac48c3&v=4" /></a> -->
+
+          <div class="site-info">
+            <!-- <h1 class="site-name" style="font-size: 40px"><a href="/">Thanesh Pannirselvam</a></h1> -->
+            <h1 class="site-name">
+              <a href="http://blog.thanesh.io">Thanesh Pannirselvam</a>
+            </h1>
+            <p
+              class="site-description"
+              style="font-size: 24px; margin-bottom: 15px"
+            >
+              <a href="http://blog.thanesh.io">Site Reliability Engineer from Melbourne</a>
+            </p>
+            
+
+
+
+<a href="https://github.com/thaneshp"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/thanesh-pannirselvam"><i class="svg-icon linkedin"></i></a>
+
+
+
+
+<a href="https://youtube.com/channel/UCJ_cbUrXmIx-C9jqIWVGfhQ"><i class="svg-icon youtube"></i></a>
+
+            <!-- <ul class="social"><a href="https://github.com/zainafzal88"><li><i class="fa fa-github" aria-hidden="true"></i></li></a><a href="https://linkedin.com/in/zainafzal88"><li><i class="fa fa-linkedin-square" aria-hidden="true"></i></li></a></ul> -->
+          </div>
+
+          <nav>
+            <!-- <a href="/">Blog</a> -->
+            <!-- <a href="/about">About</a> -->
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container"><article class="post">
+  <h1>How to set up ESXi on a machine with an incompatible NIC?</h1>
+
+  <div class="date">September  1, 2021</div>
+
+  <div class="entry"><p>If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.</p>
+
+<p>I recently set up ESXi on an old Asus Laptop and ran into the same error. After tirelessly searching the internet, I managed to piece together a solution that worked for me.</p>
+
+<p>This blog will show you how to install ESXi on a laptop with an incompatible NIC. It should be noted that this is purely for learning purposes, and you should not be installing ESXi where your hardware may be incompatible.</p>
+
+<h1 id="step-0">Step 0</h1>
+
+<h2 id="backup-your-device">Backup your Device</h2>
+
+<p>If you have anything important on your computer, make sure you backup this up first.</p>
+
+<p>When you install ESXi, it will wipe out everything on the hard drive, so you will lose anything that you haven’t saved.</p>
+
+<h1 id="step-1">Step 1</h1>
+
+<h2 id="determine-your-laptops-nic">Determine your laptop’s NIC</h2>
+
+<p>You can find this information by using Device Manager on a Windows machine.</p>
+
+<p>Make a note of the NIC, as you will need this to find the appropriate ESXi driver.</p>
+
+<h1 id="step-2">Step 2</h1>
+
+<h2 id="download-compatible-driver">Download compatible driver</h2>
+
+<p>Once you’ve determined the NIC, you’ll have to find a compatible driver for it.</p>
+
+<p>The first place to check for a compatible driver is <a href="https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages">here</a>. This website has a list of currently available drivers for a variety of NICs.</p>
+
+<p>If you don’t find it there, have a search online, and you could get lucky. I had to do this in my case as I couldn’t find a compatible driver from the link above.</p>
+
+<p>However, I did manage to find the driver I needed for an Atheros NIC at <a href="https://www.gomeisa.net/2019/07/atheros-ar8151ar8161-realtek-r8168r8169.html?m=1">https://www.gomeisa.net/2019/07/atheros-ar8151ar8161-realtek-r8168r8169.html?m=1</a>.</p>
+
+<p>Unfortunately, if you still can’t find a driver after this, you don’t have many options remaining. You either have to build your own driver or consider changing the physical NIC of your machine.</p>
+
+<p>If you have found a driver, however, proceed with the remaining steps. Otherwise, the following won’t work for you.</p>
+
+<h1 id="step-3">Step 3</h1>
+
+<h2 id="download-esxi-5x6x">Download ESXi 5.x/6.x</h2>
+
+<p>At the time of writing, there are currently limited/no NIC drivers for ESXi 7. Due to this, you will likely have to download an older version of ESXi.</p>
+
+<p>You can find ESXi downloads by searching on Google. I used ESXi 6.0; this link can be found here - <a href="https://customerconnect.vmware.com/downloads/details?productId=491&amp;rPId=9954&amp;downloadGroup=ESXI600">https://customerconnect.vmware.com/downloads/details?productId=491&amp;rPId=9954&amp;downloadGroup=ESXI600</a>.</p>
+
+<p>The ESXi version you choose to install is up to you; however, remember to download a version compatible with the NIC driver you found. The location where you found the driver should give you an indicator of the ESXi version you need.</p>
+
+<h1 id="step-4">Step 4</h1>
+
+<h2 id="download-and-edit-esxi-customizer-tool">Download and Edit ESXi-Customizer Tool</h2>
+
+<p>You can find the ESXi-Customizer GUI Tool on - <a href="https://www.v-front.de/p/esxi-customizer.html">https://www.v-front.de/p/esxi-customizer.html</a>.</p>
+
+<p>If you’re using this tool on Windows 10, you have to comment out line 260. You can do this by adding a “REM” in front of that line.</p>
+
+<p>To quickly find this line, use CTRL + F, and search for “Unsupported Windows Version”.</p>
+
+<p align="center">
+<br />
+<img src="../images/esxi_homelab/step_4_comment_line_260.png" />
+<br /> <i>Figure 1: Comment out the highlighted line to enable Windows 10 compatability.</i>
+</p>
+
+<h1 id="step-5">Step 5</h1>
+
+<h2 id="create-custom-esxi-image">Create custom ESXi Image</h2>
+
+<p>Using the tool, add the ESXi image, the driver you previously downloaded and select a location for the newly created image to be added to.</p>
+
+<p>The resulting file will contain an ESXi ISO image with the custom driver added.</p>
+
+<p align="center">
+<br />
+<img src="../images/esxi_homelab/step_5_custom_esxi_image.png" />
+<br /> <i>Figure 2: Add the ESXi image and custom NIC driver to create a custom image.</i>
+</p>
+
+<h1 id="step-6">Step 6</h1>
+
+<h2 id="create-bootable-esxi-usb">Create bootable ESXi USB</h2>
+
+<p>You can do this using tools like Rufus. You’ll need to use a USB with enough capacity and doesn’t contain any data you might need.</p>
+
+<p>Here is the tutorial I used, but you can find many similar ones through a simple search: <br />
+<a href="https://www.virten.net/2014/12/howto-create-a-bootable-esxi-installer-usb-flash-drive/">https://www.virten.net/2014/12/howto-create-a-bootable-esxi-installer-usb-flash-drive/</a></p>
+
+<h1 id="step-7">Step 7</h1>
+
+<h2 id="install-esxi-on-your-machine">Install ESXi on your machine</h2>
+
+<p>Insert the USB into your laptop and proceed with the installation following the on-screen prompts.</p>
+
+<h1 id="thats-it">That’s It!</h1>
+
+<p>Once your installation is complete, check that it is working by visiting the IP address shown on a web browser.</p>
+
+<p>If a login screen greets you, then your ESXi installation has been successful. The username and password will be the same ones you set during installation.</p>
+</div>
+
+  
+
+  <br/>
+  <hr/>
+  
+  <div id="hyvor-talk-view"></div>
+  <script type="text/javascript">
+    var HYVOR_TALK_WEBSITE = 4809;
+    var HYVOR_TALK_CONFIG = {
+      url: false,
+      id: "/How-to-setup-VMware-on-laptop",
+    };
+  </script>
+  <script
+    async
+    type="text/javascript"
+    src="//talk.hyvor.com/web-api/embed"
+  ></script>
+
+</article>
+</div>
+
+    <!-- <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/thaneshp"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/thanesh-pannirselvam"><i class="svg-icon linkedin"></i></a>
+
+
+
+
+<a href="https://youtube.com/channel/UCJ_cbUrXmIx-C9jqIWVGfhQ"><i class="svg-icon youtube"></i></a>
+
+        </footer>
+      </div>
+    </div> -->
+
+    
+
+  </body>
+</html>
