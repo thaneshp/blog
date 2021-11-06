@@ -1,0 +1,67 @@
+I"B<p>Recently, I have been working on the scrumblr-enhancement project on the roarcoders stream, where we have been attempting to display the boardName from the backend. However, we kept receiving a <code class="language-plaintext highlighter-rouge">promise</code> value that couldn’t be accessed directly. After some research, the way forward was to add an <code class="language-plaintext highlighter-rouge">async/await</code>, enabling us to directly access and utilize the value.</p>
+
+<p>After implementing this, the solution felt familiar. Many times when I have been stuck trying to fetch a value from the backend, <code class="language-plaintext highlighter-rouge">async/await</code> had solved the problem. And I don’t believe this is uncommon.</p>
+
+<p>In this blog, I will explain how <code class="language-plaintext highlighter-rouge">async/await</code> helped me solve this problem and why it works.</p>
+
+<h2 id="what-is-a-promise-value">What is a promise value?</h2>
+
+<p>Before we dive into <code class="language-plaintext highlighter-rouge">async/await</code>, it’s essential to understand what promises are. The English definition of a promise is: “a declaration or assurance that one will do something or that a particular thing will happen”. This definition applies to Javascript as well.</p>
+
+<p>Like real life, when we receive a promise, it will either be kept or won’t. In Javascript, there are three states of the Promise object which describe this:</p>
+
+<ul>
+  <li>Pending: Initial State, before the Promise succeeds or fails</li>
+  <li>Fulfilled: Completed Promise</li>
+  <li>Rejected: Failed Promise</li>
+</ul>
+
+<p>In our scrumblr-enhancement code, shown below, we were receiving a ‘fulfilled’ promise. This meant that the asynchronous operation was completed successfully, and the <code class="language-plaintext highlighter-rouge">boardName</code> was being retrieved.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">getBoardById</span><span class="p">(</span><span class="nx">boardId</span><span class="p">);</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">board-heading</span><span class="dl">"</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+</code></pre></div></div>
+<p><i>Figure 1: Our first attempt to retrieve the boardName, without using async/await.</i></p>
+
+<p><br />
+<img src="../images/async-await/fulfilled_promise.png" />
+<br /> <i align="center">Figure 2: The returned object, received as a promise value.</i></p>
+
+<h2 id="so-how-do-you-access-the-promise-value">So, how do you access the promise value?</h2>
+
+<p>This is where <code class="language-plaintext highlighter-rouge">async/await</code> helped us.</p>
+
+<p>We turned the above code into a function and added the <code class="language-plaintext highlighter-rouge">async/await</code> keywords. This successfully returned the value we needed to be displayed on the board.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">getBoardName</span><span class="p">(</span><span class="nx">boardId</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getBoardById</span><span class="p">(</span><span class="nx">boardId</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">board-heading</span><span class="dl">"</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">result</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><i>Figure 3: Creating a function and adding async/await to retrieve the boardName.</i></p>
+
+<p><br />
+<img src="../images/async-await/returned_value.png" />
+<br /> <i>Figure 4: The returned value, this time received just as a string.</i></p>
+
+<h2 id="what-is-asyncawait">What is async/await?</h2>
+
+<p>There are plenty of resources explaining <code class="language-plaintext highlighter-rouge">async/await</code>, so I’ll keep this brief.</p>
+
+<p>Basically, Javascript executes synchronously, meaning that it has the potential to block further execution until it has finished what it’s doing. Using the <code class="language-plaintext highlighter-rouge">async</code> keyword allows the program to continue running without stopping the main thread.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">await</code> keyword has to be used inside an <code class="language-plaintext highlighter-rouge">async</code> function. Essentially, it makes Javascript wait until a <code class="language-plaintext highlighter-rouge">promise</code> object resolves to a value before moving on.</p>
+
+<h2 id="why-did-asyncawait-solve-our-problem">Why did async/await solve our problem?</h2>
+
+<p>In our case, we were attempting to retrieve the boardName from the backend by using fetch-API. However, making a network request is time-consuming, and we cannot afford to wait for the function to finish executing before proceeding.</p>
+
+<p>As such, Javascript returns a <code class="language-plaintext highlighter-rouge">promise</code> object indicating that it either received the value or didn’t. In this case, the <code class="language-plaintext highlighter-rouge">promise</code> value was being fulfilled every time, but there is no guarantee that this would continue being the case.</p>
+
+<p>As a result, making the function asynchronous allows Javascript to continue fetching the <code class="language-plaintext highlighter-rouge">boardName</code> from the backend whilst the frontend is being rendered.</p>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">await</code> keyword means that the <code class="language-plaintext highlighter-rouge">boardName</code> would be resolved to a value that we can assign to a variable (<code class="language-plaintext highlighter-rouge">result</code> in the above code) and display on the board.</p>
+:ET

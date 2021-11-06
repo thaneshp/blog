@@ -1,4 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-09-24T10:30:28+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">How to set up ESXi on a machine with an incompatible NIC?</title><link href="https://blog.thanesh.io//How-to-setup-VMware-on-laptop/" rel="alternate" type="text/html" title="How to set up ESXi on a machine with an incompatible NIC?" /><published>2021-09-01T00:00:00+10:00</published><updated>2021-09-01T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-VMware-on-laptop</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-VMware-on-laptop/">&lt;p&gt;If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-11-06T16:53:40+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Why you need to use async/await?</title><link href="https://blog.thanesh.io//Why-you-need-to-use-async-await/" rel="alternate" type="text/html" title="Why you need to use async/await?" /><published>2021-10-25T00:00:00+11:00</published><updated>2021-10-25T00:00:00+11:00</updated><id>https://blog.thanesh.io//Why-you-need-to-use-async-await</id><content type="html" xml:base="https://blog.thanesh.io//Why-you-need-to-use-async-await/">&lt;p&gt;Recently, I have been working on the scrumblr-enhancement project on the roarcoders stream, where we have been attempting to display the boardName from the backend. However, we kept receiving a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt; value that couldn’t be accessed directly. After some research, the way forward was to add an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt;, enabling us to directly access and utilize the value.&lt;/p&gt;
+
+&lt;p&gt;After implementing this, the solution felt familiar. Many times when I have been stuck trying to fetch a value from the backend, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt; had solved the problem. And I don’t believe this is uncommon.&lt;/p&gt;
+
+&lt;p&gt;In this blog, I will explain how &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt; helped me solve this problem and why it works.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-a-promise-value&quot;&gt;What is a promise value?&lt;/h2&gt;
+
+&lt;p&gt;Before we dive into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt;, it’s essential to understand what promises are. The English definition of a promise is: “a declaration or assurance that one will do something or that a particular thing will happen”. This definition applies to Javascript as well.&lt;/p&gt;
+
+&lt;p&gt;Like real life, when we receive a promise, it will either be kept or won’t. In Javascript, there are three states of the Promise object which describe this:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Pending: Initial State, before the Promise succeeds or fails&lt;/li&gt;
+  &lt;li&gt;Fulfilled: Completed Promise&lt;/li&gt;
+  &lt;li&gt;Rejected: Failed Promise&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In our scrumblr-enhancement code, shown below, we were receiving a ‘fulfilled’ promise. This meant that the asynchronous operation was completed successfully, and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;boardName&lt;/code&gt; was being retrieved.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getBoardById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;boardId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;board-heading&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;i&gt;Figure 1: Our first attempt to retrieve the boardName, without using async/await.&lt;/i&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;img src=&quot;../images/async-await/fulfilled_promise.png&quot; /&gt;
+&lt;br /&gt; &lt;i align=&quot;center&quot;&gt;Figure 2: The returned object, received as a promise value.&lt;/i&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;so-how-do-you-access-the-promise-value&quot;&gt;So, how do you access the promise value?&lt;/h2&gt;
+
+&lt;p&gt;This is where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt; helped us.&lt;/p&gt;
+
+&lt;p&gt;We turned the above code into a function and added the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt; keywords. This successfully returned the value we needed to be displayed on the board.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getBoardName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;boardId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getBoardById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;boardId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;board-heading&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;i&gt;Figure 3: Creating a function and adding async/await to retrieve the boardName.&lt;/i&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;img src=&quot;../images/async-await/returned_value.png&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 4: The returned value, this time received just as a string.&lt;/i&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-asyncawait&quot;&gt;What is async/await?&lt;/h2&gt;
+
+&lt;p&gt;There are plenty of resources explaining &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt;, so I’ll keep this brief.&lt;/p&gt;
+
+&lt;p&gt;Basically, Javascript executes synchronously, meaning that it has the potential to block further execution until it has finished what it’s doing. Using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async&lt;/code&gt; keyword allows the program to continue running without stopping the main thread.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;await&lt;/code&gt; keyword has to be used inside an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async&lt;/code&gt; function. Essentially, it makes Javascript wait until a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt; object resolves to a value before moving on.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-did-asyncawait-solve-our-problem&quot;&gt;Why did async/await solve our problem?&lt;/h2&gt;
+
+&lt;p&gt;In our case, we were attempting to retrieve the boardName from the backend by using fetch-API. However, making a network request is time-consuming, and we cannot afford to wait for the function to finish executing before proceeding.&lt;/p&gt;
+
+&lt;p&gt;As such, Javascript returns a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt; object indicating that it either received the value or didn’t. In this case, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt; value was being fulfilled every time, but there is no guarantee that this would continue being the case.&lt;/p&gt;
+
+&lt;p&gt;As a result, making the function asynchronous allows Javascript to continue fetching the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;boardName&lt;/code&gt; from the backend whilst the frontend is being rendered.&lt;/p&gt;
+
+&lt;p&gt;Using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;await&lt;/code&gt; keyword means that the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;boardName&lt;/code&gt; would be resolved to a value that we can assign to a variable (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;result&lt;/code&gt; in the above code) and display on the board.&lt;/p&gt;</content><author><name></name></author><summary type="html">Recently, I have been working on the scrumblr-enhancement project on the roarcoders stream, where we have been attempting to display the boardName from the backend. However, we kept receiving a promise value that couldn’t be accessed directly. After some research, the way forward was to add an async/await, enabling us to directly access and utilize the value.</summary></entry><entry><title type="html">How to set up ESXi on a machine with an incompatible NIC?</title><link href="https://blog.thanesh.io//How-to-setup-VMware-on-laptop/" rel="alternate" type="text/html" title="How to set up ESXi on a machine with an incompatible NIC?" /><published>2021-09-01T00:00:00+10:00</published><updated>2021-09-01T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-VMware-on-laptop</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-VMware-on-laptop/">&lt;p&gt;If you are reading this blog, it’s likely you ran into the “No Network Adaptor” error whilst installing ESXi.&lt;/p&gt;
 
 &lt;p&gt;I recently set up ESXi on an old Asus Laptop and ran into the same error. After tirelessly searching the internet, I managed to piece together a solution that worked for me.&lt;/p&gt;
 

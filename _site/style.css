@@ -390,6 +390,13 @@ code {
   font-family: 'Bitstream Vera Sans Mono','Courier', monospace;
 }
 
+.language-plaintext {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+
 .highlight .c {
   color: #586E75;
 }

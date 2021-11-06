@@ -1,0 +1,2 @@
+I"ç<p>Recently, I have been working on the scrumblr-enhancement project on the roarcoders stream, where we have been attempting to display the boardName from the backend. However, we kept receiving a <code class="language-plaintext highlighter-rouge">promise</code> value that couldnâ€™t be accessed directly. After some research, the way forward was to add an <code class="language-plaintext highlighter-rouge">async/await</code>, enabling us to directly access and utilize the value.</p>
+:ET
