@@ -4,7 +4,7 @@ title: Why you need to use async/await?
 published: true
 ---
 
-Recently, I have been working on the scrumblr-enhancement project on the roarcoders stream, where we have been attempting to display the boardName from the backend. However, we kept receiving a `promise` value that couldn't be accessed directly. After some research, the way forward was to add an `async/await`, enabling us to directly access and utilize the value.
+Recently, I have been working on the [scrumblr-enhancement](https://github.com/zainafzal88/scrumblr-enhancement) project on the [Roarcoders stream](https://www.twitch.tv/roarcoders), where we have been attempting to display the boardName from the backend. However, we kept receiving a `promise` value that couldn't be accessed directly. After some research, the way forward was to add an `async/await`, enabling us to directly access and utilize the value.
 
 After implementing this, the solution felt familiar. Many times when I have been stuck trying to fetch a value from the backend, `async/await` had solved the problem. And I don't believe this is uncommon.
 
