@@ -1,0 +1,2 @@
+I"<p>I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.</p>
+:ET

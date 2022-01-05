@@ -1,0 +1,151 @@
+I"n#<p>I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.</p>
+
+<p>For one, the server wasn’t very secure as it allowed users to authenticate via password rather than SSH keys. Also, the newly created user would have access to all directories and privileges beyond those needed for SFTP duties.</p>
+
+<p>Hence, to make this server more secured, I configured SSH key access and restricted the permissions of the SFTP user. This blog will show you how to go about doing the same.</p>
+
+<h1 id="step-0">Step 0</h1>
+
+<h2 id="provision-a-linux-vm">Provision a Linux VM</h2>
+
+<p>Before you proceed, this tutorial assumes you already have a Linux box set up with console/shell access.</p>
+
+<p>If you don’t already have one, you can easily create a VM on a cloud provider or install Linux on an old device you have at home.</p>
+
+<p>In this tutorial, I have used a CentOS VM hosted on GCP; however, you can choose a different distro or cloud provider, and the process will be similar.</p>
+
+<h1 id="step-1">Step 1</h1>
+
+<h2 id="create-a-new-user">Create a new user</h2>
+
+<p>Once you have your server ready, you will need to create a new user solely for SFTP purposes.</p>
+
+<p>Access the CLI of your newly created VM; create a new user, and set its password using the following commands.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>adduser sftp
+<span class="nv">$ </span><span class="nb">sudo </span>passwd sftp
+</code></pre></div></div>
+
+<h1 id="step-2">Step 2</h1>
+
+<h2 id="enable-password-authentication-temporarily">Enable Password Authentication (Temporarily)</h2>
+
+<p>Now that you have a new user, you will have to enable password authentication temporarily so that we can make changes to the server from our local machine.</p>
+
+<p>While in your server’s CLI, open and edit the SSH config file. You can do this using the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>vi /etc/ssh/sshd_config
+</code></pre></div></div>
+
+<p>Press the ‘I’ key to insert into the file, and use the arrow keys to locate <code class="language-plaintext highlighter-rouge">PasswordAuthentication</code>. Once you’ve found this, change this field to <code class="language-plaintext highlighter-rouge">yes</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># To disable tunneled clear text passwords, change to no here!</span>
+PasswordAuthentication <span class="nb">yes</span>
+<span class="c">#PermitEmptyPasswords no</span>
+<span class="c">#PasswordAuthentication no</span>
+</code></pre></div></div>
+
+<p>After you’ve amended this, save and exit the file by pressing the ESC key followed by <code class="language-plaintext highlighter-rouge">:wq</code> and ENTER.</p>
+
+<p>Now, restart the <code class="language-plaintext highlighter-rouge">ssh</code> service and check its status using the following commands.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>systemctl restart sshd
+<span class="nv">$ </span>systemctl status sshd
+</code></pre></div></div>
+
+<p>Also, check that you have SSH access from your local machine using your newly created user.</p>
+
+<h1 id="step-3">Step 3</h1>
+
+<h2 id="generate-publicprivate-key-pair">Generate public/private key pair</h2>
+
+<p>At this point, you will need to create an SSH key pair from your <strong>local machine</strong> and copy the public key to your SFTP machine.</p>
+
+<p>Firstly, create the key pair by running the command below, noting the returned path as you’ll need it for the upcoming step.</p>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-b</span> 4096 <span class="nt">-C</span> <span class="s2">"sftp"</span>
+</code></pre></div></div>
+
+<p>After creating the keys, copy the public key from your <strong>local machine</strong> onto your SFTP server using <code class="language-plaintext highlighter-rouge">ssh-copy-id</code>.</p>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ssh-copy-id <span class="nt">-i</span> <span class="o">[</span>insert_path_of_ssh_key] sftp@&lt;SERVER_IP&gt;
+
+<span class="c">#Example</span>
+<span class="nv">$ </span>ssh-copy-id <span class="nt">-i</span> /Users/thaneshpannirselvam/.ssh/id_rsa.pub sftp@192.158.1.38
+</code></pre></div></div>
+
+<h1 id="step-4">Step 4</h1>
+
+<h2 id="test-ssh-and-sftp-connection">Test SSH and SFTP Connection</h2>
+
+<p>Now that you have copied over the public key, you will no longer need to have password authentication enabled. But, before disabling this, test that you can authenticate using your newly generated keys.</p>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ssh <span class="nt">-i</span> <span class="o">[</span>insert_path_of_ssh_key] sftp@192.158.1.38
+
+<span class="c">#Example</span>
+<span class="nv">$ </span>ssh <span class="nt">-i</span> /Users/thaneshpannirselvam/.ssh/id_rsa sftp@192.158.1.38
+</code></pre></div></div>
+
+<p>Additionally, try to authenticate using an SFTP client such as Cyberduck or FileZilla.</p>
+
+<p align="left" style="margin-bottom: 3%; margin-top: 3%;">
+<img src="../images/sftp-server/cyberduck-sftp-connection.png" />
+<br /> <i>Figure 1: SFTP Connection using Cyberduck Client.</i>
+</p>
+
+<p><strong>Before proceeding to the next step, ensure you disable</strong> <code class="language-plaintext highlighter-rouge">passwordAuthentication</code> <strong>by amending the SSH config file (as described in Step 2)</strong>.</p>
+
+<h1 id="step-4-1">Step 4</h1>
+
+<h2 id="configure-sftp-space-and-restrict-access">Configure SFTP space and restrict access</h2>
+
+<p>Right now, your user can SFTP into the server, but they also have shell access and access to other directories. If this meets your requirements, don’t worry about following the rest of the tutorial.</p>
+
+<p>However, creating a separate space for file transfers and restricting the SFTP user’s access would be a more secure option.</p>
+
+<p>To do this, create a new directory dedicated to file uploads and amend its permissions as shown below.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /home/sftp/uploads
+<span class="nv">$ </span><span class="nb">sudo chown </span>root:root /home/sftp
+<span class="nv">$ </span><span class="nb">sudo chmod </span>755 /home/sftp
+<span class="nv">$ </span><span class="nb">sudo chown </span>sftp:sftp /home/sftp/uploads
+</code></pre></div></div>
+
+<p>Next, limit the user to establish connection only via SFTP and restrict their access to a specific directory. To do this, edit <code class="language-plaintext highlighter-rouge">/etc/ssh/sshd_config</code>, adding this configuration to the end of the file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Match User sftp
+    ForceCommand internal-sftp
+    PasswordAuthentication no
+    ChrootDirectory /home/sftp
+    PermitTunnel no
+    AllowAgentForwarding no
+    AllowTcpForwarding no
+    X11Forwarding no
+</code></pre></div></div>
+
+<p>Restart the <code class="language-plaintext highlighter-rouge">ssh</code> service and check its status using the following commands.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>systemctl restart sshd
+<span class="nv">$ </span>systemctl status sshd
+</code></pre></div></div>
+
+<p>Finally, check that access via <code class="language-plaintext highlighter-rouge">ssh</code> is disabled, and SFTP connections are only permitted to the directory you specified.</p>
+
+<p align="left">
+<br />
+<img src="../images/sftp-server/ssh-attempt.png" />
+<br /> <i>Figure 2: Only SFTP connections permitted, shell access for `sftp` user has been disabled.</i>
+</p>
+
+<p align="left">
+<br />
+<img src="../images/sftp-server/sftp-connection-chrooted.png" />
+<br /> <i>Figure 3: Successful SFTP connection, but unable to traverse other directories, as expected.</i>
+</p>
+
+<h1 id="thats-it">That’s It!</h1>
+
+<p>You’ve now set up your own SFTP server with SSH keys and restricted access. Using this server, you can trigger file uploads, schedule backups or manually upload content.</p>
+
+<p>I hope this walkthrough helped you. If you have any questions, feel free to reach out!</p>
+:ET

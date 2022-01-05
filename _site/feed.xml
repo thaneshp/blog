@@ -1,4 +1,153 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2021-11-15T15:26:59+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Why you need to use async/await?</title><link href="https://blog.thanesh.io//Why-you-need-to-use-async-await/" rel="alternate" type="text/html" title="Why you need to use async/await?" /><published>2021-10-25T00:00:00+11:00</published><updated>2021-10-25T00:00:00+11:00</updated><id>https://blog.thanesh.io//Why-you-need-to-use-async-await</id><content type="html" xml:base="https://blog.thanesh.io//Why-you-need-to-use-async-await/">&lt;p&gt;Recently, I have been working on the &lt;a href=&quot;https://github.com/zainafzal88/scrumblr-enhancement&quot;&gt;scrumblr-enhancement&lt;/a&gt; project on the &lt;a href=&quot;https://www.twitch.tv/roarcoders&quot;&gt;Roarcoders stream&lt;/a&gt;, where we have been attempting to display the boardName from the backend. However, we kept receiving a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt; value that couldn’t be accessed directly. After some research, the way forward was to add an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt;, enabling us to directly access and utilize the value.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-01-05T15:11:01+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2021-12-26T00:00:00+11:00</published><updated>2021-12-26T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
+
+&lt;p&gt;For one, the server wasn’t very secure as it allowed users to authenticate via password rather than SSH keys. Also, the newly created user would have access to all directories and privileges beyond those needed for SFTP duties.&lt;/p&gt;
+
+&lt;p&gt;Hence, to make this server more secured, I configured SSH key access and restricted the permissions of the SFTP user. This blog will show you how to go about doing the same.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-0&quot;&gt;Step 0&lt;/h1&gt;
+
+&lt;h2 id=&quot;provision-a-linux-vm&quot;&gt;Provision a Linux VM&lt;/h2&gt;
+
+&lt;p&gt;Before you proceed, this tutorial assumes you already have a Linux box set up with console/shell access.&lt;/p&gt;
+
+&lt;p&gt;If you don’t already have one, you can easily create a VM on a cloud provider or install Linux on an old device you have at home.&lt;/p&gt;
+
+&lt;p&gt;In this tutorial, I have used a CentOS VM hosted on GCP; however, you can choose a different distro or cloud provider, and the process will be similar.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;create-a-new-user&quot;&gt;Create a new user&lt;/h2&gt;
+
+&lt;p&gt;Once you have your server ready, you will need to create a new user solely for SFTP purposes.&lt;/p&gt;
+
+&lt;p&gt;Access the CLI of your newly created VM; create a new user, and set its password using the following commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;adduser sftp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;passwd sftp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
+
+&lt;h2 id=&quot;enable-password-authentication-temporarily&quot;&gt;Enable Password Authentication (Temporarily)&lt;/h2&gt;
+
+&lt;p&gt;Now that you have a new user, you will have to enable password authentication temporarily so that we can make changes to the server from our local machine.&lt;/p&gt;
+
+&lt;p&gt;While in your server’s CLI, open and edit the SSH config file. You can do this using the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vi /etc/ssh/sshd_config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Press the ‘I’ key to insert into the file, and use the arrow keys to locate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PasswordAuthentication&lt;/code&gt;. Once you’ve found this, change this field to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# To disable tunneled clear text passwords, change to no here!&lt;/span&gt;
+PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#PermitEmptyPasswords no&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#PasswordAuthentication no&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After you’ve amended this, save and exit the file by pressing the ESC key followed by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:wq&lt;/code&gt; and ENTER.&lt;/p&gt;
+
+&lt;p&gt;Now, restart the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh&lt;/code&gt; service and check its status using the following commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;systemctl restart sshd
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;systemctl status sshd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Also, check that you have SSH access from your local machine using your newly created user.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
+
+&lt;h2 id=&quot;generate-publicprivate-key-pair&quot;&gt;Generate public/private key pair&lt;/h2&gt;
+
+&lt;p&gt;At this point, you will need to create an SSH key pair from your &lt;strong&gt;local machine&lt;/strong&gt; and copy the public key to your SFTP machine.&lt;/p&gt;
+
+&lt;p&gt;Firstly, create the key pair by running the command below, noting the returned path as you’ll need it for the upcoming step.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096 &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;sftp&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After creating the keys, copy the public key from your &lt;strong&gt;local machine&lt;/strong&gt; onto your SFTP server using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-copy-id &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;insert_path_of_ssh_key] sftp@&amp;lt;SERVER_IP&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;#Example&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-copy-id &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /Users/thaneshpannirselvam/.ssh/id_rsa.pub sftp@192.158.1.38
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;h2 id=&quot;test-ssh-and-sftp-connection&quot;&gt;Test SSH and SFTP Connection&lt;/h2&gt;
+
+&lt;p&gt;Now that you have copied over the public key, you will no longer need to have password authentication enabled. But, before disabling this, test that you can authenticate using your newly generated keys.&lt;/p&gt;
+
+&lt;div class=&quot;language-zsh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;insert_path_of_ssh_key] sftp@192.158.1.38
+
+&lt;span class=&quot;c&quot;&gt;#Example&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /Users/thaneshpannirselvam/.ssh/id_rsa sftp@192.158.1.38
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Additionally, try to authenticate using an SFTP client such as Cyberduck or FileZilla.&lt;/p&gt;
+
+&lt;p align=&quot;left&quot; style=&quot;margin-bottom: 3%; margin-top: 3%;&quot;&gt;
+&lt;img src=&quot;../images/sftp-server/cyberduck-sftp-connection.png&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 1: SFTP Connection using Cyberduck Client.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Before proceeding to the next step, ensure you disable&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passwordAuthentication&lt;/code&gt; &lt;strong&gt;by amending the SSH config file (as described in Step 2)&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-4-1&quot;&gt;Step 4&lt;/h1&gt;
+
+&lt;h2 id=&quot;configure-sftp-space-and-restrict-access&quot;&gt;Configure SFTP space and restrict access&lt;/h2&gt;
+
+&lt;p&gt;Right now, your user can SFTP into the server, but they also have shell access and access to other directories. If this meets your requirements, don’t worry about following the rest of the tutorial.&lt;/p&gt;
+
+&lt;p&gt;However, creating a separate space for file transfers and restricting the SFTP user’s access would be a more secure option.&lt;/p&gt;
+
+&lt;p&gt;To do this, create a new directory dedicated to file uploads and amend its permissions as shown below.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /home/sftp/uploads
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chown &lt;/span&gt;root:root /home/sftp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod &lt;/span&gt;755 /home/sftp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chown &lt;/span&gt;sftp:sftp /home/sftp/uploads
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, limit the user to establish connection only via SFTP and restrict their access to a specific directory. To do this, edit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/ssh/sshd_config&lt;/code&gt;, adding this configuration to the end of the file.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Match User sftp
+    ForceCommand internal-sftp
+    PasswordAuthentication no
+    ChrootDirectory /home/sftp
+    PermitTunnel no
+    AllowAgentForwarding no
+    AllowTcpForwarding no
+    X11Forwarding no
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh&lt;/code&gt; service and check its status using the following commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;systemctl restart sshd
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;systemctl status sshd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, check that access via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh&lt;/code&gt; is disabled, and SFTP connections are only permitted to the directory you specified.&lt;/p&gt;
+
+&lt;p align=&quot;left&quot;&gt;
+&lt;br /&gt;
+&lt;img src=&quot;../images/sftp-server/ssh-attempt.png&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 2: Only SFTP connections permitted, shell access for `sftp` user has been disabled.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;left&quot;&gt;
+&lt;br /&gt;
+&lt;img src=&quot;../images/sftp-server/sftp-connection-chrooted.png&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 3: Successful SFTP connection, but unable to traverse other directories, as expected.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
+
+&lt;p&gt;You’ve now set up your own SFTP server with SSH keys and restricted access. Using this server, you can trigger file uploads, schedule backups or manually upload content.&lt;/p&gt;
+
+&lt;p&gt;I hope this walkthrough helped you. If you have any questions, feel free to reach out!&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.</summary></entry><entry><title type="html">Why you need to use async/await?</title><link href="https://blog.thanesh.io//Why-you-need-to-use-async-await/" rel="alternate" type="text/html" title="Why you need to use async/await?" /><published>2021-10-25T00:00:00+11:00</published><updated>2021-10-25T00:00:00+11:00</updated><id>https://blog.thanesh.io//Why-you-need-to-use-async-await</id><content type="html" xml:base="https://blog.thanesh.io//Why-you-need-to-use-async-await/">&lt;p&gt;Recently, I have been working on the &lt;a href=&quot;https://github.com/zainafzal88/scrumblr-enhancement&quot;&gt;scrumblr-enhancement&lt;/a&gt; project on the &lt;a href=&quot;https://www.twitch.tv/roarcoders&quot;&gt;Roarcoders stream&lt;/a&gt;, where we have been attempting to display the boardName from the backend. However, we kept receiving a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt; value that couldn’t be accessed directly. After some research, the way forward was to add an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt;, enabling us to directly access and utilize the value.&lt;/p&gt;
 
 &lt;p&gt;After implementing this, the solution felt familiar. Many times when I have been stuck trying to fetch a value from the backend, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;async/await&lt;/code&gt; had solved the problem. And I don’t believe this is uncommon.&lt;/p&gt;
 
@@ -763,36 +912,4 @@ https://github.com/localstack/localstack.&lt;/p&gt;
 
 &lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
 
-&lt;p&gt;You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me.&lt;/p&gt;</content><author><name></name></author><summary type="html">LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</summary></entry><entry><title type="html">My Journey into Software Development</title><link href="https://blog.thanesh.io//My-Software-Development-Journey/" rel="alternate" type="text/html" title="My Journey into Software Development" /><published>2020-12-10T00:00:00+11:00</published><updated>2020-12-10T00:00:00+11:00</updated><id>https://blog.thanesh.io//My-Software-Development-Journey</id><content type="html" xml:base="https://blog.thanesh.io//My-Software-Development-Journey/">&lt;p&gt;I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.&lt;/p&gt;
-
-&lt;p&gt;But this certainly isn’t the case, or perhaps I just don’t believe it is.&lt;/p&gt;
-
-&lt;p&gt;Anyways, in this blog I will talk about how I discovered my passion for software dev…&lt;/p&gt;
-
-&lt;h3 id=&quot;high-school&quot;&gt;High School&lt;/h3&gt;
-
-&lt;p&gt;I first learnt about programming and IT in high school. Back then, I made a school portal app which had simple functionality such as logging in and viewing your timetable. I built this using Visual Basic and remember being totally immersed in this process.&lt;/p&gt;
-
-&lt;p&gt;I didn’t know this at the time but I fell in love with problem solving.&lt;/p&gt;
-
-&lt;p&gt;From this point on, I knew exactly what I wanted to do. But I didn’t realise just how difficult this journey would be.&lt;/p&gt;
-
-&lt;h3 id=&quot;university&quot;&gt;University&lt;/h3&gt;
-
-&lt;p&gt;After high school, I enrolled into Computing and Software Systems at Melbourne Uni. At the time, I was so certain I wanted to study this but was quickly discouraged when I couldn’t keep up with the pace. Within the first few weeks, I realised there was a vast difference between high school and tertiary programming.&lt;/p&gt;
-
-&lt;p&gt;Due to this, I decided to switch majors to mechanical engineering… leaving my dream behind.&lt;/p&gt;
-
-&lt;p&gt;After completing my first year of university, I knew mechanical engineering just didn’t feel right for me. I decided to give computing one more shot before I’d truly move on. This time I really took it upon myself to give it everything I had.&lt;/p&gt;
-
-&lt;p&gt;The hard work paid off and I had finally passed! I was back on track and set to complete my degree with the major I initally wanted all along.&lt;/p&gt;
-
-&lt;p&gt;Since then, I have taught Python and Javascript to other students, joined Dev(){CoP} meetup and more recently graduate with third class honours.&lt;/p&gt;
-
-&lt;p&gt;Although this might not be a very inspirational story to most, it has definetly been a rollercoaster for me.&lt;/p&gt;
-
-&lt;h3 id=&quot;beyond&quot;&gt;Beyond&lt;/h3&gt;
-
-&lt;p&gt;I realise that I am only at the start of my journey and am excited by the all possibilites this ever-growing field may bring.&lt;/p&gt;
-
-&lt;p&gt;I have a lot more to share so do stay tuned!&lt;/p&gt;</content><author><name></name></author><summary type="html">I feel like anyone who’s ever gotten into software development has their own unique story. If you’ve listened to the ‘How I built this’ podcast, you might believe that all programmers were born rather than made.</summary></entry></feed>
+&lt;p&gt;You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me.&lt;/p&gt;</content><author><name></name></author><summary type="html">LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</summary></entry></feed>
