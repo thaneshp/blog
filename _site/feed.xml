@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-01-05T15:14:01+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2022-01-05T00:00:00+11:00</published><updated>2022-01-05T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-01-24T19:50:54+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Writing an Appointment Checker</title><link href="https://blog.thanesh.io//Writing-an-Appointment-Checker/" rel="alternate" type="text/html" title="Writing an Appointment Checker" /><published>2022-01-24T00:00:00+11:00</published><updated>2022-01-24T00:00:00+11:00</updated><id>https://blog.thanesh.io//Writing-an-Appointment-Checker</id><content type="html" xml:base="https://blog.thanesh.io//Writing-an-Appointment-Checker/">&lt;p&gt;A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.&lt;/p&gt;
+
+&lt;p&gt;Regardless, they kept accessing the website from time to time, in hopes that someone would cancel their appointment and they could swoop in. But the odds of finding an appointment randomly were low.&lt;/p&gt;
+
+&lt;p&gt;Upon watching their actions, I thought their actions were manual and repetive. So I got to work and began researching ways to automate this process.&lt;/p&gt;
+
+&lt;p&gt;In this post, I will discuss the approach I took, the tools/technologies I used and the downfalls in the hosts website.&lt;/p&gt;
+
+&lt;p&gt;Here is the link to the project github repository.&lt;/p&gt;
+
+&lt;h2 id=&quot;initial-outlook&quot;&gt;Initial Outlook&lt;/h2&gt;</content><author><name></name></author><summary type="html">A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.</summary></entry><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2022-01-05T00:00:00+11:00</published><updated>2022-01-05T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
 
 &lt;p&gt;For one, the server wasn’t very secure as it allowed users to authenticate via password rather than SSH keys. Also, the newly created user would have access to all directories and privileges beyond those needed for SFTP duties.&lt;/p&gt;
 
@@ -839,77 +849,4 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
 
-&lt;p&gt;Well Done! Your site is up and live, I hoped this helped you. I’m sure there’s other ways to publish a Jekyll site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me - I am always happy to help!&lt;/p&gt;</content><author><name></name></author><summary type="html">When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.</summary></entry><entry><title type="html">Setting up AWS LocalStack</title><link href="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/" rel="alternate" type="text/html" title="Setting up AWS LocalStack" /><published>2021-02-02T00:00:00+11:00</published><updated>2021-02-02T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine</id><content type="html" xml:base="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/">&lt;p&gt;LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.&lt;/p&gt;
-
-&lt;p&gt;Using LocalStack gives you the ability to spin up cloud services directly on your local machine, making it more convenient to develop for the cloud.&lt;/p&gt;
-
-&lt;p&gt;I recently discovered LocalStack whilst working on the &lt;a href=&quot;https://github.com/zainafzal88/scrumblr-enhancement&quot;&gt;Scrumblr-Enhacement project&lt;/a&gt; alongside a group of members from the Dev(){CoP} community. Zain Afzal, our project lead, recommended we use LocalStack in order to simplify development and save cost.&lt;/p&gt;
-
-&lt;p&gt;In this blog, I will show you how to setup LocalStack on your machine, step-by-step.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
-
-&lt;h2 id=&quot;install-and-run-docker&quot;&gt;Install and Run Docker&lt;/h2&gt;
-
-&lt;p&gt;Visit &lt;a href=&quot;&quot;&gt;https://hub.docker.com/search?q=&amp;amp;type=edition&amp;amp;offering=community&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Search for the Docker download matching your OS and install it accordingly.&lt;/p&gt;
-
-&lt;p&gt;Once you have Docker installed, make sure to run the application. If you’ve installed and run it correctly, you should see the whale icon appear on your tool bar above.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-1-localstack.png&quot; alt=&quot;step-1-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;All you have to do is keep it running and proceed to the next step.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
-
-&lt;p&gt;Visit the LocalStack repository on github via
-https://github.com/localstack/localstack.&lt;/p&gt;
-
-&lt;p&gt;On here, locate a file called ‘docker-compose.yaml’ and click to open it. You should see a page like below. Highlight all the text shown in this file and copy it to your clipboard.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-2-localstack.png&quot; alt=&quot;step-2-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
-
-&lt;p&gt;If you already know what project you’ll be using LocalStack for, open up that repository on your favourite IDE. Otherwise, create a test folder anywhere on your machine and open that instead.&lt;/p&gt;
-
-&lt;p&gt;For this tutorial, I will create a folder called ‘localstack’ on my desktop.&lt;/p&gt;
-
-&lt;p&gt;Once you have opened up your IDE with your chosen folder, create a new file in there called ‘docker-composer.yaml’&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-3-localstack.png&quot; alt=&quot;step-3-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;After you’ve created this file, paste the text you copied earlier and hit save.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
-
-&lt;p&gt;Now add the AWS services you plan to use by editing the ‘SERVICES’ line in the ‘docker-compose.yaml’ file. As you can see from the image below, I have added s3, lambda and ec2.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-4-localstack.png&quot; alt=&quot;step-4-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
-
-&lt;p&gt;Open up the terminal; either through your IDE or directly on your machine. Locate the directory where you have your ‘docker-compose.yaml’ file stored. You can do this by using the CD command as shown below.&lt;/p&gt;
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;Desktop/localstack
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Once you’ve done this, type in the following command.&lt;/p&gt;
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;docker-compose up
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;You should see a sequence of lines show up in your terminal just like the image shown below. As you can see, the mock services we listed earlier is now running.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-5-localstack.png&quot; alt=&quot;step-5-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;
-&lt;p&gt;Visit &lt;a href=&quot;&quot;&gt;https://0.0.0.0:4566&lt;/a&gt; in your browser and you should see a “running” status like below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-6-localstack.png&quot; alt=&quot;step-6-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Add /health to the end of the previous url and you will see the statuses of each of the services you listed earlier.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-6(2)-localstack.png&quot; alt=&quot;step-6(2)-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
-
-&lt;p&gt;You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me.&lt;/p&gt;</content><author><name></name></author><summary type="html">LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</summary></entry></feed>
+&lt;p&gt;Well Done! Your site is up and live, I hoped this helped you. I’m sure there’s other ways to publish a Jekyll site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me - I am always happy to help!&lt;/p&gt;</content><author><name></name></author><summary type="html">When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.</summary></entry></feed>
