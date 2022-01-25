@@ -12,8 +12,17 @@ Upon watching their actions, I thought their actions were manual and repetive. S
 
 In this post, I will discuss the approach I took, the tools/technologies I used and the downfalls in the hosts website.
 
-Here is the link to the project github repository.
+Here is the link to the project github repository: [https://github.com/thaneshp/appointment-checker](https://github.com/thaneshp/appointment-checker)
 
 ## Initial Outlook
 
+To begin, I started thinking about how I would approach this problem by reflecting on how a human would navigate the screen. 
 
+After attempting to book an appointment several times, I realised that there were fundamentally four steps invovled.
+
+1. 
+
+<p align="left" style="margin-bottom: 3%; margin-top: 3%;">
+<img src="../images/appointment-checker/website-layout-blank.jpg" />
+<br/> <i>Figure 1: Appointment Website Layout.</i>
+</p >
