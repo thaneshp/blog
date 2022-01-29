@@ -1,14 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-01-24T20:03:39+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Writing an Appointment Checker</title><link href="https://blog.thanesh.io//Writing-an-Appointment-Checker/" rel="alternate" type="text/html" title="Writing an Appointment Checker" /><published>2022-01-24T00:00:00+11:00</published><updated>2022-01-24T00:00:00+11:00</updated><id>https://blog.thanesh.io//Writing-an-Appointment-Checker</id><content type="html" xml:base="https://blog.thanesh.io//Writing-an-Appointment-Checker/">&lt;p&gt;A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-01-29T17:49:41+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Writing an Appointment Checker</title><link href="https://blog.thanesh.io//Writing-an-Appointment-Checker/" rel="alternate" type="text/html" title="Writing an Appointment Checker" /><published>2022-01-24T00:00:00+11:00</published><updated>2022-01-24T00:00:00+11:00</updated><id>https://blog.thanesh.io//Writing-an-Appointment-Checker</id><content type="html" xml:base="https://blog.thanesh.io//Writing-an-Appointment-Checker/">&lt;p&gt;A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.&lt;/p&gt;
 
 &lt;p&gt;Regardless, they kept accessing the website from time to time, in hopes that someone would cancel their appointment and they could swoop in. But the odds of finding an appointment randomly were low.&lt;/p&gt;
 
-&lt;p&gt;Upon watching their actions, I thought their actions were manual and repetive. So I got to work and began researching ways to automate this process.&lt;/p&gt;
+&lt;p&gt;I thought about how this process of checking was manual, repetive and automatable. So I got to work and began figuring out a way to automate this for them.&lt;/p&gt;
 
-&lt;p&gt;In this post, I will discuss the approach I took, the tools/technologies I used and the downfalls in the hosts website.&lt;/p&gt;
+&lt;p&gt;In this post, I will discuss the approach I took, the tools/technologies I used and the possible downfalls in the hosts website.&lt;/p&gt;
 
 &lt;p&gt;Here is the link to the project github repository: &lt;a href=&quot;https://github.com/thaneshp/appointment-checker&quot;&gt;https://github.com/thaneshp/appointment-checker&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;initial-outlook&quot;&gt;Initial Outlook&lt;/h2&gt;</content><author><name></name></author><summary type="html">A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.</summary></entry><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2022-01-05T00:00:00+11:00</published><updated>2022-01-05T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
+&lt;h2 id=&quot;initial-outlook&quot;&gt;Initial Outlook&lt;/h2&gt;
+
+&lt;p&gt;To begin, I thought about how a human would navigate the webpage and listed every step.&lt;/p&gt;
+
+&lt;p&gt;After attempting to book an appointment several times, I realised that there were fundamentally four steps of navigation:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Click and select a preferred location from the 1st drop-down field.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Click and select the reason for their appointment from the 2nd field.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Click on the date input field for the date selector to appear.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Cycle through the calendar, checking for any available dates.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p align=&quot;left&quot; style=&quot;margin-bottom: 3%; margin-top: 1%;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);&quot; src=&quot;../images/appointment-checker/website-interaction-steps.jpg&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 1: Appointment Website Layout.&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;p&gt;To translate this into code, I needed to include opening/closing of the browser, appointment checking and alerting of subscribers.&lt;/p&gt;
+
+&lt;p align=&quot;left&quot; style=&quot;margin-bottom: 3%; margin-top: 3%;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); &quot; src=&quot;../images/appointment-checker/flowchart.jpg&quot; /&gt;
+&lt;br /&gt; &lt;i&gt;Figure 2: Flowchart of Appointment Checking Steps&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;At this stage, I had plan in mind and was ready to get stuck into the code.&lt;/p&gt;
+
+&lt;h3 id=&quot;interacting-with-html-elements&quot;&gt;Interacting with HTML Elements&lt;/h3&gt;
+
+&lt;p&gt;From my research, I found out that using Selenium with Python was the best way to go about this. With Selenium, you can go interact with HTML elements in Python through their &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tag&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xpath&lt;/code&gt; and more.&lt;/p&gt;
+
+&lt;p&gt;For example, to select and pre-fill the first two input fields, I used the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt; field as shown below.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;location_field&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_element_by_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_SELECT_ELEMENT_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;location_field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select_by_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_SELECT_ELEMENT_VALUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To aid me with using this library, I downloaded the &lt;a href=&quot;https://chrome.google.com/webstore/detail/selectorshub-xpath-plugin/ndgimibanhlabgdgjcpbbndiehljcpfh&quot;&gt;SelectorsHub - XPath Plugin&lt;/a&gt; on Google Chrome which indicates how to select specific elements using Selenium.&lt;/p&gt;
+
+&lt;h3 id=&quot;determining-an-available-date&quot;&gt;Determining an Available Date&lt;/h3&gt;
+
+&lt;p&gt;Now that I had a way of interacting with the HTML elements, I needed to figure out how to search for and determine an available date.&lt;/p&gt;
+
+&lt;p&gt;The question I was dealing with was, “What makes a date available?”&lt;/p&gt;
+
+&lt;p&gt;From interacting with website, I realised that a date is available when it can be clicked on; but how does that look like in code?&lt;/p&gt;
+
+&lt;p&gt;Using the trusty inspect element, I discovered that a date is clickable when it has the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt; tag and un-clickable when it has the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;span&lt;/code&gt; tag. Now that I knew this, it was a matter of looping through all the dates and checking if any were ‘clickable’. The moment a ‘clickable’ date is found, the date is recorded, the loop broken and a notification sent.&lt;/p&gt;
+
+&lt;h3 id=&quot;alerting-subscribers&quot;&gt;Alerting Subscribers&lt;/h3&gt;
+
+&lt;p&gt;Once a date was found, the script needed to inform a person to take action.&lt;/p&gt;
+
+&lt;p&gt;Initially, I only added email notification; using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;smtplib&lt;/code&gt; module and configured it using one of my personal Gmail accounts. This worked well, however, I noticed that subscribers couldn’t respond fast enough as they weren’t likely to check their emails very often.&lt;/p&gt;
+
+&lt;p&gt;Due to this, I added SMS notification using Twilio API. Their free-trial was all I needed for this, but it included their default text in every message sent. Regardless, their service is reliable and easy to set up.&lt;/p&gt;
+
+&lt;p&gt;Adding SMS increased user response times significantly as people were more likely to see the alert immediately.&lt;/p&gt;
+
+&lt;h3 id=&quot;automating-script-execution&quot;&gt;Automating Script Execution&lt;/h3&gt;
+
+&lt;p&gt;Now that the script was ready, I needed a way of running it automatically and continously.&lt;/p&gt;
+
+&lt;p&gt;To do this, I used VMware Workstation on my secondary PC to deploy an Ubuntu VM. On this VM, I used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crontab&lt;/code&gt; to configure this script to run every minute and log the output to a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;At this point, it was time to sit back and wait…&lt;/p&gt;
+
+&lt;h3 id=&quot;high-level-overview&quot;&gt;High-Level Overview&lt;/h3&gt;
+
+&lt;p&gt;From a high-level, this is what the implementation looks like.&lt;/p&gt;
+
+&lt;p align=&quot;left&quot; style=&quot;margin-bottom: 3%; margin-top: 3%;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); &quot; src=&quot;../images/appointment-checker/high-level-implementation.jpeg&quot; /&gt;
+&lt;br /&gt;&lt;i&gt;Figure 3: High Level Implementation Diagram&lt;/i&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;areas-of-improvement&quot;&gt;Areas of Improvement&lt;/h2&gt;
+
+&lt;p&gt;This script is by no means perfect, but it does the job.&lt;/p&gt;
+
+&lt;p&gt;Fundamentally, I think there a few areas that it can be improved upon.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-efficient-date-checking&quot;&gt;1. Efficient Date Checking&lt;/h3&gt;
+
+&lt;p&gt;Right now, this script is checking every possible date on the date-picker UI. However, upon looking at their source code, it appears that many dates are permanently disabled, e.g. weekends and public holidays.&lt;/p&gt;
+
+&lt;p&gt;As such, parts of the script can be re-written to check dates that could potentially show up as an available option; making it more efficient.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-find-all-available-dates&quot;&gt;2. Find &lt;u&gt;all&lt;/u&gt; Available Dates&lt;/h3&gt;
+
+&lt;p&gt;Currently, the script will find the first available date, notify the subscibers and stop running.&lt;/p&gt;
+
+&lt;p&gt;However, it could be extended to continue traversing the calendar to find any other available dates that exist.&lt;/p&gt;
+
+&lt;p&gt;To do this, we could add found dates to an array, and send this list to the users after traversing the entire calendar. This would give users more option to select from when booking a date.&lt;/p&gt;
+
+&lt;p&gt;Despite this, I belive it wouldn’t add much value as it was extremly rare for two seperate days to show up at any give time.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-determine-available-time-slots&quot;&gt;3. Determine available time slots&lt;/h3&gt;
+
+&lt;p&gt;At the moment, users after receiving a notification have to visit the booking website to view the available times on a given date. This means that they have to make the effort of visiting the website before determining whether the time slot is suitable for them.&lt;/p&gt;
+
+&lt;p&gt;Instead of this, the script should traverse the available time slots after finding an available date and include this in the notification. For example, a complete message might look like “APPOINTMENT FOUND - 22 Jan 2022 at 10:30AM”.&lt;/p&gt;
+
+&lt;p&gt;To do this, the script would have to click on the available date, wait for time slots to populate and traverse the list that appears. However, this could add considerable amount of time to the execution. As such, I think the trade-off might not be worth it as the time saved would be the difference between securing an appointment or not.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Creating this script, helped me to understand the purposes of web scraping and realise the power of automation. Prior to this, I never understood how people went about creating bots to interact with a website.&lt;/p&gt;
+
+&lt;p&gt;From my understanding, website owners who do not intend to have bots scrape their site should implement prevention methods. This could be detecting no. of requests coming from a certain IP or adding a CAPTCHA. However, this is a discussion for a different blog.&lt;/p&gt;
+
+&lt;p&gt;Ultimately, this script helped subscribers to secure appointments within a span of a week. This was significant, as prior to this they were waiting for months and were on the verge of losing hope. To me, being able to see their face light up and breathe a sigh of relief, made it all worth it.&lt;/p&gt;</content><author><name></name></author><summary type="html">A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.</summary></entry><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2022-01-05T00:00:00+11:00</published><updated>2022-01-05T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
 
 &lt;p&gt;For one, the server wasn’t very secure as it allowed users to authenticate via password rather than SSH keys. Also, the newly created user would have access to all directories and privileges beyond those needed for SFTP duties.&lt;/p&gt;
 

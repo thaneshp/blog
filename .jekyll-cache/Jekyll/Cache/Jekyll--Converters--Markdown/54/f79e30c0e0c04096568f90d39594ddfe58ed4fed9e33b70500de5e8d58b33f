@@ -1,98 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>
-      Writing an Appointment Checker – Thanesh Pannirselvam – Site Reliability Engineer from Melbourne
-    </title>
-
-        <meta charset="utf-8" />
-    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
-
-    
-    <meta name="description" content="A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.
-" />
-    <meta property="og:description" content="A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.
-" />
-    
-    <meta name="author" content="Thanesh Pannirselvam" />
-
-    
-    <meta property="og:title" content="Writing an Appointment Checker" />
-    <meta property="twitter:title" content="Writing an Appointment Checker" />
-    
-
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/style.css"
-    />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Thanesh Pannirselvam - Site Reliability Engineer from Melbourne"
-      href="/feed.xml"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
-  </head>
-
-  <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <!-- <a href="/" class="site-avatar"><img src="https://avatars3.githubusercontent.com/u/45277460?s=400&u=f7c922dfc84661741b74aa3f7f1825b532ac48c3&v=4" /></a> -->
-
-          <div class="site-info">
-            <!-- <h1 class="site-name" style="font-size: 40px"><a href="/">Thanesh Pannirselvam</a></h1> -->
-            <h1 class="site-name">
-              <a href="http://blog.thanesh.io">Thanesh Pannirselvam</a>
-            </h1>
-            <p
-              class="site-description"
-              style="font-size: 24px; margin-bottom: 15px"
-            >
-              <a href="http://blog.thanesh.io">Site Reliability Engineer from Melbourne</a>
-            </p>
-            
-
-
-
-<a href="https://github.com/thaneshp"><i class="svg-icon github"></i></a>
-
-<a href="https://www.linkedin.com/in/thanesh-pannirselvam"><i class="svg-icon linkedin"></i></a>
-
-
-
-
-<a href="https://youtube.com/channel/UCJ_cbUrXmIx-C9jqIWVGfhQ"><i class="svg-icon youtube"></i></a>
-
-            <!-- <ul class="social"><a href="https://github.com/zainafzal88"><li><i class="fa fa-github" aria-hidden="true"></i></li></a><a href="https://linkedin.com/in/zainafzal88"><li><i class="fa fa-linkedin-square" aria-hidden="true"></i></li></a></ul> -->
-          </div>
-
-          <nav>
-            <!-- <a href="/">Blog</a> -->
-            <!-- <a href="/about">About</a> -->
-          </nav>
-        </header>
-      </div>
-    </div>
-
-    <div id="main" role="main" class="container"><article class="post">
-  <h1>Writing an Appointment Checker</h1>
-
-  <div class="date">January 24, 2022</div>
-
-  <div class="entry"><p>A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.</p>
+I"l%<p>A few weeks ago, some members of my family needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as all appointments were booked out for the year of 2022.</p>
 
 <p>Regardless, they kept accessing the website from time to time, in hopes that someone would cancel their appointment and they could swoop in. But the odds of finding an appointment randomly were low.</p>
 
@@ -185,7 +91,7 @@
 
 <p align="left" style="margin-bottom: 3%; margin-top: 3%;">
 <img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); " src="../images/appointment-checker/high-level-implementation.jpeg" />
-<br /><i>Figure 3: High Level Implementation Diagram</i>
+<br /> <i style="margin-top: 100px;">Figure 3: High Level Implementation Diagram</i>
 </p>
 
 <h2 id="areas-of-improvement">Areas of Improvement</h2>
@@ -226,51 +132,4 @@
 
 <p>Ultimately, this script helped subscribers to secure appointments within a span of a week. This was significant, as prior to this they were waiting for months and were on the verge of losing hope. To me, being able to see their face light up and breathe a sigh of relief, made it all worth it.</p>
 
-</div>
-
-  
-
-  <br/>
-  <hr/>
-  
-  <div id="hyvor-talk-view"></div>
-  <script type="text/javascript">
-    var HYVOR_TALK_WEBSITE = 4809;
-    var HYVOR_TALK_CONFIG = {
-      url: false,
-      id: "/Writing-an-Appointment-Checker",
-    };
-  </script>
-  <script
-    async
-    type="text/javascript"
-    src="//talk.hyvor.com/web-api/embed"
-  ></script>
-
-</article>
-</div>
-
-    <!-- <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          
-
-
-
-<a href="https://github.com/thaneshp"><i class="svg-icon github"></i></a>
-
-<a href="https://www.linkedin.com/in/thanesh-pannirselvam"><i class="svg-icon linkedin"></i></a>
-
-
-
-
-<a href="https://youtube.com/channel/UCJ_cbUrXmIx-C9jqIWVGfhQ"><i class="svg-icon youtube"></i></a>
-
-        </footer>
-      </div>
-    </div> -->
-
-    
-
-  </body>
-</html>
+:ET
