@@ -1,4 +1,146 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-01-25T17:18:38+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2022-01-05T00:00:00+11:00</published><updated>2022-01-05T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-02-08T15:48:58+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Writing an Appointment Checker</title><link href="https://blog.thanesh.io//Writing-an-Appointment-Checker/" rel="alternate" type="text/html" title="Writing an Appointment Checker" /><published>2022-02-07T00:00:00+11:00</published><updated>2022-02-07T00:00:00+11:00</updated><id>https://blog.thanesh.io//Writing-an-Appointment-Checker</id><content type="html" xml:base="https://blog.thanesh.io//Writing-an-Appointment-Checker/">&lt;p&gt;A few weeks ago, some family members needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as it had been completely booked out for the year.&lt;/p&gt;
+
+&lt;p&gt;Their only hope was to wait for someone to cancel their appointment.&lt;/p&gt;
+
+&lt;p&gt;As such, they kept occasionally accessing the website in hopes that someone would cancel and they could swoop in. But, they were always disappointed as the odds of this happening were very low.&lt;/p&gt;
+
+&lt;p&gt;Regardless, I saw their actions as manual, repetitive, and undoubtedly automatable. Plus, if it could be automated, it would significantly increase the odds of securing an appointment.&lt;/p&gt;
+
+&lt;p&gt;So, in this rather long post, I discuss how I went about automating this checking process and areas where I believe my solution could be improved.&lt;/p&gt;
+
+&lt;p&gt;If you would like to check out the implementation, here is the link to the project GitHub repository: &lt;a href=&quot;https://github.com/thaneshp/appointment-checker&quot;&gt;https://github.com/thaneshp/appointment-checker&lt;/a&gt;&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 3%; text-align:center;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%&quot; src=&quot;../images/appointment-checker/high-level-implementation.jpeg&quot; /&gt;
+&lt;p style=&quot;margin: -1% 0 3% 7.8%; font-style: italic;&quot;&gt;Figure 1: High Level Implementation Diagram&lt;/p&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;initial-outlook&quot;&gt;Initial Outlook&lt;/h2&gt;
+
+&lt;p&gt;Before thinking about the implementation, I firstly noted all the manual steps a person would use to navigate the site.&lt;/p&gt;
+
+&lt;p&gt;I even attempted to book an appointment several times and realised that there were fundamentally four steps to this process:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Click and select a preferred location from the 1st drop-down field.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Click and select the reason for your appointment from the 2nd field.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Click on the date input field for the date selector to appear.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Cycle through the calendar, checking for any available dates.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p style=&quot;margin-top: 3%; text-align:center;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%&quot; src=&quot;../images/appointment-checker/website-interaction-steps.jpg&quot; /&gt;
+&lt;p style=&quot;margin: -1% 0 3% 7.8%; font-style: italic;&quot;&gt;Figure 2: Target Website Layout.&lt;/p&gt;
+&lt;/p&gt;
+
+&lt;p&gt;To be able to translate this to an automatable solution, I needed to flesh out the entire process from start to end. This meant accounting for opening/closing of the browser and alerting users of an available slot.&lt;/p&gt;
+
+&lt;p style=&quot;margin-bottom: 3%; margin-top: 3%;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);&quot; src=&quot;../images/appointment-checker/flowchart.jpg&quot; /&gt;
+&lt;p style=&quot;margin: -2% 0 0 0; font-style: italic;&quot;&gt;Figure 3: Appointment Checking Flowchart&lt;/p&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation-overview&quot;&gt;Implementation Overview&lt;/h2&gt;
+
+&lt;p&gt;At this point, I had a good idea of the process, but I wasn’t clear on how to implement it just yet.&lt;/p&gt;
+
+&lt;p&gt;I searched for tools/technologies that could help with this and found a combination that would suit my needs perfectly; Python and Selenium.&lt;/p&gt;
+
+&lt;p&gt;In the following sub-sections, I discuss how these tools, among others, helped form my solution.&lt;/p&gt;
+
+&lt;h3 id=&quot;interacting-with-html-elements&quot;&gt;Interacting with HTML Elements&lt;/h3&gt;
+
+&lt;p&gt;The first thing I had to overcome was wrapping my head around interacting with HTML elements via Python.&lt;/p&gt;
+
+&lt;p&gt;I knew Selenium was designed to do this, but I didn’t understand precisely how.&lt;/p&gt;
+
+&lt;p&gt;After further research, however, I realised you could interact with elements by simply referencing their &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tag&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;class&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XPath&lt;/code&gt; and more.&lt;/p&gt;
+
+&lt;p&gt;For example, to select and pre-fill the input fields, I referenced the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt; field, as shown below.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;location_field&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_element_by_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_SELECT_ELEMENT_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;location_field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select_by_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FIRST_SELECT_ELEMENT_VALUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To aid me with using this library, I downloaded the &lt;a href=&quot;https://chrome.google.com/webstore/detail/selectorshub-xpath-plugin/ndgimibanhlabgdgjcpbbndiehljcpfh&quot;&gt;SelectorsHub - XPath Plugin&lt;/a&gt; on Google Chrome which indicates how to target specific elements using Selenium.&lt;/p&gt;
+
+&lt;h3 id=&quot;determining-an-available-date&quot;&gt;Determining an Available Date&lt;/h3&gt;
+
+&lt;p&gt;Now that I could interact with the elements, I needed to figure out how to search for an available date.&lt;/p&gt;
+
+&lt;p&gt;In particular, I was dealing with the question, “What makes a date available?”&lt;/p&gt;
+
+&lt;p&gt;Upon interacting with the website, I realised that a date is available when it can be clicked on.&lt;/p&gt;
+
+&lt;p&gt;But, what did this look like in HTML?&lt;/p&gt;
+
+&lt;p&gt;By using inspect element, I discovered that an available date has an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt; tag, while an unavailable one has a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;span&lt;/code&gt; tag.&lt;/p&gt;
+
+&lt;p&gt;Now it was simply a matter of iterating through the calendar and checking which tag the date element has.&lt;/p&gt;
+
+&lt;h3 id=&quot;alerting-subscribers&quot;&gt;Alerting Subscribers&lt;/h3&gt;
+
+&lt;p&gt;After finding a date, the script must notify subscribers to take action.&lt;/p&gt;
+
+&lt;p&gt;To do this, I initially added email handling, using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;smtplib&lt;/code&gt; module to send notifications via my personal Gmail account. This worked, but it wasn’t ideal, as subscribers would often miss the email and, therefore, the opportunity to take action.&lt;/p&gt;
+
+&lt;p&gt;Due to this, I added a second form of notification, where subscribers would be more likely to react in time; SMS. I did this by signing up for a free trial of Twilio and adding the module into my script. The whole process was straightforward.&lt;/p&gt;
+
+&lt;p&gt;Implementing SMS notifications significantly increased user response times, as they were far more likely to see the message.&lt;/p&gt;
+
+&lt;h3 id=&quot;automating-script-execution&quot;&gt;Automating Script Execution&lt;/h3&gt;
+
+&lt;p&gt;Now that the script was complete, I had to run it automatically and continuously.&lt;/p&gt;
+
+&lt;p&gt;Since I had a PC lying around at home, I decided to set up VMware Workstation and run it from there. I deployed an Ubuntu VM on VMware and used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crontab&lt;/code&gt; to run the script every minute, logging the output to a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;At this point, it was time to sit back and wait…&lt;/p&gt;
+
+&lt;h2 id=&quot;areas-of-improvement&quot;&gt;Areas of Improvement&lt;/h2&gt;
+
+&lt;p&gt;This script is by no means a perfect solution, but it helped all subscribers secure their desired appointments within one week.&lt;/p&gt;
+
+&lt;p&gt;Despite its success rate, there are areas where it can be improved.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-efficient-date-checking&quot;&gt;1. Efficient Date Checking&lt;/h3&gt;
+
+&lt;p&gt;Currently, the script checks every date listed in a calendar year, including the days they’re closed, e.g. weekends and public holidays.&lt;/p&gt;
+
+&lt;p&gt;To make the program slightly more efficient, we could add a condition to skip all the permanently unavailable dates.&lt;/p&gt;
+
+&lt;p&gt;However, I don’t believe the milliseconds saved would add much value to the subscribers.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-find-all-available-dates&quot;&gt;2. Find &lt;u&gt;all&lt;/u&gt; Available Dates&lt;/h3&gt;
+
+&lt;p&gt;Additionally, the script will stop running after locating the first available date. This means that more than one date could be available, but the program only reports on the first one.&lt;/p&gt;
+
+&lt;p&gt;As such, the script could be extended to traverse the entire calendar, every time, notifying subscribers of every available date. This would give users more options to select from when booking a date.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-book-the-appointment&quot;&gt;3. Book the Appointment&lt;/h3&gt;
+
+&lt;p&gt;Finally, I believe it would be most helpful if the script could book an appointment for the subscriber. This means after finding an available date, the program selects a timeslot and enters the subscriber’s information for them.&lt;/p&gt;
+
+&lt;p&gt;Basically, after the subscriber has secured an appointment, they would get removed from the list, and the program proceeds with the queue. Doing this would eliminate the need for human input, further guaranteeing subscribers an appointment.&lt;/p&gt;
+
+&lt;p&gt;However, we would have to gather personal information from subscribers, which they may not feel comfortable giving out. As such, I don’t think this would be a practical addition; unless you knew all the users personally.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;After I finished writing the script and began running it, no alerts came through for hours. I started to question where I went wrong.&lt;/p&gt;
+
+&lt;p&gt;I asked myself: Had the website blocked my IP? Was the script timing out? Had nobody cancelled their appointments?&lt;/p&gt;
+
+&lt;p&gt;No, it was none of this, just my lack of patience. Given time, the alerts started to roll in, and the subscribers began securing their appointments, one by one.&lt;/p&gt;
+
+&lt;p&gt;Within one week, everyone had bookings they were pleased with. And, ultimately, this is the only thing that matters.&lt;/p&gt;</content><author><name></name></author><summary type="html">A few weeks ago, some family members needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as it had been completely booked out for the year.</summary></entry><entry><title type="html">Setting up an SFTP server with Secure Keys</title><link href="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/" rel="alternate" type="text/html" title="Setting up an SFTP server with Secure Keys" /><published>2022-01-05T00:00:00+11:00</published><updated>2022-01-05T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-an-SFTP-server-with-secure-keys/">&lt;p&gt;I’ve recently come across SFTP (SSH File Transfer Protocol) servers and wanted to set one up of my own. I created a simple Linux VM on GCP, added a new user, enabled password authentication, and I was ready to use this server. However, this wasn’t an ideal solution.&lt;/p&gt;
 
 &lt;p&gt;For one, the server wasn’t very secure as it allowed users to authenticate via password rather than SSH keys. Also, the newly created user would have access to all directories and privileges beyond those needed for SFTP duties.&lt;/p&gt;
 
@@ -839,77 +981,4 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
 
-&lt;p&gt;Well Done! Your site is up and live, I hoped this helped you. I’m sure there’s other ways to publish a Jekyll site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me - I am always happy to help!&lt;/p&gt;</content><author><name></name></author><summary type="html">When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.</summary></entry><entry><title type="html">Setting up AWS LocalStack</title><link href="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/" rel="alternate" type="text/html" title="Setting up AWS LocalStack" /><published>2021-02-02T00:00:00+11:00</published><updated>2021-02-02T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine</id><content type="html" xml:base="https://blog.thanesh.io//Setting-Up-Localstack-on-your-machine/">&lt;p&gt;LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.&lt;/p&gt;
-
-&lt;p&gt;Using LocalStack gives you the ability to spin up cloud services directly on your local machine, making it more convenient to develop for the cloud.&lt;/p&gt;
-
-&lt;p&gt;I recently discovered LocalStack whilst working on the &lt;a href=&quot;https://github.com/zainafzal88/scrumblr-enhancement&quot;&gt;Scrumblr-Enhacement project&lt;/a&gt; alongside a group of members from the Dev(){CoP} community. Zain Afzal, our project lead, recommended we use LocalStack in order to simplify development and save cost.&lt;/p&gt;
-
-&lt;p&gt;In this blog, I will show you how to setup LocalStack on your machine, step-by-step.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
-
-&lt;h2 id=&quot;install-and-run-docker&quot;&gt;Install and Run Docker&lt;/h2&gt;
-
-&lt;p&gt;Visit &lt;a href=&quot;&quot;&gt;https://hub.docker.com/search?q=&amp;amp;type=edition&amp;amp;offering=community&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Search for the Docker download matching your OS and install it accordingly.&lt;/p&gt;
-
-&lt;p&gt;Once you have Docker installed, make sure to run the application. If you’ve installed and run it correctly, you should see the whale icon appear on your tool bar above.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-1-localstack.png&quot; alt=&quot;step-1-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;All you have to do is keep it running and proceed to the next step.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
-
-&lt;p&gt;Visit the LocalStack repository on github via
-https://github.com/localstack/localstack.&lt;/p&gt;
-
-&lt;p&gt;On here, locate a file called ‘docker-compose.yaml’ and click to open it. You should see a page like below. Highlight all the text shown in this file and copy it to your clipboard.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-2-localstack.png&quot; alt=&quot;step-2-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
-
-&lt;p&gt;If you already know what project you’ll be using LocalStack for, open up that repository on your favourite IDE. Otherwise, create a test folder anywhere on your machine and open that instead.&lt;/p&gt;
-
-&lt;p&gt;For this tutorial, I will create a folder called ‘localstack’ on my desktop.&lt;/p&gt;
-
-&lt;p&gt;Once you have opened up your IDE with your chosen folder, create a new file in there called ‘docker-composer.yaml’&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-3-localstack.png&quot; alt=&quot;step-3-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;After you’ve created this file, paste the text you copied earlier and hit save.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
-
-&lt;p&gt;Now add the AWS services you plan to use by editing the ‘SERVICES’ line in the ‘docker-compose.yaml’ file. As you can see from the image below, I have added s3, lambda and ec2.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-4-localstack.png&quot; alt=&quot;step-4-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
-
-&lt;p&gt;Open up the terminal; either through your IDE or directly on your machine. Locate the directory where you have your ‘docker-compose.yaml’ file stored. You can do this by using the CD command as shown below.&lt;/p&gt;
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;Desktop/localstack
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Once you’ve done this, type in the following command.&lt;/p&gt;
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;docker-compose up
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;You should see a sequence of lines show up in your terminal just like the image shown below. As you can see, the mock services we listed earlier is now running.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-5-localstack.png&quot; alt=&quot;step-5-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-6&quot;&gt;Step 6&lt;/h1&gt;
-&lt;p&gt;Visit &lt;a href=&quot;&quot;&gt;https://0.0.0.0:4566&lt;/a&gt; in your browser and you should see a “running” status like below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-6-localstack.png&quot; alt=&quot;step-6-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Add /health to the end of the previous url and you will see the statuses of each of the services you listed earlier.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/step-6(2)-localstack.png&quot; alt=&quot;step-6(2)-localstack&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
-
-&lt;p&gt;You should be all set up and ready to start developing for AWS on your local machine! Hope this helped. If you have any questions or are facing any problems, please do not hesitate to reach out to me.&lt;/p&gt;</content><author><name></name></author><summary type="html">LocalStack is an extremely useful tool if you want to save money and avoid signing into AWS console as much as possible.</summary></entry></feed>
+&lt;p&gt;Well Done! Your site is up and live, I hoped this helped you. I’m sure there’s other ways to publish a Jekyll site but this is what worked for me. If you have any questions or are facing any problems, please do not hesitate to reach out to me - I am always happy to help!&lt;/p&gt;</content><author><name></name></author><summary type="html">When I was looking to deploy my blog on AWS, I remember searching everywhere for an all-in-one tutorial that covered everything from deployment to domain configuration. However, I couldn’t find one to suit exactly what I needed.</summary></entry></feed>

@@ -1,0 +1,144 @@
+I"�%<p>A few weeks ago, some family members needed to book appointments on a website concerning their identification. However, they couldn’t get a spot as it had been completely booked out for the year.</p>
+
+<p>Their only hope was to wait for someone to cancel their appointment.</p>
+
+<p>As such, they kept occasionally accessing the website in hopes that someone would cancel and they could swoop in. But, they were always disappointed as the odds of this happening were very low.</p>
+
+<p>Regardless, I saw their actions as manual, repetitive, and undoubtedly automatable. Plus, if it could be automated, it would significantly increase the odds of securing an appointment.</p>
+
+<p>So, in this rather long post, I discuss how I went about automating this checking process and areas where I believe my solution could be improved.</p>
+
+<p>If you would like to check out the implementation, here is the link to the project GitHub repository: <a href="https://github.com/thaneshp/appointment-checker">https://github.com/thaneshp/appointment-checker</a></p>
+
+<p style="margin-top: 3%; text-align:center;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%" src="../images/appointment-checker/high-level-implementation.jpeg" />
+<p style="margin: -1% 0 3% 7.8%; font-style: italic;">Figure 1: High Level Implementation Diagram</p>
+</p>
+
+<h2 id="initial-outlook">Initial Outlook</h2>
+
+<p>Before thinking about the implementation, I firstly noted all the manual steps a person would use to navigate the site.</p>
+
+<p>I even attempted to book an appointment several times and realised that there were fundamentally four steps to this process:</p>
+
+<ol>
+  <li>
+    <p>Click and select a preferred location from the 1st drop-down field.</p>
+  </li>
+  <li>
+    <p>Click and select the reason for your appointment from the 2nd field.</p>
+  </li>
+  <li>
+    <p>Click on the date input field for the date selector to appear.</p>
+  </li>
+  <li>
+    <p>Cycle through the calendar, checking for any available dates.</p>
+  </li>
+</ol>
+
+<p style="margin-top: 3%; text-align:center;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%" src="../images/appointment-checker/website-interaction-steps.jpg" />
+<p style="margin: -1% 0 3% 7.8%; font-style: italic;">Figure 2: Target Website Layout.</p>
+</p>
+
+<p>To be able to translate this to an automatable solution, I needed to flesh out the entire process from start to end. This meant accounting for opening/closing of the browser and alerting users of an available slot.</p>
+
+<p style="margin-bottom: 3%; margin-top: 3%;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);" src="../images/appointment-checker/flowchart.jpg" />
+<p style="margin: -2% 0 0 0; font-style: italic;">Figure 3: Appointment Checking Flowchart</p>
+</p>
+
+<h2 id="implementation-overview">Implementation Overview</h2>
+
+<p>At this point, I had a good idea of the process, but I wasn’t clear on how to implement it just yet.</p>
+
+<p>I searched for tools/technologies that could help with this and found a combination that would suit my needs perfectly; Python and Selenium.</p>
+
+<p>In the following sub-sections, I discuss how these tools, among others, helped form my solution.</p>
+
+<h3 id="interacting-with-html-elements">Interacting with HTML Elements</h3>
+
+<p>The first thing I had to overcome was wrapping my head around interacting with HTML elements via Python.</p>
+
+<p>I knew Selenium was designed to do this, but I didn’t understand precisely how.</p>
+
+<p>After further research, however, I realised you could interact with elements by simply referencing their <code class="language-plaintext highlighter-rouge">id</code>, <code class="language-plaintext highlighter-rouge">tag</code>, <code class="language-plaintext highlighter-rouge">class</code>, <code class="language-plaintext highlighter-rouge">XPath</code> and more.</p>
+
+<p>For example, to select and pre-fill the input fields, I referenced the <code class="language-plaintext highlighter-rouge">id</code> field, as shown below.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">location_field</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="n">FIRST_SELECT_ELEMENT_ID</span><span class="p">)</span>
+<span class="n">Select</span><span class="p">(</span><span class="n">location_field</span><span class="p">).</span><span class="n">select_by_value</span><span class="p">(</span><span class="n">FIRST_SELECT_ELEMENT_VALUE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>To aid me with using this library, I downloaded the <a href="https://chrome.google.com/webstore/detail/selectorshub-xpath-plugin/ndgimibanhlabgdgjcpbbndiehljcpfh">SelectorsHub - XPath Plugin</a> on Google Chrome which indicates how to target specific elements using Selenium.</p>
+
+<h3 id="determining-an-available-date">Determining an Available Date</h3>
+
+<p>Now that I could interact with the elements, I needed to figure out how to search for an available date.</p>
+
+<p>In particular, I was dealing with the question, “What makes a date available?”</p>
+
+<p>Upon interacting with the website, I realised that a date is available when it can be clicked on.</p>
+
+<p>But, what did this look like in HTML?</p>
+
+<p>By using inspect element, I discovered that an available date has an <code class="language-plaintext highlighter-rouge">a</code> tag, while an unavailable one has a <code class="language-plaintext highlighter-rouge">span</code> tag.</p>
+
+<p>Now it was simply a matter of iterating through the calendar and checking which tag the date element has.</p>
+
+<h3 id="alerting-subscribers">Alerting Subscribers</h3>
+
+<p>After finding a date, the script must notify subscribers to take action.</p>
+
+<p>To do this, I initially added email handling, using the <code class="language-plaintext highlighter-rouge">smtplib</code> module to send notifications via my personal Gmail account. This worked, but it wasn’t ideal, as subscribers would often miss the email and, therefore, the opportunity to take action.</p>
+
+<p>Due to this, I added a second form of notification, where subscribers would be more likely to react in time; SMS. I did this by signing up for a free trial of Twilio and adding the module into my script. The whole process was straightforward.</p>
+
+<p>Implementing SMS notifications significantly increased user response times, as they were far more likely to see the message.</p>
+
+<h3 id="automating-script-execution">Automating Script Execution</h3>
+
+<p>Now that the script was complete, I had to run it automatically and continuously.</p>
+
+<p>Since I had a PC lying around at home, I decided to set up VMware Workstation and run it from there. I deployed an Ubuntu VM on VMware and used <code class="language-plaintext highlighter-rouge">crontab</code> to run the script every minute, logging the output to a <code class="language-plaintext highlighter-rouge">.txt</code> file.</p>
+
+<p>At this point, it was time to sit back and wait…</p>
+
+<h2 id="areas-of-improvement">Areas of Improvement</h2>
+
+<p>This script is by no means a perfect solution, but it helped all subscribers secure their desired appointments within one week.</p>
+
+<p>Despite its success rate, there are areas where it can be improved.</p>
+
+<h3 id="1-efficient-date-checking">1. Efficient Date Checking</h3>
+
+<p>Currently, the script checks every date listed in a calendar year, including the days they’re closed, e.g. weekends and public holidays.</p>
+
+<p>To make the program slightly more efficient, we could add a condition to skip all the permanently unavailable dates.</p>
+
+<p>However, I don’t believe the milliseconds saved would add much value to the subscribers.</p>
+
+<h3 id="2-find-all-available-dates">2. Find <u>all</u> Available Dates</h3>
+
+<p>Additionally, the script will stop running after locating the first available date. This means that more than one date could be available, but the program only reports on the first one.</p>
+
+<p>As such, the script could be extended to traverse the entire calendar, every time, notifying subscribers of every available date. This would give users more options to select from when booking a date.</p>
+
+<h3 id="3-book-the-appointment">3. Book the Appointment</h3>
+
+<p>Finally, I believe it would be most helpful if the script could book an appointment for the subscriber. This means after finding an available date, the program selects a timeslot and enters the subscriber’s information for them.</p>
+
+<p>Basically, after the subscriber has secured an appointment, they would get removed from the list, and the program proceeds with the queue. Doing this would eliminate the need for human input, further guaranteeing subscribers an appointment.</p>
+
+<p>However, we would have to gather personal information from subscribers, which they may not feel comfortable giving out. As such, I don’t think this would be a practical addition; unless you knew all the users personally.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>After I finished writing the script and began running it, no alerts came through for hours. I started to question where I went wrong.</p>
+
+<p>I asked myself: Had the website blocked my IP? Was the script timing out? Had nobody cancelled their appointments?</p>
+
+<p>No, it was none of this, just my lack of patience. Given time, the alerts started to roll in, and the subscribers began securing their appointments, one by one.</p>
+
+<p>Within one week, everyone had bookings they were pleased with. And, ultimately, this is the only thing that matters.</p>
+:ET
