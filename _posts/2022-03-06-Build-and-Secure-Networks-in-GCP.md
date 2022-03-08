@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Build and Secure Networks in Google Cloud: Explained"
+title: "Build and Secure Networks in Google Cloud"
 published: true
 ---
 
