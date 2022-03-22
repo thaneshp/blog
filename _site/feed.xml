@@ -1,4 +1,321 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-03-08T14:32:40+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Build and Secure Networks in Google Cloud</title><link href="https://blog.thanesh.io//Build-and-Secure-Networks-in-GCP/" rel="alternate" type="text/html" title="Build and Secure Networks in Google Cloud" /><published>2022-03-06T00:00:00+11:00</published><updated>2022-03-06T00:00:00+11:00</updated><id>https://blog.thanesh.io//Build-and-Secure-Networks-in-GCP</id><content type="html" xml:base="https://blog.thanesh.io//Build-and-Secure-Networks-in-GCP/">&lt;p&gt;I recently completed the ‘&lt;a href=&quot;https://www.qwiklabs.com/focuses/12068?parent=catalog&quot;&gt;Build and Secure Networks in Google Cloud: Challenge Lab&lt;/a&gt;’ by Qwiklabs and found it quite interesting.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-03-23T10:03:02+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Static Site Deployment Using Terraform and Github Actions</title><link href="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/" rel="alternate" type="text/html" title="Static Site Deployment Using Terraform and Github Actions" /><published>2022-03-16T00:00:00+11:00</published><updated>2022-03-16T00:00:00+11:00</updated><id>https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions</id><content type="html" xml:base="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/">&lt;p&gt;We all know how tedious clicking around the AWS Console can be.&lt;/p&gt;
+
+&lt;p&gt;You have to remember to create all the right resources, in the right order, and in the right region before anything works.&lt;/p&gt;
+
+&lt;p&gt;If you don’t obey these laws, you’ll be gifted with errors and frustration.&lt;/p&gt;
+
+&lt;p&gt;But eventually, with persistence, you’ll figure it out, and all will be well… Until you have to do it again.&lt;/p&gt;
+
+&lt;p&gt;Anyways, this is what it was like for me.&lt;/p&gt;
+
+&lt;p&gt;So, in this blog, I will demonstrate how you can use Terraform and Github Actions to streamline this deployment process.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 3%; text-align:center;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%&quot; src=&quot;../images/terraform-gh-actions/deployment-diagram.jpeg&quot; /&gt;
+&lt;p style=&quot;margin: -1% 0 3% 7.8%; font-style: italic;&quot;&gt;Figure 1: High Level Implementation Diagram&lt;/p&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h2&gt;
+
+&lt;p&gt;Before you get started, here are few things you’ll need:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;AWS account with IAM user and programmatic access.&lt;/li&gt;
+  &lt;li&gt;Terraform installed on your local machine.&lt;/li&gt;
+  &lt;li&gt;Github repository containing your static site.&lt;/li&gt;
+  &lt;li&gt;Basic understanding of Terraform and Git.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;create-a-terraform-configuration&quot;&gt;Create a Terraform Configuration&lt;/h2&gt;
+
+&lt;p&gt;If you aren’t aware, Terraform is an Infrastructure as Code (IaC) tool designed to help provision resources in the cloud. By writing HCL (Hashicorp Configuration Language), individuals can create cloud resources in an automated and consistent way.&lt;/p&gt;
+
+&lt;p&gt;For deploying a static site in AWS, you will need to describe the following resources in HCL:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;S3 Bucket for static files.&lt;/li&gt;
+  &lt;li&gt;CloudFront Distribution for delivering the website.&lt;/li&gt;
+  &lt;li&gt;Route 53 to route traffic from a domain name to the CloudFront Distribution.&lt;/li&gt;
+  &lt;li&gt;SSL Certificate in ACM to enable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTPS&lt;/code&gt; traffic.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;One thing to note is that in HCL, order &lt;strong&gt;does not&lt;/strong&gt; matter. As long as you describe the right resources, Terraform will figure out the order to provision them for you.&lt;/p&gt;
+
+&lt;p&gt;If you’d like to see my complete Terraform configuration, you can check it out here - &lt;a href=&quot;https://github.com/thaneshp/terraform-aws-static-website&quot;&gt;https://github.com/thaneshp/terraform-aws-static-website&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;However, following my guideline below, you can create one of your own.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; I haven’t included much code in this blog, as you can find everything you need from the Terraform AWS documentation - &lt;a href=&quot;https://registry.terraform.io/providers/hashicorp/aws/latest/docs&quot;&gt;https://registry.terraform.io/providers/hashicorp/aws/latest/docs&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;add-aws-providers&quot;&gt;Add AWS Providers&lt;/h3&gt;
+
+&lt;p&gt;Typically, when you start writing a config, you have to declare a provider so that Terraform can interact with the respective cloud service.&lt;/p&gt;
+
+&lt;p&gt;For this config, you will have to denote two providers; one set in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ap-southeast-2&lt;/code&gt; and the other in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;us-east-1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is because CloudFront will only accept SSL certificates created in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;us-east-1&lt;/code&gt;; therefore, we will need to reference this provider when requesting a certificate.&lt;/p&gt;
+
+&lt;div class=&quot;language-hcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# AWS provider for ap-southeast-1 region. Used as default.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;provider&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;access_key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_access_key&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;secret_key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_secret_key&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;region&lt;/span&gt;     &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ap-southeast-1&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# AWS provider for us-east-1 region.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;provider&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;alias&lt;/span&gt;      &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;us-east-1&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;access_key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_access_key&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;secret_key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_secret_key&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;region&lt;/span&gt;     &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;us-east-1&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;creating-the-s3-bucket&quot;&gt;Creating the S3 Bucket&lt;/h3&gt;
+
+&lt;p&gt;Once the providers are organised, you can start declaring the S3 Bucket creation.&lt;/p&gt;
+
+&lt;p&gt;Since you’ll be hosting a website, you will need the following resources:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_s3_bucket&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_s3_bucket_acl&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_s3_bucket_website_configuration&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_s3_bucket_versioning&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_s3_bucket_policy&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_s3_bucket_policy&lt;/code&gt; resource, you’ll also have to add the following policy; replacing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wiki.thanesh.io&lt;/code&gt; with your domain name.&lt;/p&gt;
+
+&lt;p&gt;This policy enables read access to the Bucket’s objects, necessary when hosting a website.&lt;/p&gt;
+
+&lt;div class=&quot;language-hcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Bucket Policy to allow read access to objects.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws_s3_bucket_policy&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;website_bucket_allow_read_access_to_objects&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;bucket&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;aws_s3_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;website_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;policy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;jsonencode&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;Version&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;Statement&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;Sid&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;PublicReadGetObject&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;Effect&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Allow&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;Principal&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;Action&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;s3:GetObject&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;Resource&quot;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;arn:aws:s3:::wiki.thanesh.io/*&quot;&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;request-an-ssl-certificate-via-acm&quot;&gt;Request an SSL Certificate via ACM&lt;/h3&gt;
+
+&lt;p&gt;To enable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTPS&lt;/code&gt; traffic, you will need an SSL certificate. This certificate is used when creating a CloudFront distribution; hence, it must be requested before the distribution.&lt;/p&gt;
+
+&lt;p&gt;As I mentioned before, this certificate has to be based in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;us-east-1&lt;/code&gt; to be used by CloudFront. Therefore, ensure you reference this provider in your config.&lt;/p&gt;
+
+&lt;p&gt;Depending on your needs, you may use a wildcard asterisk for your domain name, e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.thanesh.io&lt;/code&gt;. This means that the certificate can cover more variations of your domain, e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blog.thanesh.io&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wiki.thanesh.io&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;subject_alternative_names&lt;/code&gt;, include your base domain to cover all variations that you’ll possibly be using.&lt;/p&gt;
+
+&lt;div class=&quot;language-hcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Request SSL Certificate in ACM.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws_acm_certificate&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;cert&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;provider&lt;/span&gt;                  &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;aws&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;us&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;east&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;domain_name&lt;/span&gt;               &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;*.thanesh.io&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;subject_alternative_names&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thanesh&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;validation_method&lt;/span&gt;         &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;DNS&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;lifecycle&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;create_before_destroy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;create-a-cloudfront-distribution&quot;&gt;Create a CloudFront Distribution&lt;/h3&gt;
+
+&lt;p&gt;Now that you have an SSL certificate, you can create the CloudFront Distribution.&lt;/p&gt;
+
+&lt;p&gt;If you aren’t aware, the CloudFront service distributes your website across AWS edge locations to improve performance for the end-user.&lt;/p&gt;
+
+&lt;p&gt;In this part of the config, you’ll have to reference your website’s bucket domain name and the previously created SSL certificate.&lt;/p&gt;
+
+&lt;p&gt;You’ll also have to provide an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;origin_id&lt;/code&gt; which you can name what you like. If you’re wondering, an origin in CloudFront specifies where the content is stored and where it gets content to serve to viewers. So try to make this name meaningful.&lt;/p&gt;
+
+&lt;p&gt;Lastly, if you’d like to use a caching policy, you can specify one under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default_cache_behavior&lt;/code&gt;. You can find all the managed policies offered by AWS here - &lt;a href=&quot;https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html&quot;&gt;https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cache_policy_id&lt;/code&gt; option requires the ‘ID’ and not the ‘Name’. Example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;658327ea-f89d-4fab-a63d-7e88639e58f6&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-hcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Cloudfront Distribution for S3 bucket.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws_cloudfront_distribution&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;website_bucket_s3_distribution&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;origin&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;domain_name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;aws_s3_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;website_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bucket_regional_domain_name&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;origin_id&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%s%s&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;S3-Website-&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_s3_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;website_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bucket_regional_domain_name&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;enabled&lt;/span&gt;             &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;is_ipv6_enabled&lt;/span&gt;     &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;default_root_object&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;index.html&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;aliases&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;wiki.thanesh.io&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;default_cache_behavior&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;allowed_methods&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;DELETE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;GET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;HEAD&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;OPTIONS&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;PATCH&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;PUT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;cached_methods&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;GET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;HEAD&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;cache_policy_id&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;managed_caching_policy&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;target_origin_id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%s%s&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;S3-Website-&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_s3_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;website_bucket&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bucket_regional_domain_name&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;viewer_protocol_policy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redirect-to-https&quot;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;min_ttl&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;default_ttl&lt;/span&gt;            &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3600&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;max_ttl&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;86400&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;restrictions&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;geo_restriction&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;restriction_type&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;none&quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;viewer_certificate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;acm_certificate_arn&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;aws_acm_certificate&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arn&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;ssl_support_method&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;sni-only&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;add-record-set-in-route-53&quot;&gt;Add Record Set in Route 53&lt;/h3&gt;
+
+&lt;p&gt;At this stage, you should have everything needed to host and deliver a static site—however, not much way to conveniently share it.&lt;/p&gt;
+
+&lt;p&gt;If you don’t have a hosted zone in Route 53, you’ll need to add this to your config, alongside adding an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; record to route your traffic to the CloudFront distribution.&lt;/p&gt;
+
+&lt;p&gt;However, in my case, I’ll just be doing the latter as I already have a hosted zone that I’d like to extend.&lt;/p&gt;
+
+&lt;p&gt;To do the same, you would use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_route53_record&lt;/code&gt; resource and specify the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zone_id&lt;/code&gt; of the hosted zone&lt;/li&gt;
+  &lt;li&gt;The domain name of the website (e.g. wiki.thanesh.io)&lt;/li&gt;
+  &lt;li&gt;The record type (e.g. A)&lt;/li&gt;
+  &lt;li&gt;Details about the CloudFront distribution&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zone_id&lt;/code&gt; parameter in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_route53_record&lt;/code&gt; resource only accepts the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zone_id&lt;/code&gt; of the hosted zone and not its name. You can reference the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zone_id&lt;/code&gt; similar to how I have below.&lt;/p&gt;
+
+&lt;div class=&quot;language-hcl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Retrieve existing hosted zone.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws_route53_zone&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;my_domain&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;thanesh.io&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Add A record in Route53 for website.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;aws_route53_record&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;website_record&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;zone_id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aws_route53_zone&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;my_domain&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zone_id&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;wiki.thanesh.io&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;A&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;alias&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;                   &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;aws_cloudfront_distribution&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;website_bucket_s3_distribution&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain_name&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;zone_id&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;aws_cloudfront_distribution&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;website_bucket_s3_distribution&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hosted_zone_id&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;evaluate_target_health&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;provision-the-infrastructure&quot;&gt;Provision the Infrastructure&lt;/h3&gt;
+
+&lt;p&gt;Now that you have everything needed to host your static site in AWS, it’s time to provision the infrastructure.&lt;/p&gt;
+
+&lt;p&gt;To do this, run the following commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Verifies whether a configuration is syntactically valid and internally consistent&lt;/span&gt;
+terraform validate
+
+&lt;span class=&quot;c&quot;&gt;# Used for creating an executing plan.&lt;/span&gt;
+terraform plan
+
+&lt;span class=&quot;c&quot;&gt;# Executes the actions proposed in a Terraform plan.&lt;/span&gt;
+terraform apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;set-up-github-actions&quot;&gt;Set Up Github Actions&lt;/h2&gt;
+
+&lt;p&gt;All your infrastructure is now ready, and it’s time to deploy your site.&lt;/p&gt;
+
+&lt;p&gt;You may be tempted to drag and drop all your static files right into the S3 Bucket, but there is a better way.&lt;/p&gt;
+
+&lt;p&gt;In this part of the blog, I will show you how to set up Github Actions to automatically deploy your website into the S3 Bucket.&lt;/p&gt;
+
+&lt;p&gt;If you prefer a video tutorial, you can check out the one I made here - &lt;a href=&quot;https://www.youtube.com/watch?v=ifqG6tGhHHE&quot;&gt;https://www.youtube.com/watch?v=ifqG6tGhHHE&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;add-your-aws-secrets-to-the-github-repository&quot;&gt;Add your AWS Secrets to the Github Repository&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Navigate to website’s Github Repo using the web UI.&lt;/li&gt;
+  &lt;li&gt;Click on Settings -&amp;gt; Secrets -&amp;gt; Actions.
+    &lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+ &lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 70%&quot; src=&quot;../images/terraform-gh-actions/gh-secrets-location.png&quot; /&gt;
+ &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Click on ‘New repository secret’ in the top right-hand corner.&lt;/li&gt;
+  &lt;li&gt;Create new 3 secrets for: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS_S3_BUCKET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS_ACCESS_KEY_ID&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS_SECRET_ACCESS_KEY&lt;/code&gt;, adding their respective values.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;create-a-new-directory-in-your-websites-repo&quot;&gt;Create a new Directory in your Website’s Repo&lt;/h3&gt;
+
+&lt;p&gt;On your local machine, navigate to your website’s root directory and create the following directories: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.github/workflows&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;You can use the following command if you’re on Mac/Linux: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mkdir .github/workflows&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Github Actions looks in this folder for a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.yaml&lt;/code&gt; file containing workflow instructions.&lt;/p&gt;
+
+&lt;h3 id=&quot;create-a-yaml-file&quot;&gt;Create a YAML file&lt;/h3&gt;
+
+&lt;p&gt;In the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.github/workflows&lt;/code&gt; directory, create a file called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main.yaml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is where you will add the config for Github Actions to execute.&lt;/p&gt;
+
+&lt;h3 id=&quot;add-actions-to-the-yaml-file&quot;&gt;Add actions to the YAML file&lt;/h3&gt;
+
+&lt;p&gt;Once you have created the YAML file, you need to add some actions to tell Github what to do with your repo.&lt;/p&gt;
+
+&lt;p&gt;Below is the config I used. This config builds and deploys my Jekyll site on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;push&lt;/code&gt; to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main&lt;/code&gt; branch. I got this config from &lt;a href=&quot;https://github.com/marketplace/actions/build-jekyll&quot;&gt;here&lt;/a&gt; and made a few adjustments.&lt;/p&gt;
+
+&lt;p&gt;If you’re not using a Jekyll site, you may want to create/find a different config. Here is one that I used for another site (pure HTML, CSS and JS) - &lt;a href=&quot;https://github.com/jakejarvis/s3-sync-action&quot;&gt;https://github.com/jakejarvis/s3-sync-action&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;main&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Build and deploy Jekyll site&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Checkout&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Build&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;jerryjvl/jekyll-build-action@v1&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Configure AWS credentials&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;aws-actions/configure-aws-credentials@v1&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;aws-access-key-id&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;aws-secret-access-key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;aws-region&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ap-southeast-2&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Sync output to S3&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;aws s3 sync ./_site/ s3://$ --delete&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;push-your-changes-to-github&quot;&gt;Push your changes to Github&lt;/h3&gt;
+
+&lt;p&gt;Once your config is ready, push your changes to Github, and your website will be automatically uploaded to S3.&lt;/p&gt;
+
+&lt;p&gt;And that’s it; your static site is live and will auto-update every time you push to your repository.&lt;/p&gt;</content><author><name></name></author><summary type="html">We all know how tedious clicking around the AWS Console can be.</summary></entry><entry><title type="html">Build and Secure Networks in Google Cloud</title><link href="https://blog.thanesh.io//Build-and-Secure-Networks-in-GCP/" rel="alternate" type="text/html" title="Build and Secure Networks in Google Cloud" /><published>2022-03-06T00:00:00+11:00</published><updated>2022-03-06T00:00:00+11:00</updated><id>https://blog.thanesh.io//Build-and-Secure-Networks-in-GCP</id><content type="html" xml:base="https://blog.thanesh.io//Build-and-Secure-Networks-in-GCP/">&lt;p&gt;I recently completed the ‘&lt;a href=&quot;https://www.qwiklabs.com/focuses/12068?parent=catalog&quot;&gt;Build and Secure Networks in Google Cloud: Challenge Lab&lt;/a&gt;’ by Qwiklabs and found it quite interesting.&lt;/p&gt;
 
 &lt;p&gt;This lab demonstrates firewall rules in action by getting you to implement rules that allow access to VMs via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SSH&lt;/code&gt; &amp;amp; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; within specific IP ranges.&lt;/p&gt;
 
@@ -584,7 +901,7 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;p&gt;At the end of the day, I felt the exam tests your ability to think like an SRE rather than the tools and technologies themselves.&lt;/p&gt;
 
-&lt;p&gt;I hope this helped you, and if you have any questions, feel free to reach out!&lt;/p&gt;</content><author><name></name></author><summary type="html">A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.</summary></entry><entry><title type="html">Simple Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simple Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
+&lt;p&gt;I hope this helped you, and if you have any questions, feel free to reach out!&lt;/p&gt;</content><author><name></name></author><summary type="html">A few weeks ago, I passed the Google Professional Cloud DevOps Engineer certification. The exam itself was pretty challenging, but fundamentally, I believe it is testing your ability to think like an SRE more than any tool or technology itself.</summary></entry><entry><title type="html">Simply Explained: Virtual Machines and Containers</title><link href="https://blog.thanesh.io//Containers-vs-VMs/" rel="alternate" type="text/html" title="Simply Explained: Virtual Machines and Containers" /><published>2021-07-29T00:00:00+10:00</published><updated>2021-07-29T00:00:00+10:00</updated><id>https://blog.thanesh.io//Containers-vs-VMs</id><content type="html" xml:base="https://blog.thanesh.io//Containers-vs-VMs/">&lt;p&gt;I’ve been learning about the cloud recently and keep coming across the term virtualization. At a high level, virtualization allows us to use a machine’s total capacity by distributing its resources among many environments. Essentially, virtualization aims to solve one fundamental problem; efficiency.&lt;/p&gt;
 
 &lt;p&gt;In this blog, I’ll give you an overview of Virtual Machines (VMs) and Containers by outlining the problems they aim to solve.&lt;/p&gt;
 
@@ -850,56 +1167,4 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;p&gt;If you decide to run a web-server such as Apache/Nginx in a container, ensure you are checking all firewall rules. Otherwise, you will not see anything when attempting to connect via HTTP/HTTPS.&lt;/p&gt;
 
-&lt;p&gt;I hope this walkthrough helped you. If you have any questions, feel free to let me know!&lt;/p&gt;</content><author><name></name></author><summary type="html">Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.</summary></entry><entry><title type="html">What to write about?</title><link href="https://blog.thanesh.io//What-to-write-about/" rel="alternate" type="text/html" title="What to write about?" /><published>2021-07-07T00:00:00+10:00</published><updated>2021-07-07T00:00:00+10:00</updated><id>https://blog.thanesh.io//What-to-write-about</id><content type="html" xml:base="https://blog.thanesh.io//What-to-write-about/">&lt;p&gt;Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.&lt;/p&gt;
-
-&lt;p&gt;Creating and maintaining a blog can improve your communication skills, help others and re-affirm what you’ve learnt.&lt;/p&gt;
-
-&lt;p&gt;However, ‘what to write about?’ can often be the hardest part. So I posed this question to the &lt;a href=&quot;https://devcop.io/&quot;&gt;Dev(){CoP}&lt;/a&gt; community and here is what they had to say.&lt;/p&gt;
-
-&lt;h2 id=&quot;pick-a-theme&quot;&gt;Pick a theme&lt;/h2&gt;
-
-&lt;p&gt;Before you begin, pick a theme or get a broad sense of what you want to write about. Understanding this will make coming up with ideas far easier as you’ll be focussed on one specific area.&lt;/p&gt;
-
-&lt;p&gt;For example, if you want to be known as a web developer specialising in frontend, you might base your blogs around HTML, CSS and ReactJS.&lt;/p&gt;
-
-&lt;p&gt;Once you have your theme in mind, you can start to build your blog around this.&lt;/p&gt;
-
-&lt;h2 id=&quot;problems-that-youve-solved&quot;&gt;Problems that you’ve solved&lt;/h2&gt;
-
-&lt;p&gt;Being in any IT role is about facing and solving problems.&lt;/p&gt;
-
-&lt;p&gt;By writing about the problems you have solved, you can re-affirm what you’ve learnt and possibly help someone else out in the process.&lt;/p&gt;
-
-&lt;p&gt;Besides this, it also acts as a reference in the event you encounter the problem again.&lt;/p&gt;
-
-&lt;h2 id=&quot;online-courses&quot;&gt;Online courses&lt;/h2&gt;
-
-&lt;p&gt;Since IT is an ever-growing field, there’s always something more to be learnt.&lt;/p&gt;
-
-&lt;p&gt;As you go through an online course, perhaps you can document your learnings or note down some key takeaways from the program.&lt;/p&gt;
-
-&lt;p&gt;Doing this can act as referesher but it may also help someone else who is deciding whether to enrol in the course.&lt;/p&gt;
-
-&lt;h2 id=&quot;things-that-annoy-you&quot;&gt;Things that annoy you&lt;/h2&gt;
-
-&lt;p&gt;As you go along your IT journey, there are bound to be things that annoy you.&lt;/p&gt;
-
-&lt;p&gt;For example, say you’ve been working on a project and you’ve been deploying code manually. But then you realise how tedious this can be, leading you to automate this process.&lt;/p&gt;
-
-&lt;p&gt;From this, you can write about all your frustrations, including a walkthrough of your solution; in turn someone else may be able to avoid the same hassles.&lt;/p&gt;
-
-&lt;h2 id=&quot;open-source-projects&quot;&gt;Open Source Projects&lt;/h2&gt;
-
-&lt;p&gt;Open Source Projects are a great way to get invovled, give back and gain practical experience.&lt;/p&gt;
-
-&lt;p&gt;You can keep track of your experience by documenting what you’ve been working on, including any roadblocks that you encounter.&lt;/p&gt;
-
-&lt;p&gt;This is an excellent way to measure your progress and further cement your knowledge.&lt;/p&gt;
-
-&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;Essentially, writing blogs is a means of documenting your learnings and sharing what you know.&lt;/p&gt;
-
-&lt;p&gt;The easiest way to come up with ideas is to keep your blog focussed and simply write about what you’ve been working on.&lt;/p&gt;
-
-&lt;p&gt;I would like to thank the &lt;a href=&quot;https://devcop.io/&quot;&gt;Dev(){CoP}&lt;/a&gt; community for helping me come up with this list. If you have any further ideas or would like to have a discussion about this blog, please feel free to reach out!&lt;/p&gt;</content><author><name></name></author><summary type="html">Every student, upcoming developer and IT professional should have a blog where they can share their thoughts, knowledge and inspiration.</summary></entry></feed>
+&lt;p&gt;I hope this walkthrough helped you. If you have any questions, feel free to let me know!&lt;/p&gt;</content><author><name></name></author><summary type="html">Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.</summary></entry></feed>

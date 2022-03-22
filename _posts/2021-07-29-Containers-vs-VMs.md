@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Simple Explained: Virtual Machines and Containers"
+title: "Simply Explained: Virtual Machines and Containers"
 published: true
 ---
 
