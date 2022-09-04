@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-03-23T10:09:17+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>Site Reliability Engineer from Melbourne</subtitle><entry><title type="html">Static Site Deployment Using Terraform and Github Actions</title><link href="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/" rel="alternate" type="text/html" title="Static Site Deployment Using Terraform and Github Actions" /><published>2022-03-22T00:00:00+11:00</published><updated>2022-03-22T00:00:00+11:00</updated><id>https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions</id><content type="html" xml:base="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/">&lt;p&gt;We all know how tedious clicking around the AWS Console can be.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-09-04T21:28:17+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>DevOps Engineer from Melbourne</subtitle><entry><title type="html">Static Site Deployment Using Terraform and Github Actions</title><link href="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/" rel="alternate" type="text/html" title="Static Site Deployment Using Terraform and Github Actions" /><published>2022-03-22T00:00:00+11:00</published><updated>2022-03-22T00:00:00+11:00</updated><id>https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions</id><content type="html" xml:base="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/">&lt;p&gt;We all know how tedious clicking around the AWS Console can be.&lt;/p&gt;
 
 &lt;p&gt;You have to remember to create all the right resources, in the right order, and in the right region before anything works.&lt;/p&gt;
 
@@ -995,11 +995,11 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;p&gt;Follow the syntax shown below to add your alias; replacing ${ALIAS_NAME} and ${COMMAND} with your choice.&lt;/p&gt;
 
-&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias $&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;ALIAS_NAME&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;${COMMAND}&apos;&lt;/span&gt;
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias $&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;ALIAS_NAME&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'${COMMAND}'&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;For example, in my case, I have added the command below to be able to easily access my Linux instance on GCP. Remember to insert your command inside the single quotation marks, as shown below.&lt;/p&gt;
 
-&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias linux_ssh&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;gcloud beta compute ssh --zone &quot;australia-southeast2-a&quot; &quot;linux-playground&quot; --project &quot;rugged-future-316207&quot;&apos;&lt;/span&gt;
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias linux_ssh&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'gcloud beta compute ssh --zone &quot;australia-southeast2-a&quot; &quot;linux-playground&quot; --project &quot;rugged-future-316207&quot;'&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Once you have added your alias, ensure to save and exit by pressing the ESC key followed by ‘:wq’ and ENTER.&lt;/p&gt;
@@ -1075,7 +1075,7 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 &lt;strong&gt;Boot disk type:&lt;/strong&gt; Balanced persistent disk &lt;br /&gt;
 &lt;strong&gt;Size (GB):&lt;/strong&gt; 10&lt;/p&gt;
 
-&lt;p&gt;Next, scroll all the way to the bottom and select &lt;u&gt;&apos;Management, security, disks, networking, sole tenancy&apos;&lt;/u&gt;.&lt;/p&gt;
+&lt;p&gt;Next, scroll all the way to the bottom and select &lt;u&gt;'Management, security, disks, networking, sole tenancy'&lt;/u&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;Optional:&lt;/strong&gt; You can enable HTTP and HTTPS traffic as shown below if you are planning to setup a web-server.&lt;/em&gt;&lt;/p&gt;
 

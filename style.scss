@@ -85,6 +85,12 @@ h1 {
   }
 }
 
+@media screen and (max-width: 640px) {
+  .site-description {
+    text-align: center;
+  }
+}
+
 h2 {
   font-size: 24px;
 }
