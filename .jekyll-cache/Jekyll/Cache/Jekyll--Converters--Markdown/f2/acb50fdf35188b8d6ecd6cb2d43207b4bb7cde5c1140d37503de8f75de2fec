@@ -1,0 +1,264 @@
+I"ZA<p>So I’m looking to put together a home lab for testing out and learning new things; however, the problem with a home lab is that… well it’s at <strong>home</strong>.</p>
+
+<p>This means that it is on a private network and, therefore, not accessible from the internet, which is fine if I only expect to test things when I’m at home. However, this isn’t always the case.</p>
+
+<p>So this is where a VPN server comes in.</p>
+
+<p>Similar to working remotely, we can set up our own VPN server to connect from anywhere, so long as we have an internet connection.</p>
+
+<p>In this blog, I will walk you through the process of setting up your own VPN server at home.</p>
+
+<p style="margin-top: 3%; text-align:center;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%" src="../images/home_vpn_server/network_diagram.png" />
+<p style="margin: -1% 0 3% 7.8%; font-style: italic;">Figure 1: High Level Network Diagram</p>
+</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before you get started, here are a few things you’ll need.</p>
+
+<h3 id="1-access-to-a-linux-machine-physicalvirtual"><em>1. Access to a Linux Machine (physical/virtual)</em></h3>
+
+<p>This can be a Raspberry Pi, an old laptop, a Virtual Machine (VM) or anything else that can run Linux. For this tutorial, I’ve used a Raspberry Pi, as that’s what I have set up in my environment.</p>
+
+<h3 id="2-public-domain-name"><em>2. Public Domain Name</em></h3>
+
+<p>(or static IP)</p>
+
+<p>Unless you have a static IP address assigned to your router, you’ll have to use this method to connect to your VPN server.</p>
+
+<h3 id="3-access-to-your-routers-administration-page"><em>3. Access to your Router’s Administration Page</em></h3>
+
+<p>As part of setting up this server, you’ll need to add a rule for port forwarding on your router. To do this, you will definitely need access to your router’s configuration page.</p>
+
+<h2 id="set-up-a-linux-machine">Set up a Linux Machine</h2>
+
+<p>The first step is to set up your Linux Machine. As mentioned above, this can be any machine you desire, as long as it runs Linux and connects to your home network.</p>
+
+<p>For my environment, I chose to use Ubuntu Server (22.10) as this is a popular lightweight distro. You can find the download for Ubuntu Server <a href="https://ubuntu.com/download/server">here</a>.</p>
+
+<h3 id="optional-connecting-to-wifi">Optional: Connecting to Wifi</h3>
+
+<p>If you are using a Raspberry Pi or a physical machine, you may need to set up Wifi manually. Below is the process I used to connect to Wi-Fi on my Raspberry Pi.</p>
+
+<ol>
+  <li>
+    <p>Determine the wireless adapter used by your machine. It should be something like <code class="language-plaintext highlighter-rouge">wlan0</code>.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">ls</span> /sys/class/net
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Open and edit the Netplan config file.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>vi /etc/netplan/50-cloud-init.yaml
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add this config to the bottom of the existing config. Ensure it is indented correctly.</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     <span class="na">wifis</span><span class="pi">:</span>
+         <span class="na">wlan0</span><span class="pi">:</span>
+             <span class="na">optional</span><span class="pi">:</span> <span class="no">true</span>
+             <span class="na">access-points</span><span class="pi">:</span>
+                 <span class="s2">"</span><span class="s">SSID-NAME-HERE"</span><span class="pi">:</span>
+                     <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">PASSWORD-HERE"</span>
+             <span class="na">dhcp4</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Run this command to apply the changes.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo </span>netplan apply
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Check your wireless adapter has connected to the network and been assigned an IP address.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>ip a 
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="note-for-virtual-machine-users"><em>Note for Virtual Machine Users</em></h3>
+
+<p>If you are using a VM to host your Linux machine, you’ll have to change the network setting to a <strong>Bridged Network</strong>. By doing this, your device will be considered as a full network participant, meaning it can participate as though it is a physical machine in the network.</p>
+
+<p>More information about this can be found <a href="https://docs.vmware.com/en/VMware-Workstation-Pro/16.0/com.vmware.ws.using.doc/GUID-BAFA66C3-81F0-4FCA-84C4-D9F7D258A60A.html">here</a>.</p>
+
+<h2 id="setting-up-dynamic-dns">Setting up Dynamic DNS</h2>
+
+<p>To connect to your VPN server from the internet, you’ll have to use a public domain name. However, you won’t be able to map your domain name to your network’s public IP address as you would with traditional DNS, as your IP is likely to change.</p>
+
+<p>To workaround this issue, we can use Dynamic DNS.</p>
+
+<p>In essence, Dynamic DNS allows us to keep our DNS record in sync with any changes to our network’s public-facing IP address.</p>
+
+<p>There are two steps to set this up: 
+Add an A record for Dynamic DNS
+Install/configure <code class="language-plaintext highlighter-rouge">ddclient</code>.</p>
+
+<p>If you have a static IP address and prefer to use that instead, feel free to skip this step.</p>
+
+<h3 id="adding-an-a-record-for-dynamic-dns">Adding an <code class="language-plaintext highlighter-rouge">A</code> record for Dynamic DNS</h3>
+
+<p>Depending on your DNS provider, you may have to configure Dynamic DNS and then add an <code class="language-plaintext highlighter-rouge">A</code> record for the name you want to update dynamically.</p>
+
+<p>If you are using Google Domains, you will find this setting under the DNS section and scroll down until you find Dynamic DNS.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/google_domains_dynamic_dns_location.png" />
+</p>
+
+<p>Once you find this location on your DNS provider, add an <code class="language-plaintext highlighter-rouge">A</code> record with your desired name.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/adding_A_record.png" />
+</p>
+
+<h3 id="installingconfiguring-ddclient">Installing/Configuring <code class="language-plaintext highlighter-rouge">ddclient</code></h3>
+
+<p>Once you’ve added the additional record to the DNS provider, you’ll have to install and configure <code class="language-plaintext highlighter-rouge">ddclient</code> on your Linux machine.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ddclient</code> is a tool that will check for any changes to your public IP address and update the Dynamic DNS entry.</p>
+
+<p>If you’re using Ubuntu, run the following command to install <code class="language-plaintext highlighter-rouge">ddclient</code>.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install </span>ddclient
+</code></pre></div></div>
+
+<p>Once <code class="language-plaintext highlighter-rouge">ddclient</code> has been installed, you’ll need to update its configuration.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>vi /etc/ddclient.conf
+</code></pre></div></div>
+
+<p>Next, you will need to add in the following configuration, adding in your requirements. If you are using Google Domains, you can find the required credentials by clicking on <strong><em>View Credentials</em></strong> beside your domain name.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">protocol</span><span class="o">=</span>googledomains
+<span class="nv">login</span><span class="o">=</span>&lt;generated_username&gt;
+<span class="nv">password</span><span class="o">=</span>&lt;generated_password&gt;
+your_resource.your_domain.tld
+</code></pre></div></div>
+
+<p>Once you’ve saved the config, restart <code class="language-plaintext highlighter-rouge">ddclient</code> to ensure your configuration is applied.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>systemctl restart ddclient
+</code></pre></div></div>
+
+<p>You can verify that it has worked by checking if the IP shown on your dynamic DNS entry is the same as your current public IP address.</p>
+
+<h2 id="enable-port-forwarding">Enable Port Forwarding</h2>
+
+<p>Now that we have Dynamic DNS configured, we have to set up port forwarding so that when we request the hostname, our router knows where to send that traffic internally.</p>
+
+<p>Before we can do that, we have to set a static IP address for our server so that it doesn’t change.</p>
+
+<h3 id="configure-a-static-ip-for-your-server">Configure a Static IP for your server</h3>
+
+<p>If you are using Ubuntu, you’ll need to edit the following file.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>vi /etc/netplan/50-cloud-init.yaml
+</code></pre></div></div>
+
+<p>In this file, we are adding the static IP, setting DHCP to <code class="language-plaintext highlighter-rouge">false</code>, adding the default gateway and DNS servers.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">network</span><span class="pi">:</span>
+    <span class="na">wifis</span><span class="pi">:</span>
+      <span class="na">wlan0</span><span class="pi">:</span>
+        <span class="na">optional</span><span class="pi">:</span> <span class="no">true</span>
+        <span class="na">access-points</span><span class="pi">:</span>
+          <span class="s2">"</span><span class="s">SSID-NAME-HERE"</span><span class="pi">:</span>
+              <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">PASSWORD-HERE"</span>
+        <span class="na">dhcp4</span><span class="pi">:</span> <span class="no">false</span>
+        <span class="na">addresses</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">192.168.0.80/24</span><span class="pi">]</span>
+        <span class="na">routes</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">to</span><span class="pi">:</span> <span class="s">default</span>
+          <span class="na">via</span><span class="pi">:</span> <span class="s">192.168.0.1</span>
+        <span class="na">nameservers</span><span class="pi">:</span>
+          <span class="na">addresses</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">8.8.8.8</span><span class="pi">,</span><span class="nv">8.8.4.4</span><span class="pi">]</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
+</code></pre></div></div>
+
+<p>Once you’ve added those configurations, run the following command to apply the changes.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>netplan apply
+</code></pre></div></div>
+
+<h3 id="creating-the-port-forwarding-rule">Creating the Port Forwarding Rule</h3>
+
+<p>Port forwarding is your router’s method of directing external connections to internal devices.</p>
+
+<p>By default, when we attempt to connect to our VPN server from a different network, our router doesn’t know how to direct that connection internally. So, you’ll need to add a rule to tell it how to do this.</p>
+
+<p>Adding this rule varies depending on the router you are using, so I’ll just explain the rule you’ll need to add.</p>
+
+<p>As shown below, you’ll need to add a rule to forward external <code class="language-plaintext highlighter-rouge">51820</code> port connections to internal <code class="language-plaintext highlighter-rouge">51820</code> connections for your server’s IP.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/port_forwarding_setting.png" />
+</p>
+
+<h2 id="installing-wireguard-vpn">Installing Wireguard VPN</h2>
+
+<p>To install Wireguard, we can use a <a href="https://github.com/Nyr/wireguard-install">script</a> offered by a generous Github user.</p>
+
+<p>In a nutshell, you’ll just need to run the following command on your server.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>wget https://git.io/wireguard <span class="nt">-O</span> wireguard-install.sh <span class="o">&amp;&amp;</span> bash wireguard-install.sh
+</code></pre></div></div>
+
+<p>During the installation, it will prompt you to enter your domain name.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/wireguard_domain_name_option.png" />
+</p>
+
+<p>Next, it will prompt you to enter some further options for port, client name and DNS. I’ve left the first two options as the default and selected the 3rd option for DNS.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/wireguard_install_options.png" />
+</p>
+
+<p>After this, the installation process will continue as normal.</p>
+
+<h2 id="connecting-to-your-vpn">Connecting to your VPN</h2>
+
+<p>At this point, your VPN server should be fully set up. Now it’s time to install the Wireguard Client and test the connection.</p>
+
+<h3 id="install-wireguard-client-on-your-pc">Install Wireguard Client on your PC</h3>
+
+<p>To install the client, visit this link and download the option for your OS - https://www.wireguard.com/install/.</p>
+
+<h3 id="copy-the-config-file-to-your-pc">Copy the Config file to your PC</h3>
+
+<p>From the VPN server, you’ll have to copy the Wireguard config file to your local machine.</p>
+
+<p>The config file is stored in <code class="language-plaintext highlighter-rouge">/root</code>, but we’ll have to move it into <code class="language-plaintext highlighter-rouge">/home/&lt;user&gt;</code> before we can copy it out.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Example</span>
+<span class="nv">$ </span><span class="nb">cp</span> /root/client.conf /home/ubuntu
+</code></pre></div></div>
+
+<p>Next, SFTP to your VPN server and copy that file to your PC. Since I’m using Windows as my client, I’ll use WinSCP.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/WinSCP.png" />
+</p>
+
+<h3 id="add-config-to-wireguard-client">Add Config to Wireguard Client</h3>
+
+<p>Finally, open up the Wireguard Client and click the <code class="language-plaintext highlighter-rouge">Add Tunnel</code> button to add the config file from before.</p>
+
+<p style="margin-top: 2%; text-align:left;">
+<img style="box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%" src="../images/home_vpn_server/Wireguard_tunnel.png" />
+</p>
+
+<h3 id="test-connection">Test Connection</h3>
+
+<p>At this point, everything should be set up, but it’s always a good idea to test things out.</p>
+
+<p>To test if everything works, you can connect to your personal hotspot and then activate Wireguard to see if you can <code class="language-plaintext highlighter-rouge">ping</code> devices on your local network.</p>
+
+<p>If everything was set up correctly, you should have no problem doing so!</p>
+
+:ET

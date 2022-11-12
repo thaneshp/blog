@@ -1,4 +1,265 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-09-04T21:28:17+10:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>DevOps Engineer from Melbourne</subtitle><entry><title type="html">Static Site Deployment Using Terraform and Github Actions</title><link href="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/" rel="alternate" type="text/html" title="Static Site Deployment Using Terraform and Github Actions" /><published>2022-03-22T00:00:00+11:00</published><updated>2022-03-22T00:00:00+11:00</updated><id>https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions</id><content type="html" xml:base="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/">&lt;p&gt;We all know how tedious clicking around the AWS Console can be.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://blog.thanesh.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.thanesh.io//" rel="alternate" type="text/html" /><updated>2022-11-12T23:10:09+11:00</updated><id>https://blog.thanesh.io//feed.xml</id><title type="html">blog</title><subtitle>DevOps Engineer from Melbourne</subtitle><entry><title type="html">Setting up a Home VPN Server</title><link href="https://blog.thanesh.io//Setting-up-a-VPN-Server/" rel="alternate" type="text/html" title="Setting up a Home VPN Server" /><published>2022-11-12T00:00:00+11:00</published><updated>2022-11-12T00:00:00+11:00</updated><id>https://blog.thanesh.io//Setting-up-a-VPN-Server</id><content type="html" xml:base="https://blog.thanesh.io//Setting-up-a-VPN-Server/">&lt;p&gt;So I’m looking to put together a home lab for testing out and learning new things; however, the problem with a home lab is that… well it’s at &lt;strong&gt;home&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This means that it is on a private network and, therefore, not accessible from the internet, which is fine if I only expect to test things when I’m at home. However, this isn’t always the case.&lt;/p&gt;
+
+&lt;p&gt;So this is where a VPN server comes in.&lt;/p&gt;
+
+&lt;p&gt;Similar to working remotely, we can set up our own VPN server to connect from anywhere, so long as we have an internet connection.&lt;/p&gt;
+
+&lt;p&gt;In this blog, I will walk you through the process of setting up your own VPN server at home.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 3%; text-align:center;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 85%&quot; src=&quot;../images/home_vpn_server/network_diagram.png&quot; /&gt;
+&lt;p style=&quot;margin: -1% 0 3% 7.8%; font-style: italic;&quot;&gt;Figure 1: High Level Network Diagram&lt;/p&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h2&gt;
+
+&lt;p&gt;Before you get started, here are a few things you’ll need.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-access-to-a-linux-machine-physicalvirtual&quot;&gt;&lt;em&gt;1. Access to a Linux Machine (physical/virtual)&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;This can be a Raspberry Pi, an old laptop, a Virtual Machine (VM) or anything else that can run Linux. For this tutorial, I’ve used a Raspberry Pi, as that’s what I have set up in my environment.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-public-domain-name&quot;&gt;&lt;em&gt;2. Public Domain Name&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;(or static IP)&lt;/p&gt;
+
+&lt;p&gt;Unless you have a static IP address assigned to your router, you’ll have to use this method to connect to your VPN server.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-access-to-your-routers-administration-page&quot;&gt;&lt;em&gt;3. Access to your Router’s Administration Page&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;As part of setting up this server, you’ll need to add a rule for port forwarding on your router. To do this, you will definitely need access to your router’s configuration page.&lt;/p&gt;
+
+&lt;h2 id=&quot;set-up-a-linux-machine&quot;&gt;Set up a Linux Machine&lt;/h2&gt;
+
+&lt;p&gt;The first step is to set up your Linux Machine. As mentioned above, this can be any machine you desire, as long as it runs Linux and connects to your home network.&lt;/p&gt;
+
+&lt;p&gt;For my environment, I chose to use Ubuntu Server (22.10) as this is a popular lightweight distro. You can find the download for Ubuntu Server &lt;a href=&quot;https://ubuntu.com/download/server&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;optional-connecting-to-wifi&quot;&gt;Optional: Connecting to Wifi&lt;/h3&gt;
+
+&lt;p&gt;If you are using a Raspberry Pi or a physical machine, you may need to set up Wifi manually. Below is the process I used to connect to Wi-Fi on my Raspberry Pi.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Determine the wireless adapter used by your machine. It should be something like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wlan0&lt;/code&gt;.&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; /sys/class/net
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Open and edit the Netplan config file.&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vi /etc/netplan/50-cloud-init.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Add this config to the bottom of the existing config. Ensure it is indented correctly.&lt;/p&gt;
+
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     &lt;span class=&quot;na&quot;&gt;wifis&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;wlan0&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+             &lt;span class=&quot;na&quot;&gt;optional&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+             &lt;span class=&quot;na&quot;&gt;access-points&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+                 &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;SSID-NAME-HERE&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+                     &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;PASSWORD-HERE&quot;&lt;/span&gt;
+             &lt;span class=&quot;na&quot;&gt;dhcp4&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Run this command to apply the changes.&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;netplan apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Check your wireless adapter has connected to the network and been assigned an IP address.&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ip a 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;note-for-virtual-machine-users&quot;&gt;&lt;em&gt;Note for Virtual Machine Users&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;If you are using a VM to host your Linux machine, you’ll have to change the network setting to a &lt;strong&gt;Bridged Network&lt;/strong&gt;. By doing this, your device will be considered as a full network participant, meaning it can participate as though it is a physical machine in the network.&lt;/p&gt;
+
+&lt;p&gt;More information about this can be found &lt;a href=&quot;https://docs.vmware.com/en/VMware-Workstation-Pro/16.0/com.vmware.ws.using.doc/GUID-BAFA66C3-81F0-4FCA-84C4-D9F7D258A60A.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-up-dynamic-dns&quot;&gt;Setting up Dynamic DNS&lt;/h2&gt;
+
+&lt;p&gt;To connect to your VPN server from the internet, you’ll have to use a public domain name. However, you won’t be able to map your domain name to your network’s public IP address as you would with traditional DNS, as your IP is likely to change.&lt;/p&gt;
+
+&lt;p&gt;To workaround this issue, we can use Dynamic DNS.&lt;/p&gt;
+
+&lt;p&gt;In essence, Dynamic DNS allows us to keep our DNS record in sync with any changes to our network’s public-facing IP address.&lt;/p&gt;
+
+&lt;p&gt;There are two steps to set this up: 
+Add an A record for Dynamic DNS
+Install/configure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have a static IP address and prefer to use that instead, feel free to skip this step.&lt;/p&gt;
+
+&lt;h3 id=&quot;adding-an-a-record-for-dynamic-dns&quot;&gt;Adding an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; record for Dynamic DNS&lt;/h3&gt;
+
+&lt;p&gt;Depending on your DNS provider, you may have to configure Dynamic DNS and then add an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; record for the name you want to update dynamically.&lt;/p&gt;
+
+&lt;p&gt;If you are using &lt;em&gt;Google Domains&lt;/em&gt;, you will find this setting under the DNS section and by scrolling down until you find Dynamic DNS.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/google_domains_dynamic_dns_location.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Once you find this location on your DNS provider, add an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; record with your desired name.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/adding_A_record.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&quot;installingconfiguring-ddclient&quot;&gt;Installing/Configuring &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Once you’ve added the additional record to the DNS provider, you’ll have to install and configure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt; on your Linux machine.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt; is a tool that will check for any changes to your public IP address and update the Dynamic DNS entry.&lt;/p&gt;
+
+&lt;p&gt;If you’re using Ubuntu, run the following command to install &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;ddclient
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt; has been installed, you’ll need to update its configuration.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vi /etc/ddclient.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, you will need to add in the following configuration, adding in your requirements. If you are using &lt;em&gt;Google Domains&lt;/em&gt;, you can find the required credentials by clicking on &lt;strong&gt;&lt;em&gt;View Credentials&lt;/em&gt;&lt;/strong&gt; beside your domain name.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;googledomains
+&lt;span class=&quot;nv&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;lt;generated_username&amp;gt;
+&lt;span class=&quot;nv&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;lt;generated_password&amp;gt;
+your_resource.your_domain.tld
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once you’ve saved the config, restart &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ddclient&lt;/code&gt; to ensure your configuration is applied.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl restart ddclient
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can verify that it has worked by checking if the IP shown on your dynamic DNS entry is the same as your current public IP address.&lt;/p&gt;
+
+&lt;h2 id=&quot;enable-port-forwarding&quot;&gt;Enable Port Forwarding&lt;/h2&gt;
+
+&lt;p&gt;Now that we have Dynamic DNS configured, we have to set up port forwarding so that when we request the hostname, our router knows where to send that traffic internally.&lt;/p&gt;
+
+&lt;p&gt;Before we can do that, we have to set a static IP address for our server so that it doesn’t change.&lt;/p&gt;
+
+&lt;h3 id=&quot;configure-a-static-ip-for-your-server&quot;&gt;Configure a Static IP for your server&lt;/h3&gt;
+
+&lt;p&gt;If you are using Ubuntu, you’ll need to edit the following file.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vi /etc/netplan/50-cloud-init.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this file, we are adding the static IP, setting DHCP to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;false&lt;/code&gt;, adding the default gateway and DNS servers.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;network&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;wifis&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;wlan0&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;optional&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;access-points&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;SSID-NAME-HERE&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+              &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;PASSWORD-HERE&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;dhcp4&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;addresses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;192.168.0.80/24&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;routes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;default&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;via&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;192.168.0.1&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;nameservers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;addresses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;8.8.8.8&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;8.8.4.4&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once you’ve added those configurations, run the following command to apply the changes.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;netplan apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;creating-the-port-forwarding-rule&quot;&gt;Creating the Port Forwarding Rule&lt;/h3&gt;
+
+&lt;p&gt;Port forwarding is your router’s method of directing external connections to internal devices.&lt;/p&gt;
+
+&lt;p&gt;By default, when we attempt to connect to our VPN server from a different network, our router doesn’t know how to direct that connection internally. So, you’ll need to add a rule to tell it how to do this.&lt;/p&gt;
+
+&lt;p&gt;Adding this rule varies depending on the router you are using, so I’ll just explain the rule you’ll need to add.&lt;/p&gt;
+
+&lt;p&gt;As shown below, you’ll need to add a rule to forward external port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;51820&lt;/code&gt; connections to internal &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;51820&lt;/code&gt; connections for your server’s IP.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/port_forwarding_setting.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-wireguard-vpn&quot;&gt;Installing Wireguard VPN&lt;/h2&gt;
+
+&lt;p&gt;To install Wireguard, we can use &lt;a href=&quot;https://github.com/Nyr/wireguard-install&quot;&gt;this script&lt;/a&gt; offered by a generous Github user.&lt;/p&gt;
+
+&lt;p&gt;In a nutshell, you’ll just need to run the following command on your server.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget https://git.io/wireguard &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; wireguard-install.sh &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; bash wireguard-install.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;During the installation, it will prompt you to enter your domain name.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/wireguard_domain_name_option.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Next, it will prompt you to enter some further options for port, client name and DNS. I’ve left the first two options as the default and selected the 3rd option for DNS.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/wireguard_install_options.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;After this, the installation process will continue as normal.&lt;/p&gt;
+
+&lt;h2 id=&quot;connecting-to-your-vpn&quot;&gt;Connecting to your VPN&lt;/h2&gt;
+
+&lt;p&gt;At this point, your VPN server should be fully set up. Now it’s time to install the Wireguard Client and test the connection.&lt;/p&gt;
+
+&lt;h3 id=&quot;install-wireguard-client-on-your-pc&quot;&gt;Install Wireguard Client on your PC&lt;/h3&gt;
+
+&lt;p&gt;To install the client, visit this link and download the option for your OS - &lt;a href=&quot;https://www.wireguard.com/install/&quot;&gt;https://www.wireguard.com/install/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;copy-the-config-file-over-to-your-pc&quot;&gt;Copy the Config file over to your PC&lt;/h3&gt;
+
+&lt;p&gt;From the VPN server, you’ll have to copy the Wireguard config file to your local machine.&lt;/p&gt;
+
+&lt;p&gt;The config file is stored in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/root&lt;/code&gt;, but we’ll have to move it into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/&amp;lt;user&amp;gt;&lt;/code&gt; before we can copy it out.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Example&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; /root/client.conf /home/ubuntu
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, SFTP to your VPN server and copy that file to your PC. Since I’m using Windows as my VPN client, I’ll use WinSCP to do this.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/WinSCP.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&quot;add-config-to-wireguard-client&quot;&gt;Add Config to Wireguard Client&lt;/h3&gt;
+
+&lt;p&gt;Finally, open up the Wireguard Client and click the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Add Tunnel&lt;/code&gt; button to add the config file you copied out.&lt;/p&gt;
+
+&lt;p style=&quot;margin-top: 2%; text-align:left;&quot;&gt;
+&lt;img style=&quot;box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%); max-width: 80%&quot; src=&quot;../images/home_vpn_server/Wireguard_tunnel.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&quot;test-connection&quot;&gt;Test Connection&lt;/h3&gt;
+
+&lt;p&gt;At this point, everything should be set up and ready to go; but it’s always a good idea to test things out.&lt;/p&gt;
+
+&lt;p&gt;To test if everything works, you can connect to your personal hotspot and then activate Wireguard to see if you can &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping&lt;/code&gt; devices on your local network.&lt;/p&gt;
+
+&lt;p&gt;If everything was set up correctly, you should have no problem doing so!&lt;/p&gt;</content><author><name></name></author><summary type="html">So I’m looking to put together a home lab for testing out and learning new things; however, the problem with a home lab is that… well it’s at home.</summary></entry><entry><title type="html">Static Site Deployment Using Terraform and Github Actions</title><link href="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/" rel="alternate" type="text/html" title="Static Site Deployment Using Terraform and Github Actions" /><published>2022-03-22T00:00:00+11:00</published><updated>2022-03-22T00:00:00+11:00</updated><id>https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions</id><content type="html" xml:base="https://blog.thanesh.io//Static-Site-Deployment-using-Terraform-and-Github-Actions/">&lt;p&gt;We all know how tedious clicking around the AWS Console can be.&lt;/p&gt;
 
 &lt;p&gt;You have to remember to create all the right resources, in the right order, and in the right region before anything works.&lt;/p&gt;
 
@@ -995,11 +1256,11 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;p&gt;Follow the syntax shown below to add your alias; replacing ${ALIAS_NAME} and ${COMMAND} with your choice.&lt;/p&gt;
 
-&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias $&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;ALIAS_NAME&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'${COMMAND}'&lt;/span&gt;
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias $&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;ALIAS_NAME&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;${COMMAND}&apos;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;For example, in my case, I have added the command below to be able to easily access my Linux instance on GCP. Remember to insert your command inside the single quotation marks, as shown below.&lt;/p&gt;
 
-&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias linux_ssh&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'gcloud beta compute ssh --zone &quot;australia-southeast2-a&quot; &quot;linux-playground&quot; --project &quot;rugged-future-316207&quot;'&lt;/span&gt;
+&lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias linux_ssh&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;gcloud beta compute ssh --zone &quot;australia-southeast2-a&quot; &quot;linux-playground&quot; --project &quot;rugged-future-316207&quot;&apos;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Once you have added your alias, ensure to save and exit by pressing the ESC key followed by ‘:wq’ and ENTER.&lt;/p&gt;
@@ -1043,128 +1304,4 @@ PasswordAuthentication &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
 
 &lt;p&gt;I hope this quick guide helped you to get a new alias set up. Keep in mind that you don’t have to use .bash_profile and can instead create a new file to house your aliases.&lt;/p&gt;
 
-&lt;p&gt;If you have any questions, feel free to let me know!&lt;/p&gt;</content><author><name></name></author><summary type="html">In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.</summary></entry><entry><title type="html">How to setup Docker on a GCP VM instance?</title><link href="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/" rel="alternate" type="text/html" title="How to setup Docker on a GCP VM instance?" /><published>2021-07-26T00:00:00+10:00</published><updated>2021-07-26T00:00:00+10:00</updated><id>https://blog.thanesh.io//How-to-setup-Docker-on-GCP</id><content type="html" xml:base="https://blog.thanesh.io//How-to-setup-Docker-on-GCP/">&lt;p&gt;Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.&lt;/p&gt;
-
-&lt;p&gt;In this tutorial, I will walkthrough step-by-step on how you can get Docker setup on a GCP VM instance so that you can run your own containerized applications.&lt;/p&gt;
-
-&lt;p&gt;Before you get started, this tutorial assumes you have some basic GCP knowledge, a Google Cloud account and an existing project already setup.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-0&quot;&gt;Step 0&lt;/h1&gt;
-
-&lt;h2 id=&quot;log-onto-the-gcp-console-and-navigate-to-compute-engine&quot;&gt;Log onto the GCP console and navigate to Compute Engine&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-0-select-compute-engine.png&quot; alt=&quot;step-0-select-compute-engine&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-1&quot;&gt;Step 1&lt;/h1&gt;
-
-&lt;h2 id=&quot;create-a-vm-instance&quot;&gt;Create a VM instance&lt;/h2&gt;
-
-&lt;p&gt;Once you’ve navigated to Compute Engine, click on the ‘CREATE INSTANCE’ button on the top.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-1-create-instance.png&quot; alt=&quot;step-1-create-instance&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here, we’ll be leaving most of the configurations as the default but changing the OS and adding an extra disk.&lt;/p&gt;
-
-&lt;p&gt;Scroll down to ‘Boot disk’ and click on ‘Change’.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-1-select-boot-disk.png&quot; alt=&quot;step-1-select-boot-disk&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Select the following options: &lt;br /&gt;
-&lt;strong&gt;Operating System:&lt;/strong&gt; Ubuntu &lt;br /&gt;
-&lt;strong&gt;Version:&lt;/strong&gt; Ubuntu 20.04 LTS &lt;br /&gt;
-&lt;strong&gt;Boot disk type:&lt;/strong&gt; Balanced persistent disk &lt;br /&gt;
-&lt;strong&gt;Size (GB):&lt;/strong&gt; 10&lt;/p&gt;
-
-&lt;p&gt;Next, scroll all the way to the bottom and select &lt;u&gt;'Management, security, disks, networking, sole tenancy'&lt;/u&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Optional:&lt;/strong&gt; You can enable HTTP and HTTPS traffic as shown below if you are planning to setup a web-server.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-1-add-storage.png&quot; alt=&quot;step-1-add-storage&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Click on the ‘Disks’ option and select ‘&lt;strong&gt;+&lt;/strong&gt; Add new disk’. You can keep most of the configurations as the default. The only thing I’d consider changing is the ‘&lt;strong&gt;Name&lt;/strong&gt;’ and ‘&lt;strong&gt;Size (GB)&lt;/strong&gt;’. I’ll be making my disk size 50 GB.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-1-select-disk-option.png&quot; alt=&quot;step-1-select-disk-option&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Once you’re satisfied with your instance, click on the ‘Create’ button down the bottom. Give Google Cloud a few minutes to have your instance up and running. Wait for this to finish before moving on to the next step.&lt;/p&gt;
-
-&lt;h1 id=&quot;step-2&quot;&gt;Step 2&lt;/h1&gt;
-
-&lt;h2 id=&quot;ssh-into-the-instance&quot;&gt;SSH into the instance&lt;/h2&gt;
-
-&lt;p&gt;Now that you have the instance running, it’s time to SSH into the instance and start setting up Docker.&lt;/p&gt;
-
-&lt;p&gt;There’s a couple of ways to SSH into the instance. For this tutorial, I will use the browser option by clicking on the SSH button from the GCP console.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-2-ssh.png&quot; alt=&quot;step-2-ssh&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;step-3&quot;&gt;Step 3&lt;/h1&gt;
-
-&lt;h2 id=&quot;make-sure-you-have-no-versions-of-docker-installed&quot;&gt;Make sure you have no versions of Docker installed&lt;/h2&gt;
-
-&lt;p&gt;Once you’ve SSH’d into the instance, we want to ensure that we have no versions of Docker installed.&lt;/p&gt;
-
-&lt;p&gt;The command shown below will remove any versions of Docker you already have installed if there are any present. Copy/paste this command into your instance’s CLI.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get remove docker docker-engine docker.io containerd runc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;step-4&quot;&gt;Step 4&lt;/h1&gt;
-
-&lt;h2 id=&quot;installing-docker&quot;&gt;Installing Docker&lt;/h2&gt;
-
-&lt;p&gt;Now it’s time to install Docker. The first thing you’ll have to do is add Docker’s official GPG signing key. This is used to ensure that the package we are getting is valid.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-fsSL&lt;/span&gt; https://download.docker.com/linux/ubuntu/gpg | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;gpg &lt;span class=&quot;nt&quot;&gt;--dearmor&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /usr/share/keyrings/docker-archive-keyring.gpg
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Next, add Docker’s official stable repository using the following command.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&quot;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;lsb_release &lt;span class=&quot;nt&quot;&gt;-cs&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; stable&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;sudo tee&lt;/span&gt; /etc/apt/sources.list.d/docker.list &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /dev/null
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now that we have the repository setup, we are ready to install Docker Engine. To do this, run the following 2 commands. The first command will refresh the apt cache, while the second will install Docker community edition on our instance.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;docker-ce docker-ce-cli containerd.io
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;step-5&quot;&gt;Step 5&lt;/h1&gt;
-
-&lt;h2 id=&quot;check-if-docker-has-been-installed-correctly&quot;&gt;Check if Docker has been installed correctly&lt;/h2&gt;
-
-&lt;p&gt;There are a few ways we can see if Docker has been installed correctly.&lt;/p&gt;
-
-&lt;p&gt;The first thing we can do is run the following commands to check both the status and the version installed.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl status docker
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Next, login as the root user and give permission to the current user to be able to run docker commands. Replace ${USER} with your username.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-5-login-root.png&quot; alt=&quot;step-5-login-root&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Finally, log back in as the previous user and run your first container using the following commands.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-5-run-hello-world.png&quot; alt=&quot;step-5-run-hello-world&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;su - &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run hello-world
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;At this point, you should see the “Hello from Docker!” message as shown below. If you don’t see this message, check that you have given permissions to the current user; otherwise, re-visit the previous steps and see if you’ve missed anything.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/docker_on_GCP/step-5-hello-world-message.png&quot; alt=&quot;step-5-hello-world-message&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;thats-it&quot;&gt;That’s It!&lt;/h1&gt;
-
-&lt;p&gt;Well done! You should now have Docker setup on your VM instance and can start running containerized applications in the cloud.&lt;/p&gt;
-
-&lt;p&gt;If you decide to run a web-server such as Apache/Nginx in a container, ensure you are checking all firewall rules. Otherwise, you will not see anything when attempting to connect via HTTP/HTTPS.&lt;/p&gt;
-
-&lt;p&gt;I hope this walkthrough helped you. If you have any questions, feel free to let me know!&lt;/p&gt;</content><author><name></name></author><summary type="html">Recently, I decided to learn about Docker and how it can be used to minimize the use of our infrastructure’s capacity. In a nutshell, Docker allows us to make better use of our hardware whilst ensuring our application runs on any OS.</summary></entry></feed>
+&lt;p&gt;If you have any questions, feel free to let me know!&lt;/p&gt;</content><author><name></name></author><summary type="html">In this quick guide, I show you how to add aliases in Z shell. This is particularly useful when you want to shorten a command that you frequently use.</summary></entry></feed>
