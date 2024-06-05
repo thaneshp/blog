@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to pass the Google Professional Cloud DevOps Engineer Exam
+title: How I passed the Google Professional Cloud DevOps Engineer Exam
 published: true
 ---
 
@@ -79,13 +79,14 @@ Besides this, I would copy every question I got wrong in a Google Doc, write out
 I know there are many parts to focus on, but in my opinion, you will come out with a much better understanding of SRE/DevOps.
 
 If I had to sum up this blog, it would be:
+
 1. Go through the theory
 2. Get hands-on practice
 3. Undertake practice exams
 
 Ideally, try not to rush anything and give yourself plenty of time to understand the content. Personally, I spent about 3-weeks preparing but depending on your circumstance you may want more time.
 
-If you ever get stuck, ask the question - "why would an SRE do this?" 
+If you ever get stuck, ask the question - "why would an SRE do this?"
 
 At the end of the day, I felt the exam tests your ability to think like an SRE rather than the tools and technologies themselves.
 

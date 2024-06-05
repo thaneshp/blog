@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Writing an Appointment Checker"
+title: "Writing an Appointment Checker in Python"
 published: true
 ---
 
@@ -23,7 +23,7 @@ If you would like to check out the implementation, here is the link to the proje
 
 ## Initial Outlook
 
-Before thinking about the implementation, I firstly noted all the manual steps a person would use to navigate the site. 
+Before thinking about the implementation, I firstly noted all the manual steps a person would use to navigate the site.
 
 I even attempted to book an appointment several times and realised that there were fundamentally four steps to this process:
 
@@ -98,7 +98,7 @@ Implementing SMS notifications significantly increased user response times, as t
 
 ### Automating Script Execution
 
-Now that the script was complete, I had to run it automatically and continuously. 
+Now that the script was complete, I had to run it automatically and continuously.
 
 Since I had a PC lying around at home, I decided to set up VMware Workstation and run it from there. I deployed an Ubuntu VM on VMware and used `crontab` to run the script every minute, logging the output to a `.txt` file.
 
@@ -118,7 +118,7 @@ To make the program slightly more efficient, we could add a condition to skip al
 
 However, I don't believe the milliseconds saved would add much value to the subscribers.
 
-### 2. Find <u>all</u> Available Dates 
+### 2. Find <u>all</u> Available Dates
 
 Additionally, the script will stop running after locating the first available date. This means that more than one date could be available, but the program only reports on the first one.
 
