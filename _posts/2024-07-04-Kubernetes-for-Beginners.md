@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Course Review] Kubernetes for the Absolute Beginner"
+title: "Introduction to Kubernetes"
 published: false
 ---
 
@@ -12,15 +12,15 @@ In this blog, I'll go over the essence of Kubernetes as I picked-up through the 
 
 ## What Problem is Kubernetes Solving?
 
-At it's core, Kubernetes is solving the problem of container orchestration; but what does this mean practically?
+The birth of containers allowed people to package-up applications and run them across different sets of environments, without worrying too much about the underlying infrastructure. For the most part, this solved the problem of: *"it works on my machine"*, i.e. developers could write some code, package it up in a Docker container and have it deployed to an environment with fundamentally no additional tweaking. 
 
-Containers at its core allow us to package-up applications and run them across different sets of infrastructure, i.e. on a local machine, cloud, on-prem, etc. This is seamless to setup when we're deploying a simple CRUD application with a frontend and DB; however, the complexity comes in when we need to deploy this at scale.
+This works for a simple CRUD application with a basic frontend, backend and DB; however, modern application demands are often more complex than this. In particular, the question became: *"how can we manage and maintain the deployment of containerized applications at scale?"*
 
-This is fundamentally the problem Kubernetes solves - being able to deploy containerized applications at scale.
+This is where Kubernetes comes into the picture. At it's core, Kubernetes is solving the problem of container orchestration; that is deployment of containerized services, the linkages between them and the scaling of these services based on demand.
 
 ## Setting up Kubernetes Locally
 
-If you're on Mac, you can setup Kubernetes locally to get an understanding of it's core concepts.
+If you're on a Mac, you can setup Kubernetes locally to get an understanding of it's core concepts.
 
 **Prerequisites**
 
@@ -92,6 +92,10 @@ A Deployment represents the desired state for your application pods and ReplicaS
 Services enable applications to connect together or to users. It is an object on the Node, which listens to a port and forwards that request to a POD.
 
 ## Kubernetes on Cloud
+
+Kubernetes can be run on a traditional on-premise stack or in the cloud; however, it is commonly known to be used in a cloud environment.
+
+All of the major cloud providers have a managed offering for deploying Kubernetes in the cloud. This reduces the effort required by individuals to set this up themselves; and can focus on deployment.
 
 ## Conclusion
 
